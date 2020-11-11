@@ -1,0 +1,24 @@
+.mainDiv {
+    display: flex;
+    align-items: center;
+    flex-direction: colum;
+}
+
+/* Top banner with image and date */
+.imgCover {
+    height: 20vh;
+    width: 100%;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+}
+
+.mainTitle {
+    position: relative;
+    margin: auto;
+    color: white;
+    font-size: 8vh;
+    text-shadow: 2px 2px 3px rgba(150, 150, 150, 1);
+}
