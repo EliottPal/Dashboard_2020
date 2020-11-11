@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     submit: {
-        marginBottom: theme.spacing(5),
+        marginTop: '5vh'
     },
 }));
 
@@ -54,9 +54,9 @@ function SignUp(props) {
         >
             {value === index && (
                 <Box p={3}>
-                    <Container maxWidth="xs">
+                    <Container minWidth="xs">
                         <Typography>
-                            Sign up
+                            Create your account
                         </Typography>
                         <form className={classes.root} noValidate autoComplete="off">
                             <div className={classes.icon}>

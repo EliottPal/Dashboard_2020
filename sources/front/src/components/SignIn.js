@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     submit: {
-        marginBottom: theme.spacing(5),
+        marginTop: '5vh'
     },
 }));
 
@@ -48,12 +48,12 @@ function SignIn(props) {
         >
             {value === index && (
                 <Box p={3}>
-                    <Container maxWidth="xs">
+                    <Container minWidth="xs">
                         <Typography>
-                            Sign in using your mail address
+                            Sign in using your username
                         </Typography>
                         <form className={classes.root} noValidate autoComplete="off">
-                            <div className={classes.icon}>
+                            <div className={classes.icon} style={{marginTop:"3vh"}}>
                                 <PersonIcon fontSize="large"/>
                                 <TextField
                                     required
@@ -65,20 +65,6 @@ function SignIn(props) {
                                     name="username"
                                     autoComplete="username"
                                     value={username}
-                                />
-                            </div>
-                            <div className={classes.icon}>
-                                <AccountCircleIcon fontSize="large"/>
-                                <TextField
-                                    required
-                                    onChange={event => setEmail(event.target.value)}
-                                    variant="outlined"
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
-                                    value={email}
                                 />
                             </div>
                             <div className={classes.icon}>
