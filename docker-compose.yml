@@ -17,10 +17,11 @@ services:
     mongo:
         container_name: mongo
         image: mongo
+        command: mongod --port 27018  --bind_ip_all
         ports:
-            - "27017:27017"
+            - "27018:27018"
         expose:
-            - "27017"
+            - "27018"
 
     back:
         container_name: back

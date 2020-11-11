@@ -12,7 +12,7 @@ async function addUserDatabase(email, password, username) {
     const userDatas = JSON.stringify({
         email: email,
         password: encryptPassword,
-        username: username
+        username: username,
     });
 
     // Add request headers

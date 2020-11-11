@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
@@ -36,13 +36,35 @@ function SignUp(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [error, setError] = useState(false);
 
-    const handleChange = async (event) => {
-        alert('starfoullah');
-    };
+    // const handleChange = async (event) => {
+    //     alert('starfoullah');
+    // };
 
-    const newUser = (email, password, username) => {
+    // const newUser = (email, password, username) => {
+    //     if (email === "" || password === "" || username === "") {
+    //         console.log("All fields must be completed");
+    //         return;
+    //     }
+    //     userRequests.addUserDatabase(email, password, username);
+    // }
+
+    const handleValidation = (email, password, username) => {
+        if (email === "" || password === "" || username === "")
+            return false;
+        return true;
+    }
+
+    const submitNewUser = (email, password, username) => {
+        console.log("yes");
+        if (!handleValidation(email, password, username)) {
+            setError(true);
+            return;
+        }
+        console.log(`email: ${email}, password: ${password}, username: ${username}`)
         userRequests.addUserDatabase(email, password, username);
+        navigate('/home');
     }
 
     return (
@@ -58,7 +80,7 @@ function SignUp(props) {
                         <Typography>
                             Create your account
                         </Typography>
-                        <form className={classes.root} noValidate autoComplete="off">
+                        <form className={classes.root} autoComplete="off" onSubmit={submitNewUser}>
                             <div className={classes.icon}>
                                 <PersonIcon fontSize="large"/>
                                 <TextField
@@ -71,6 +93,7 @@ function SignUp(props) {
                                     name="username"
                                     autoComplete="username"
                                     value={username}
+                                    error={error}
                                 />
                             </div>
                             <div className={classes.icon}>
@@ -85,6 +108,7 @@ function SignUp(props) {
                                     name="email"
                                     autoComplete="email"
                                     value={email}
+                                    error={error}
                                 />
                             </div>
                             <div className={classes.icon}>
@@ -100,16 +124,18 @@ function SignUp(props) {
                                     name="password"
                                     autoComplete="current-password"
                                     value={password}
+                                    error={error}
                                 />
                             </div>
                             <div className={classes.submit}>
                                 <Button
-                                    onClick={() => newUser(email, password, username)}
+                                    onClick={() => submitNewUser(email, password, username)}
                                     type="submit"
                                     fullWidth
                                     variant="contained"
                                     color="primary"
                                     className="button-submit"
+                                    value="Submit"
                                     component={Link} to={'/home'}
                                 >
                                     Sign Up

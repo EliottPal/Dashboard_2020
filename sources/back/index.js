@@ -1,103 +1,198 @@
-const express = require('express')
-var app = express();
-const port = 8080;
-var mongoose = require('mongoose');
+// const express = require('express')
+// const port = 8080;
+// var mongoose = require('mongoose');
+// var cors = require('cors');
+// var parser = require('body-parser')
+
+// var DATABASE_URL = "mongodb://127.0.0.1/dashboard";
+
+// const options = {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// };
+
+// console.log("yes");
+
+// mongoose.connect(DATABASE_URL, options);
+
+// console.log("no");
+
+// var db = mongoose.connection;
+
+// db.on('error', console.error.bind(console, 'Database connection error :'));
+
+// db.once('open', function() {
+//   console.log("Connection ok");
+// });
+
+// var app = express();
+// app.use(cors({origin: 'http://localhost:3000'}));
+
+// var router = express.Router();
+
+// const userData = new mongoose.Schema(
+//   {
+//     username: {
+//       type: String,
+//       unique: true,
+//       required: true,
+//     },
+//     email: {
+//       type: String,
+//       unique: true,
+//       required: true,
+//     },
+//     password : {
+//       type: String,
+//       unique: true,
+//       required: true,
+//     },
+//   },
+//   );
+
+// const User = mongoose.model('User', userData);
+
+// router.route('/')
+//   .get(
+//     function(suc, err) {
+//       console.log("GET")
+//       User.find(function(err, usersList) {
+//         if (err)
+//           res.send(err);
+//         res.json(usersList)
+//       });
+//     }
+//   )
+//   .post(
+//     function(suc, res) {
+//       console.log("POST YES")
+//       let user = new User();
+
+//       user.username = suc.username;
+//       user.password = suc.password;
+//       user.save(function(err) {
+//         if (err)
+//           res.send(err);
+//         res.send({success: true, message: "User added to database"});
+//       })
+//     }
+//   )
+//   .put(
+//     function(suc, res) {
+//       console.log("PUT");
+//     }
+//   )
+//   .delete(
+//     function(suc, res) {
+//       console.log("DELETE");
+//     }
+//   )
+
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
+// app.use(parser.urlencoded({extended: false}));
+// app.use(parser.json());
+// app.use(router);
+
+// module.exports = User;
+
+// app.listen(port, () => {
+//   console.log(`Example app listening on port ${port}!`)
+// });
+var express = require('express');
+var parser = require('body-parser');
+var mongooseService = require('mongoose');
 var cors = require('cors');
 
-var DATABASE_URL = "mongodb://mongo:27017/dashboard";
-var router = express.Router();
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  autoIndex: false,
-  poolSize: 10,
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS: 45000,
+/*var hostname = 'localhost'*/
+var port = 8080
+
+
+var options = {
+  server: {
+    socketOptions: {
+      keepAlive: 300000,
+      connectTimeoutMS: 30000
+    }
+  },
+  replset: {
+    socketOptions: {
+      keepAlive: 300000,
+      connectTimeoutMS: 30000
+    }
+  }
 };
 
+var DATABASE_URL = "mongodb://mongo:27018/db_dashboard";
 
-mongoose.connect(DATABASE_URL, options);
+mongooseService.connect(DATABASE_URL, options);
 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Error in connection'));
-db.once('open', function() {
-  console.log("Connection ok");
+var databse = mongooseService.connection;
+databse.on('error', console.error.bind(console, 'Database connection error'));
+databse.once('open', function() {
+    console.log("Connection ok");
 });
 
+var app = express();
 
-const userSchema = new mongoose.Schema(
-  {
-    username: {
-      type: String,
-      unique: true,
-      required: true,
-    },
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-    },
-    password : {
-      type: String,
-      unique: true,
-      required: true,
-    },
-  },
-  );
+app.use(cors());
 
-const UserProps = mongoose.model('User', userSchema);
+var serverRouter = express.Router();
+
+
+var userDatas = mongooseService.Schema({
+  email: String,
+  password: String,
+  username: String,
+});
+
+var User = mongooseService.model('User', userDatas);
+
+serverRouter.route('/')
+    .get(function(req, res) {
+        console.log("GET");
+        User.find(function(err, users) {
+            if(err) {
+                res.send(err);
+            }
+            res.json(users);
+        });
+    })
+    .post(function(req, res) {
+        console.log("PUT");
+        let user = new User();
+
+        console.log(req.body);
+        user.username = req.body.username;
+        user.email = req.body.email;
+        user.password = req.body.password;
+        user.dashboards = req.body.dashboards;
+        user.save(function (err) {
+            if (err)
+                res.send(err);
+            res.send({success: true, msg: 'New User is now in your db'});
+        });
+    })
+    .put(function(req, res) {
+        console.log("put")
+    })
+    .delete(function(req, res) {
+        console.log("delete")
+    });
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
+app.use(parser.urlencoded({extended: false}));
+app.use(parser.json());
+app.use(serverRouter);
 
-app.use(cors({origin: 'http://localhost:3000'}));
+module.exports = User;
 
-router.route('/')
-  .get(
-    function(suc, err) {
-      console.log("GET")
-      userSchema.find(function(err, usersList) {
-        if (err)
-          res.send(err);
-        res.json(usersList)
-      });
-    }
-  )
-  .post(
-    function(suc, res) {
-      console.log("POST")
-      let user = new UserProps();
-
-      user.username = suc.username;
-      user.password = suc.password;
-      user.save(function(err) {
-        if (err)
-          res.send(err);
-        res.send({success: true, message: "User added to database"});
-      })
-    }
-  )
-  .put(
-    function(suc, res) {
-      console.log("PUT");
-    }
-  )
-  .delete(
-    function(suc, res) {
-      console.log("DELETE");
-    }
-  )
-
-app.use(router);
-
-module.exports = userSchema;
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}!`)
-});
+app.listen(port, () => console.log(`Server listening on port : ${port}`));
