@@ -23,3 +23,18 @@
     font-size: 8vh;
     text-shadow: 2px 2px 3px rgba(150, 150, 150, 1);
 }
+
+/* Div containing toggle & add buttons */
+.widgetManageButtons {
+    position: relative;
+    left: 47%;
+    margin-top: 2vh;
+}
+
+.toggleBtn {
+    background: #3f51b5;
+}
+
+.toggleBtn.Mui-selected {
+    background: #f44336;
+}
