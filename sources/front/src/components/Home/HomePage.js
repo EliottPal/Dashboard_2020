@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
 import './HomePage.css';
-import defaultImg from './../../assets/bg.jpg'
+import React, { useState } from 'react';
+import { Link } from '@reach/router';
 import { makeStyles } from "@material-ui/core/styles";
+import defaultImg from './../../assets/bg.jpg'
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person'
@@ -31,16 +32,28 @@ function HomePage(props) {
     const classes = useStyles();
     var date = new Date();
 
+    const createWidget = async (event) => {
+        alert('c\'est un gaté lui ?');
+    };
+
     return (
         <div className="mainDiv">
             {/* Image configurable par l'user par la suite */}
             <div className="imgCover" style={{ background: `url(${defaultImg})`}}>
-                <Fab color="primary"  className={classes.profileButton} >
+                <Fab
+                    color="primary"
+                    className={classes.profileButton}
+                    component={Link} to={"/profile"}
+                >
                     <PersonIcon className={classes.profileIcon}/>
                 </Fab>
                 <h1 className="mainTitle">{date.toDateString()}</h1>
             </div>
-            <Fab color="primary" className={classes.addButton}>
+            <Fab
+                color="primary"
+                className={classes.addButton}
+                onClick={(event) => createWidget(event)}
+            >
                 <AddIcon />
             </Fab>
         </div>
