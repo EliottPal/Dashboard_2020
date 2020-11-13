@@ -81,6 +81,9 @@ const DraggableCard = ({ text, selected }) => {
 
 // HOME PAGE
 function HomePage(props) {
+    // HOW TO GET USERNAME
+    // STOCK : props.location.state.username
+    // console.log(props.location.state.username);
     const classes = useStyles();
     var date = new Date();
     const [toggled, setToggled] = React.useState(false);

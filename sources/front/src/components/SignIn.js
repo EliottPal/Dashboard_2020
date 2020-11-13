@@ -101,7 +101,7 @@ class SignIn extends React.Component {
         } else if (request === 1) {
             this.setState({errorPasswordOnSubmit: true, password: ""});
         } else {
-            navigate(`/home`);
+            navigate(`/home`, {state: {username: this.state.username}});
         }
     }
 

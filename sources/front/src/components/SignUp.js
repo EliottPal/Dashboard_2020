@@ -110,7 +110,7 @@ class SignUp extends React.Component {
                                 color="primary"
                                 className="button-submit"
                                 value="Submit"
-                                component={Link} to={'/home'}
+                                component={Link} to={'/home'} state={{username: this.state.username}}
                             >
                                 Sign Up
                             </Button>
