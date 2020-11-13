@@ -17,7 +17,7 @@
     position: relative;
     height: 20vh;
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
     background-size: cover;
     background-position: center;
     display: flex;

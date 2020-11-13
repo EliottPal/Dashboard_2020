@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     // Buttons
     profileButton: {
         position: 'relative',
-        marginTop: theme.spacing(10),
-        marginLeft: theme.spacing(1),
+        marginTop: '30vh',
+        marginLeft: theme.spacing(2),
         height: '8vh',
         width: '8vh',
     },
@@ -62,7 +62,7 @@ const DraggableCard = ({ text, selected }) => {
             alert('vous me le bannez lui!');
     };
     return (
-      <Draggable grid={[50, 50]} bounds="parent">
+      <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
             {!selected? null :
                 <Fab
