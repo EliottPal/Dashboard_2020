@@ -11,142 +11,189 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import userRequests from '../apiConnector';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& .MuiTextField-root': {
-            margin: theme.spacing(1),
-            width: '25ch',
-            alignItems: 'center',
-        },
-    },
-    icon: {
-        marginTop: theme.spacing(1),
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    submit: {
-        marginTop: '5vh'
-    },
-}));
+const root = {
+        marginTop: '3vh',
+        margin: '1px',
+        width: '25ch',
+        alignItems: 'center'
+}
 
-function SignUp(props) {
-    const {value, index} = props;
-    const classes = useStyles();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
-    const [error, setError] = useState(false);
+const icon = {
+    marginTop: '2vh',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+}
 
-    // const handleChange = async (event) => {
-    //     alert('starfoullah');
-    // };
+const submit = {
+    marginTop: '5vh',
+}
 
-    // const newUser = (email, password, username) => {
-    //     if (email === "" || password === "" || username === "") {
-    //         console.log("All fields must be completed");
-    //         return;
-    //     }
-    //     userRequests.addUserDatabase(email, password, username);
-    // }
+const iconPos = {
+    marginRight: '10px',
+}
 
-    const handleValidation = (email, password, username) => {
-        if (email === "" || password === "" || username === "")
+class SignUp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            password: "",
+            username: "",
+            errorUsername: false,
+            errorEmail: false,
+            errorPassword: false,
+        };
+
+        this.onChangeUsername = this.onChangeUsername.bind(this);
+        this.onChangeEmail = this.onChangeEmail.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+    };
+
+    handleValidation = () => {
+        if (this.state.email === "") {
+            if (this.state.errorEmail === false)
+                this.setState({errorEmail: true});
+        } else {
+            if (this.state.errorEmail === true)
+                this.setState({errorEmail: false});
+        }
+        if (this.state.password === "") {
+            if (this.state.errorPassword === false)
+                this.setState({errorPassword: true});
+        } else {
+            if (this.state.errorPassword === true)
+                this.setState({errorPassword: false});
+        }
+        if (this.state.username === "") {
+            if (this.state.errorUsername === false)
+                this.setState({errorUsername: true});
+        } else {
+            if (this.state.errorUsername === true)
+                this.setState({errorUsername: false});
+        }
+    };
+
+    hasError = () => {
+        if (this.state.errorUsername || this.state.errorEmail || this.state.errorPassword)
+            return true;
+        return false;
+    };
+
+    checkSignUp = () => {
+        this.handleValidation();
+        if (this.hasError())
             return false;
         return true;
+    };
+
+    onChangeUsername(event) {
+        this.setState({username: event.target.value})
     }
 
-    const submitNewUser = (email, password, username) => {
-        console.log("yes");
-        if (!handleValidation(email, password, username)) {
-            setError(true);
-            return;
+    onChangeEmail(event) {
+        this.setState({email: event.target.value})
+    }
+
+    onChangePassword(event) {
+        this.setState({password: event.target.value})
+    }
+
+    render() {
+        let signUpButton;
+
+        if (this.checkSignUp()) {
+            signUpButton = <Button
+                                onClick={() => userRequests.addUserDatabase(this.state.email, this.state.password, this.state.username)}
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className="button-submit"
+                                value="Submit"
+                                component={Link} to={'/home'}
+                            >
+                                Sign Up
+                            </Button>
+        } else if (!this.checkSignUp()) {
+            signUpButton = <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className="button-submit"
+                                value="Submit"
+                                disabled
+                            >
+                                Sign Up
+                            </Button>
         }
-        console.log(`email: ${email}, password: ${password}, username: ${username}`)
-        userRequests.addUserDatabase(email, password, username);
-        navigate('/home');
-    }
 
-    return (
-        <div
-          role="tabpanel"
-          hidden={value !== index}
-          id={`full-width-tabpanel-${index}`}
-          aria-labelledby={`full-width-tab-${index}`}
-        >
-            {value === index && (
-                <Box p={3}>
-                    <Container minWidth="xs">
-                        <Typography>
-                            Create your account
-                        </Typography>
-                        <form className={classes.root} autoComplete="off" onSubmit={submitNewUser}>
-                            <div className={classes.icon}>
-                                <PersonIcon fontSize="large"/>
-                                <TextField
-                                    required
-                                    onChange={event => setUsername(event.target.value)}
-                                    variant="outlined"
-                                    fullWidth
-                                    id="username"
-                                    label="Username"
-                                    name="username"
-                                    autoComplete="username"
-                                    value={username}
-                                    error={error}
-                                />
-                            </div>
-                            <div className={classes.icon}>
-                                <AccountCircleIcon fontSize="large"/>
-                                <TextField
-                                    required
-                                    onChange={event => setEmail(event.target.value)}
-                                    variant="outlined"
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
-                                    value={email}
-                                    error={error}
-                                />
-                            </div>
-                            <div className={classes.icon}>
-                                <VpnKeyIcon fontSize="large"/>
-                                <TextField
-                                    required
-                                    onChange={event => setPassword(event.target.value)}
-                                    variant="outlined"
-                                    fullWidth
-                                    id="password"
-                                    label="Password"
-                                    type="password"
-                                    name="password"
-                                    autoComplete="current-password"
-                                    value={password}
-                                    error={error}
-                                />
-                            </div>
-                            <div className={classes.submit}>
-                                <Button
-                                    onClick={() => submitNewUser(email, password, username)}
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className="button-submit"
-                                    value="Submit"
-                                    component={Link} to={'/home'}
-                                >
-                                    Sign Up
-                                </Button>
-                            </div>
-                        </form>
-                    </Container>
-                </Box>
-            )}
-        </div>
-      );
+        return (
+            <div
+            role="tabpanel"
+            hidden={this.props.value !== this.props.index}
+            id={`full-width-tabpanel-${this.props.index}`}
+            aria-labelledby={`full-width-tab-${this.props.index}`}
+            >
+                {this.props.value === this.props.index && (
+                    <Box p={3}>
+                        <Container minWidth="xs">
+                            <Typography>
+                                Create your account
+                            </Typography>
+                            <form className="yes" style={root} autoComplete="off">
+                                <div className="no" style={icon}>
+                                    <PersonIcon fontSize="large" style={iconPos}/>
+                                    <TextField
+                                        required
+                                        onChange={this.onChangeUsername}
+                                        variant="outlined"
+                                        fullWidth
+                                        id="username"
+                                        label="Username"
+                                        name="username"
+                                        autoComplete="username"
+                                        value={this.state.username}
+                                    />
+                                </div>
+                                <div className="no" style={icon}>
+                                    <AccountCircleIcon fontSize="large" style={iconPos}/>
+                                    <TextField
+                                        required
+                                        onChange={this.onChangeEmail}
+                                        variant="outlined"
+                                        fullWidth
+                                        id="email"
+                                        label="Email Address"
+                                        name="email"
+                                        autoComplete="email"
+                                        value={this.state.email}
+                                    />
+                                </div>
+                                <div className="no" style={icon}>
+                                    <VpnKeyIcon fontSize="large" style={iconPos}/>
+                                    <TextField
+                                        required
+                                        onChange={this.onChangePassword}
+                                        variant="outlined"
+                                        fullWidth
+                                        id="password"
+                                        label="Password"
+                                        type="password"
+                                        name="password"
+                                        autoComplete="current-password"
+                                        value={this.state.password}
+                                    />
+                                </div>
+                                <div className="pl" style={submit}>
+                                    {signUpButton}
+                                </div>
+                            </form>
+                        </Container>
+                    </Box>
+                )}
+            </div>
+        );
+    }
 };
 
 export default SignUp;

@@ -40,18 +40,22 @@ async function addUserDatabase(email, password, username) {
 
 }
 
-async function getUserInDatabase(email, password) {
+async function getUserInDatabase(username, password) {
     console.log(bcrypt.hashSync(password, bcrypt.genSaltSync(10), null))
     const answer = await axios.get('http://localhost:8080')
         .then(body => {
             var ite = 0;
+            var returnValue = 0;
             for (; body.data[ite]; ite++) {
-                console.log(bcrypt.hashSync(password, bcrypt.genSaltSync(10), null))
-                if (body.data[ite].email === email && bcrypt.hashSync(password, bcrypt.genSaltSync(10), null) === password) {
-                    return (body.data[ite.email]);
+                if (body.data[ite].username === username) {
+                    returnValue = 1;
+                }
+                if (body.data[ite].username === username && bcrypt.compareSync(password, body.data[ite].password)) {
+                    returnValue = 2;
+                    return (returnValue);
                 }
             }
-            return ("failed");
+            return (returnValue);
         })
         .catch(fail => console.log(fail));
     return answer;
