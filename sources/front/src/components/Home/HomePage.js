@@ -12,8 +12,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 
-var selected
-
 const useStyles = makeStyles((theme) => ({
     // Buttons
     profileButton: {
@@ -58,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // DRAGGABLE CARD
-const DraggableCard = ({ text }) => {
+const DraggableCard = ({ text, selected }) => {
     const classes = useStyles();
 
     const destroyWidget = async () => {
@@ -67,7 +65,7 @@ const DraggableCard = ({ text }) => {
     return (
       <Draggable>
         <Card className={classes.card}>
-            {selected? null :
+            {!selected? null :
                 <Fab
                     color="secondary"
                     className={classes.destroyButton}
@@ -86,7 +84,7 @@ const DraggableCard = ({ text }) => {
 function HomePage(props) {
     const classes = useStyles();
     var date = new Date();
-    const [selected, setSelected] = React.useState(false);
+    const [toggled, setToggled] = React.useState(false);
 
     // CREATE WIDGET FUNC
     const createWidget = async (event) => {
@@ -116,8 +114,8 @@ function HomePage(props) {
                     {/* TOGGLE DELETE MODE BUTTON */}
                     <ToggleButton
                         value="check"
-                        selected={selected}
-                        onChange={() => {setSelected(!selected);}}
+                        selected={toggled}
+                        onChange={() => {setToggled(!toggled);}}
                         onClick={(event) => toggleDeleteMode(event)}
                         className="toggleBtn"
                     >
@@ -132,8 +130,8 @@ function HomePage(props) {
                         <AddIcon />
                     </Fab>
                 </div>
-                <DraggableCard text="Eliott"></DraggableCard>
-                <DraggableCard text="Rodo"></DraggableCard>
+                <DraggableCard text="Eliott" selected={toggled}></DraggableCard>
+                <DraggableCard text="Rodo" selected={toggled}></DraggableCard>
             </div>
         </StylesProvider>
     );
