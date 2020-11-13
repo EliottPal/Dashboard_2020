@@ -1,7 +1,15 @@
+/* Divs */
 .mainDiv {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.draggableZone {
+    position: relative;
+    margin-top: 2vh;
+    height: 67vh;
+    width: 99%;
 }
 
 /* Top banner with image and date */
@@ -29,10 +37,12 @@
     position: relative;
     left: 47%;
     margin-top: 2vh;
+
 }
 
 .toggleBtn {
     background: #3f51b5;
+    right: 20%;
 }
 
 .toggleBtn.Mui-selected {

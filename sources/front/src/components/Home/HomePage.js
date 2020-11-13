@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme) => ({
         top: '-8%',
     },
     addButton: {
-        marginLeft: '1vh',
-        marginRight: '3vh',
+        right: '7%'
     },
     // Icons
     largerIcon: {
@@ -63,7 +62,7 @@ const DraggableCard = ({ text, selected }) => {
             alert('vous me le bannez lui!');
     };
     return (
-      <Draggable>
+      <Draggable grid={[50, 50]} bounds="parent">
         <Card className={classes.card}>
             {!selected? null :
                 <Fab
@@ -130,8 +129,11 @@ function HomePage(props) {
                         <AddIcon />
                     </Fab>
                 </div>
-                <DraggableCard text="Eliott" selected={toggled}></DraggableCard>
-                <DraggableCard text="Rodo" selected={toggled}></DraggableCard>
+                {/* DRAGGABLES */}
+                <div className="draggableZone">
+                    <DraggableCard text="Eliott" selected={toggled}></DraggableCard>
+                    <DraggableCard text="Rodo" selected={toggled}></DraggableCard>
+                </div>
             </div>
         </StylesProvider>
     );
