@@ -68,6 +68,7 @@ const DraggableCard = ({ text, selected }) => {
     const destroyWidget = async () => {
             alert('vous me le bannez lui!');
     };
+
     return (
       <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>

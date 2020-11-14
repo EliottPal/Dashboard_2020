@@ -1,8 +1,8 @@
-.header {
+/* COVER */
+.headerDiv {
     display: flex;
     height: 8vh;
     overflow: visible;
-    /* margin: -2.5vh; */
 }
 
 .userName {
@@ -21,4 +21,10 @@
     margin-left: 0vh;
     margin-top: 1vh;
     background: white;
+}
+
+/* SERVICES LIST */
+.contentDiv {
+    height: 40vh;
+    display: flex;
 }
