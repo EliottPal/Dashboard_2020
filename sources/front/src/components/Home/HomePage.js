@@ -5,12 +5,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
 import defaultImg from './../../assets/bg.jpg'
 import Draggable from 'react-draggable';
-import {Card, Typography, Fab } from '@material-ui/core';
+import {Card, Typography, Fab, Button } from '@material-ui/core';
+import ToggleButton from '@material-ui/lab/ToggleButton';
 import AddIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person'
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ToggleButton from '@material-ui/lab/ToggleButton';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import ProfilePopup from '../Profile/ProfilePopup'
 
 const useStyles = makeStyles((theme) => ({
     // Buttons
@@ -30,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
     },
     addButton: {
         right: '7%'
+    },
+    coverButton: {
+        position: 'absolute',
+        marginLeft: '2vh',
+        top: '70%',
     },
     // Icons
     largerIcon: {
@@ -86,7 +93,9 @@ function HomePage(props) {
     // console.log(props.location.state.username);
     const classes = useStyles();
     var date = new Date();
+
     const [toggled, setToggled] = React.useState(false);
+    const [openPopup, setOpenPopup] = React.useState(false);
 
     // CREATE WIDGET FUNC
     const createWidget = async (event) => {
@@ -97,16 +106,31 @@ function HomePage(props) {
     const toggleDeleteMode = async (event) => {
     };
 
+    // CHANGE COVER PIC FUNC
+    const changeCover = async () => {
+        alert('Pluto x Baby pluto');
+    };
+
     return (
         <StylesProvider injectFirst>
             <div className="mainDiv">
                 {/* Image configurable par l'user par la suite */}
                 <div className="imgCover" style={{ background: `url(${defaultImg})`}}>
+                    {/* CHANGE COVER BUTTON */}
+                    <Button
+                        variant="contained"
+                        color="default"
+                        className={classes.coverButton}
+                        startIcon={<AddAPhotoIcon />}
+                        onClick={() => changeCover()}
+                    >
+                        Change cover
+                    </Button>
                     {/* PROFILE BUTTON */}
                     <Fab
                         color="primary"
                         className={classes.profileButton}
-                        component={Link} to={"/profile"}
+                        onClick={() =>setOpenPopup(true)}
                     >
                         <PersonIcon className={classes.largerIcon}/>
                     </Fab>
@@ -137,6 +161,14 @@ function HomePage(props) {
                     <DraggableCard text="Eliott" selected={toggled}></DraggableCard>
                     <DraggableCard text="Rodo" selected={toggled}></DraggableCard>
                 </div>
+                {/* PROFILE POPUP DIALOG */}
+                <ProfilePopup
+                    openPopup={openPopup}
+                    setOpenPopup={setOpenPopup}
+                    userName={props.location.state.username}
+                    coverImg={defaultImg}
+                >
+                </ProfilePopup>
             </div>
         </StylesProvider>
     );
