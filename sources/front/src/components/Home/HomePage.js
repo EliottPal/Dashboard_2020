@@ -13,7 +13,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import ProfilePopup from '../Profile/ProfilePopup';
-import AddWidget from '../Profile/AddWidget';
+import AddWidget from './AddWidget';
 
 const useStyles = makeStyles((theme) => ({
     // Buttons

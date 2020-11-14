@@ -1,0 +1,44 @@
+/* HEADER */
+.header {
+    height: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    position: relative;
+    font-size: 4vh;
+    margin-top: 2vh;
+}
+
+.subTitle {
+    position: relative;
+    font-size: 3vh;
+    margin-top: -2vh;
+    color: darkgrey;
+}
+
+/* SERVICE CARDS */
+.serviceIcon {
+    margin-right: 5vh;
+    margin-left: 2vh;
+}
+
+.serviceText {
+    font-size: larger;
+}
+
+.servicePos {
+    margin-right: 1.5vh;
+}
+
+.serviceCard {
+    margin-top: 2vh;
+    box-shadow: 2px 2px 3px rgba(150, 150, 150, 1);
+}
+
+.serviceCardAction {
+    display: flex;
+}
