@@ -12,7 +12,8 @@ import PersonIcon from '@material-ui/icons/Person'
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import ProfilePopup from '../Profile/ProfilePopup'
+import ProfilePopup from '../Profile/ProfilePopup';
+import AddWidget from '../Profile/AddWidget';
 
 const useStyles = makeStyles((theme) => ({
     // Buttons
@@ -97,10 +98,11 @@ function HomePage(props) {
 
     const [toggled, setToggled] = React.useState(false);
     const [openPopup, setOpenPopup] = React.useState(false);
+    const [openWidgetAdder, setOpenWidgetAdder] = React.useState(false);
 
     // CREATE WIDGET FUNC
     const createWidget = async (event) => {
-        alert('c\'est un gaté lui ?');
+        setOpenWidgetAdder(true);
     };
 
     // TOGGLE DELETE MODE FUNC
@@ -170,6 +172,10 @@ function HomePage(props) {
                     coverImg={defaultImg}
                 >
                 </ProfilePopup>
+                <AddWidget
+                    openWidgetAdder={openWidgetAdder}
+                    setOpenWidgetAdder={setOpenWidgetAdder}
+                ></AddWidget>
             </div>
         </StylesProvider>
     );
