@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
         top: '90%',
         fontSize: '1.5vh',
         fontWeight: 'bold',
-        left: '45%',
+        left: '42.5%',
     },
     // Chip
     chip: {

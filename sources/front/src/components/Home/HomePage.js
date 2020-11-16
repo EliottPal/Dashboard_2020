@@ -1,6 +1,6 @@
 import './HomePage.css';
 import React, { useState, useEffect } from 'react';
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
 import { makeStyles } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
 import defaultImg from './../../assets/bg.jpg'
@@ -11,6 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person'
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import WarningIcon from '@material-ui/icons/Warning';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import ProfilePopup from '../Profile/ProfilePopup';
 import AddWidget from './AddWidget';
@@ -59,6 +60,32 @@ const useStyles = makeStyles((theme) => ({
         color: '#00000',
         textAlign: 'center',
         overflow: 'visible',
+    },
+    // Error Page
+    errorCard: {
+        width: '20%',
+        minHeight: '30vh',
+        backgroundColor: '#f5f5f5',
+        marginTop: '20vh',
+        color: '#00000',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    errorIcon: {
+        height: '10vh',
+        width: '10vh',
+        marginTop: '1vh',
+        marginBottom: '1vh',
+    },
+    errorButton: {
+        marginTop: '3vh',
+    },
+    errorTitle: {
+        marginTop: '1vh',
+    },
+    errorText: {
+        textAlign: 'center',
     }
 }));
 
@@ -88,11 +115,37 @@ const DraggableCard = ({ text, selected }) => {
     );
   };
 
+// ERROR NOT-LOGGED-IN PAGE
+const ErrorPage = ({ text, selected }) => {
+    const classes = useStyles();
+    return (
+        <div className="mainDiv">
+            <Card className={classes.errorCard}>
+                <Typography variant="h4" className={classes.errorTitle} >Woops!</Typography>
+                <WarningIcon className={classes.errorIcon}></WarningIcon>
+                <Typography variant="p" className={classes.errorText}>
+                    Seems that you try to access Dashboard without being logged in.
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.errorButton}
+                    component={Link} to={'/'}
+                >
+                    Back to Login page
+                </Button>
+            </Card>
+        </div>
+    );
+};
+
+
 // HOME PAGE
 function HomePage(props) {
     // HOW TO GET USERNAME
     // STOCK : props.location.state.username
-    // console.log(props.location.state.username);
+    // PRINT: console.log(props.location.state.username);
+
     const classes = useStyles();
     var date = new Date();
 
@@ -100,6 +153,11 @@ function HomePage(props) {
     const [openPopup, setOpenPopup] = React.useState(false);
     const [openWidgetAdder, setOpenWidgetAdder] = React.useState(false);
 
+    // CHECK IF USER IS LOGGED IN
+    if (!props.location.state) {
+        navigate(`/error`);
+        return(<ErrorPage></ErrorPage>);
+    }
     // CREATE WIDGET FUNC
     const createWidget = async (event) => {
         setOpenWidgetAdder(true);
