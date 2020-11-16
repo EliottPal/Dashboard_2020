@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 import { Link } from '@reach/router';
 import { makeStyles } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
-import { Dialog, DialogContent, DialogTitle, Fab, Button } from '@material-ui/core';
+import { Dialog, DialogContent, DialogTitle, Fab, Button, Chip } from '@material-ui/core';
 import { List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
+import CloseIcon from '@material-ui/icons/Close';
+import CheckIcon from '@material-ui/icons/Check';
 import iconYoutube from './../../assets/icons/youtube.png'
 import iconSpotify from './../../assets/icons/spotify.png'
 import iconGithub from './../../assets/icons/github.png'
-
 
 const useStyles = makeStyles((theme) => ({
     // Dialog
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         width: '6vh',
         height: '6vh',
         color: "darkgrey"
+    },
+    whiteIcon: {
+        color: '#ffffff'
     },
     // List
     listContainer: {
@@ -37,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '2.5vh',
         marginLeft: '4vh',
     },
+    listItem: {
+        width: '45vh',
+        marginBottom: '1vh',
+        boxShadow: '2px 2px 3px rgba(150, 150, 150, 1)',
+    },
     // Buttons
     logoutButton: {
         position: 'absolute',
@@ -44,8 +53,46 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '1.5vh',
         fontWeight: 'bold',
         left: '45%',
-    }
+    },
+    // Chip
+    chip: {
+        position: 'absolute',
+        marginTop: '-7vh',
+        right: '-15%',
+        color: 'white',
+    },
+    loggedChip: {
+        position: 'absolute',
+        marginTop: '-7vh',
+        right: '-15%',
+        color: 'white',
+        background: 'limegreen'
+    },
 }));
+
+
+// LOGGED CHIP
+const LoggedChip = ({ logged }) => {
+    const classes = useStyles();
+
+    if (logged) {
+        return (
+            <Chip
+                label="LOGGED"
+                icon={<CheckIcon className={classes.whiteIcon}/>}
+                className={classes.loggedChip}
+            />
+        );
+    }
+    return (
+        <Chip
+            label="LOGGED"
+            color="secondary"
+            icon={<CloseIcon />}
+            className={classes.chip}
+        />
+    );
+  };
 
 export default function ProfilePopup(props) {
     const classes = useStyles();
@@ -101,7 +148,12 @@ export default function ProfilePopup(props) {
                                 </ListSubheader>
                             }
                         >
-                            <ListItem button onClick={() => loginYoutube()}>
+                            {/* YOUTUBE SERVICE */}
+                            <ListItem
+                                variant="outlined"
+                                button onClick={() => loginYoutube()}
+                                className={classes.listItem}
+                            >
                                 <ListItemIcon>
                                     <img src={iconYoutube} />
                                 </ListItemIcon>
@@ -111,7 +163,12 @@ export default function ProfilePopup(props) {
                                     primary="Youtube"
                                 />
                             </ListItem>
-                            <ListItem button onClick={() => loginSpotify()}>
+                            <LoggedChip logged={false}></LoggedChip>
+                            {/* SPOTIFY SERVICE */}
+                            <ListItem
+                                button onClick={() => loginSpotify()}
+                                className={classes.listItem}
+                            >
                                 <ListItemIcon>
                                     <img src={iconSpotify} />
                                 </ListItemIcon>
@@ -121,7 +178,12 @@ export default function ProfilePopup(props) {
                                     primary="Spotify"
                                 />
                             </ListItem>
-                            <ListItem button onClick={() => loginGithub()}>
+                            <LoggedChip logged={true}></LoggedChip>
+                            {/* GITHUB SPOTIFY */}
+                            <ListItem
+                                button onClick={() => loginGithub()}
+                                className={classes.listItem}
+                            >
                                 <ListItemIcon>
                                     <img src={iconGithub} />
                                 </ListItemIcon>
@@ -131,6 +193,7 @@ export default function ProfilePopup(props) {
                                     primary="Github"
                                 />
                             </ListItem>
+                            <LoggedChip logged={false}></LoggedChip>
                         </List>
                         {/* LOGOUT BUTTON */}
                         <Button
