@@ -9,55 +9,52 @@ import { makeStyles } from '@material-ui/core/styles';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
-import userRequests from '../apiConnector';
+import userRequests from '../../apiConnector';
 
 const root = {
-        marginTop: '3vh',
+        marginTop: '5vh',
         margin: '1px',
         width: '25ch',
         alignItems: 'center'
 }
 
 const icon = {
-    marginTop: '2vh',
+    marginTop: '4vh',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
 }
 
 const submit = {
-    marginTop: '5vh',
+    marginTop: '7vh',
 }
 
 const iconPos = {
     marginRight: '10px',
 }
 
-class SignUp extends React.Component {
+const error = {
+    position: 'absolute',
+    color: 'red'
+}
+
+class SignIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
             password: "",
             username: "",
             errorUsername: false,
-            errorEmail: false,
             errorPassword: false,
+            errorUsernameOnSubmit: false,
+            errorPasswordOnSubmit: false,
         };
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
     };
 
     handleValidation = () => {
-        if (this.state.email === "") {
-            if (this.state.errorEmail === false)
-                this.setState({errorEmail: true});
-        } else {
-            if (this.state.errorEmail === true)
-                this.setState({errorEmail: false});
-        }
         if (this.state.password === "") {
             if (this.state.errorPassword === false)
                 this.setState({errorPassword: true});
@@ -75,7 +72,7 @@ class SignUp extends React.Component {
     };
 
     hasError = () => {
-        if (this.state.errorUsername || this.state.errorEmail || this.state.errorPassword)
+        if (this.state.errorUsername || this.state.errorPassword)
             return true;
         return false;
     };
@@ -91,12 +88,21 @@ class SignUp extends React.Component {
         this.setState({username: event.target.value})
     }
 
-    onChangeEmail(event) {
-        this.setState({email: event.target.value})
-    }
-
     onChangePassword(event) {
         this.setState({password: event.target.value})
+    }
+
+    handleSubmit = async (event) => {
+        console.log("yes")
+        let request = await userRequests.getUserInDatabase(this.state.username, this.state.password);
+        console.log(request);
+        if (request === 0) {
+            this.setState({errorUsernameOnSubmit: true, username: "", password: ""});
+        } else if (request === 1) {
+            this.setState({errorPasswordOnSubmit: true, password: ""});
+        } else {
+            navigate(`/home`, {state: {username: this.state.username}});
+        }
     }
 
     render() {
@@ -104,15 +110,15 @@ class SignUp extends React.Component {
 
         if (this.checkSignUp()) {
             signUpButton = <Button
-                                onClick={() => userRequests.addUserDatabase(this.state.email, this.state.password, this.state.username)}
+                                onClick={this.handleSubmit}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 className="button-submit"
                                 value="Submit"
-                                component={Link} to={'/home'} state={{username: this.state.username}}
+                                // component={Link} to={'/home'}
                             >
-                                Sign Up
+                                Sign In
                             </Button>
         } else if (!this.checkSignUp()) {
             signUpButton = <Button
@@ -123,7 +129,7 @@ class SignUp extends React.Component {
                                 value="Submit"
                                 disabled
                             >
-                                Sign Up
+                                Sign In
                             </Button>
         }
 
@@ -138,7 +144,7 @@ class SignUp extends React.Component {
                     <Box p={3}>
                         <Container minWidth="xs">
                             <Typography>
-                                Create your account
+                                Sign in using username
                             </Typography>
                             <form className="yes" style={root} autoComplete="off">
                                 <div className="no" style={icon}>
@@ -153,22 +159,10 @@ class SignUp extends React.Component {
                                         name="username"
                                         autoComplete="username"
                                         value={this.state.username}
+                                        error={this.state.errorUsernameOnSubmit}
                                     />
                                 </div>
-                                <div className="no" style={icon}>
-                                    <AccountCircleIcon fontSize="large" style={iconPos}/>
-                                    <TextField
-                                        required
-                                        onChange={this.onChangeEmail}
-                                        variant="outlined"
-                                        fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
-                                        value={this.state.email}
-                                    />
-                                </div>
+                                {this.state.errorUsernameOnSubmit && <div className="error" style={error}>Unknown username</div>}
                                 <div className="no" style={icon}>
                                     <VpnKeyIcon fontSize="large" style={iconPos}/>
                                     <TextField
@@ -182,8 +176,10 @@ class SignUp extends React.Component {
                                         name="password"
                                         autoComplete="current-password"
                                         value={this.state.password}
+                                        error={this.state.errorPasswordOnSubmit}
                                     />
                                 </div>
+                                {this.state.errorPasswordOnSubmit && <div className="error" style={error}>Incorrect password</div>}
                                 <div className="pl" style={submit}>
                                     {signUpButton}
                                 </div>
@@ -196,4 +192,4 @@ class SignUp extends React.Component {
     }
 };
 
-export default SignUp;
+export default SignIn;

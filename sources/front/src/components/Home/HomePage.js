@@ -1,20 +1,28 @@
-import './HomePage.css';
-import React, { useState, useEffect } from 'react';
+// React imports
 import { Link, navigate } from '@reach/router';
+import React, { useState, useEffect } from 'react';
+// Style imports
+import './HomePage.css';
+import defaultImg from './../../assets/bg.jpg'
+// Material imports
 import { makeStyles } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
-import defaultImg from './../../assets/bg.jpg'
-import Draggable from 'react-draggable';
 import {Card, Typography, Fab, Button } from '@material-ui/core';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import AddIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person'
-import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+// Popup imports
 import ProfilePopup from '../Profile/ProfilePopup';
 import AddWidget from './AddWidget';
+// Widgets Imports
+import {YoutubeSubCount, YoutubeLastVideo} from '../Widgets/YoutubeWidgets';
+import {SpotifyArtistSongs, SpotifyUserPlaylists} from '../Widgets/SpotifyWidgets';
+import {GithubUserRepos, GithubRepoPushs} from '../Widgets/GithubWidgets';
+import MoneyConverter from '../Widgets/MoneyWidget';
+import WeatherForecast from '../Widgets/WeatherWidget';
 
 var coverImg = defaultImg
 
@@ -26,13 +34,6 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(2),
         height: '8vh',
         width: '8vh',
-    },
-    destroyButton: {
-        position: 'absolute',
-        height: '4vh',
-        width: '4vh',
-        right: '94%',
-        top: '-8%',
     },
     addButton: {
         right: '7%'
@@ -47,21 +48,8 @@ const useStyles = makeStyles((theme) => ({
         height: '5vh',
         width: '5vh',
     },
-    smallerIcon: {
-        height: '2vh',
-        width: '2vh',
-    },
     whiteIcon: {
         color: '#ffffff'
-    },
-    // Card
-    card: {
-        width: '20%',
-        minHeight: '20vh',
-        backgroundColor: '#f5f5f5',
-        color: '#00000',
-        textAlign: 'center',
-        overflow: 'visible',
     },
     // Error Page
     errorCard: {
@@ -90,32 +78,6 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
     }
 }));
-
-// DRAGGABLE CARD
-const DraggableCard = ({ text, selected }) => {
-    const classes = useStyles();
-
-    const destroyWidget = async () => {
-            alert('vous me le bannez lui!');
-    };
-
-    return (
-      <Draggable grid={[25, 25]} bounds="parent">
-        <Card className={classes.card}>
-            {!selected? null :
-                <Fab
-                    color="secondary"
-                    className={classes.destroyButton}
-                    onClick={() => destroyWidget()}
-                >
-                    <CloseIcon className={classes.smallerIcon}/>
-                </Fab>
-            }
-          <Typography variant="h6">{text}</Typography>
-        </Card>
-      </Draggable>
-    );
-  };
 
 // ERROR NOT-LOGGED-IN PAGE
 const ErrorPage = ({ text, selected }) => {
@@ -234,8 +196,27 @@ function HomePage(props) {
                 </div>
                 {/* DRAGGABLES */}
                 <div className="draggableZone">
-                    <DraggableCard text="Eliott" selected={toggled}></DraggableCard>
-                    <DraggableCard text="Rodo" selected={toggled}></DraggableCard>
+                    <SpotifyArtistSongs
+                        artist="Eliott"
+                        canBeDeleted={toggled}
+                    >
+                    </SpotifyArtistSongs>
+                    <GithubRepoPushs
+                        repo="RType"
+                        canBeDeleted={toggled}
+                    >
+                    </GithubRepoPushs>
+                    <MoneyConverter
+                        currency1="Dollar"
+                        currency2="Euro"
+                        canBeDeleted={toggled}
+                    >
+                    </MoneyConverter>
+                    <WeatherForecast
+                        city="Rennes"
+                        canBeDeleted={toggled}
+                    >
+                    </WeatherForecast>
                 </div>
                 {/* PROFILE POPUP DIALOG */}
                 <ProfilePopup

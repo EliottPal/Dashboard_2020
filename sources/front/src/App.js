@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import LoginPage from './components/LoginPage';
+import LoginPage from './components/Login/LoginPage';
 import HomePage from './components/Home/HomePage';
 import { Router } from '@reach/router';
 
