@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
+// CHOOSE WIDGET
 function WidgetSelection(props) {
     const {title, subtitle, widget1, widget2, icon} = props;
 
@@ -36,27 +36,26 @@ function WidgetSelection(props) {
         <div>
             {openConfig === false && (
                 <div>
+                    {/* HEADER */}
                     <DialogTitle>
                     <div className="header">
                         <h1 className="title">{title}</h1>
                         <h2 className="subTitle">{subtitle}</h2>
                     </div>
                     </DialogTitle>
+                    {/* 1ST WIDGET */}
                     <DialogContent dividers>
                         <Card className="serviceCard" variant="outlined" >
                             <CardActionArea className="serviceCardAction" onClick={() => handleConfig(0)}>
-                                <img src={icon} className="serviceIcon"/>
-                                <div className="">
-                                    <Typography className="serviceText">{widget1}</Typography>
-                                </div>
+                                <img src={icon} className="widgetIcon"/>
+                                <Typography className="serviceText">{widget1}</Typography>
                             </CardActionArea>
                         </Card>
+                    {/* 2ND WIDGET */}
                         <Card className="serviceCard" variant="outlined">
                             <CardActionArea className="serviceCardAction" onClick={() => handleConfig(1)}>
-                                <img src={icon} className="serviceIcon"/>
-                                <div className="servicePos">
-                                    <Typography className="serviceText">{widget2}</Typography>
-                                </div>
+                                <img src={icon} className="widgetIcon"/>
+                                <Typography className="serviceText">{widget2}</Typography>
                             </CardActionArea>
                         </Card>
                     </DialogContent>
@@ -69,12 +68,14 @@ function WidgetSelection(props) {
     )
 }
 
+// CONFIG SELECTED WIDGET
 function WidgetConfig(props) {
     const {type, title, subtitle, icon, label, global} = props;
     const [name, setName] = useState('');
 
     return (
         <div>
+            {/* HEADER */}
             <DialogTitle>
                 <div className="header">
                     <h1 className="title">{title}</h1>
@@ -107,6 +108,7 @@ function WidgetConfig(props) {
     )
 }
 
+// MAIN POPUP
 export default function AddWidget(props) {
     const classes = useStyles();
     const {openWidgetAdder, setOpenWidgetAdder} = props;
@@ -119,6 +121,7 @@ export default function AddWidget(props) {
 
     const [mainView, setMainView] = useState(true);
 
+    // CLOSE POPUP
     const handleClose = () => {
         setShowYoutube(false);
         setShowSpotify(false);
@@ -227,14 +230,33 @@ export default function AddWidget(props) {
                     </DialogContent>
                 </div>
                 )}
+                {/* SELECT WIDGETS TO DISPLAY */}
                 {showYoutube === true && (
-                    <WidgetSelection title="YouTube" subtitle="Widget list" widget1="Number of subscribers" widget2="Last video" icon={iconYoutube}/>
+                    <WidgetSelection
+                        title="YouTube"
+                        subtitle="Select Widget"
+                        widget1="Subscribers count"
+                        widget2="Last video"
+                        icon={iconYoutube}
+                    />
                 )}
                 {showSpotify === true && (
-                    <WidgetSelection title="Spotify" subtitle="Widget list" widget1="Top songs" widget2="Public playlist" icon={iconSpotify}/>
+                    <WidgetSelection
+                        title="Spotify"
+                        subtitle="Select Widget"
+                        widget1="Artist's top songs"
+                        widget2="User's public playlists"
+                        icon={iconSpotify}
+                    />
                 )}
                 {showGithub === true && (
-                    <WidgetSelection title="Github" subtitle="Widget list" widget1="Public repositories" widget2="Last commits" icon={iconGithub}/>
+                    <WidgetSelection
+                        title="Github"
+                        subtitle="Select Widget"
+                        widget1="User's public repositories"
+                        widget2="Repository last commits"
+                        icon={iconGithub}
+                    />
                 )}
             </Dialog>
         </StylesProvider>

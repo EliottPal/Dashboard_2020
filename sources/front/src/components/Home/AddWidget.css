@@ -41,5 +41,11 @@
 
 .serviceCardAction {
     display: flex;
+    height: 8vh;
 }
 
+/* WIDGET CARDS */
+.widgetIcon {
+    position: absolute;
+    right: 80%;
+}
