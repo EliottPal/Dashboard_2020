@@ -127,7 +127,7 @@ export default function ProfilePopup(props) {
                 classes={{paper: classes.dialogCard}}
             >
                 {/* TOP BAR */}
-                <DialogTitle style={{ background: `url(${coverImg})`}}>
+                <DialogTitle style={{ background: `center url(${coverImg})`}}>
                     <div className="headerDiv" >
                         <Fab className="iconBtn">
                             <PersonIcon className={classes.userIcon}>

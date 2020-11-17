@@ -16,6 +16,8 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import ProfilePopup from '../Profile/ProfilePopup';
 import AddWidget from './AddWidget';
 
+var coverImg = defaultImg
+
 const useStyles = makeStyles((theme) => ({
     // Buttons
     profileButton: {
@@ -168,25 +170,38 @@ function HomePage(props) {
     };
 
     // CHANGE COVER PIC FUNC
-    const changeCover = async () => {
-        alert('Pluto x Baby pluto');
+    const changeCover = async (event) => {
+        console.log(event.target.files[0])
+        // coverImg= event.target.files[0];
+        coverImg = URL.createObjectURL(event.target.files[0])
+        document.getElementById('coverImage').style.backgroundImage=`url(${coverImg})`;
     };
 
     return (
         <StylesProvider injectFirst>
             <div className="mainDiv">
                 {/* Image configurable par l'user par la suite */}
-                <div className="imgCover" style={{ background: `url(${defaultImg})`}}>
+                <div id="coverImage" className="imgCover" style={{ background: `center url(${defaultImg})`}}>
                     {/* CHANGE COVER BUTTON */}
-                    <Button
-                        variant="contained"
-                        color="default"
-                        className={classes.coverButton}
-                        startIcon={<AddAPhotoIcon />}
-                        onClick={() => changeCover()}
-                    >
+                    <input
+                        type="file"
+                        accept="image/jpeg, image/png"
+                        name="image"
+                        id="contained-button-file"
+                        style={{ display: 'none' }}
+                        onChange={changeCover}
+                    />
+                    <label htmlFor="contained-button-file">
+                        <Button
+                            variant="contained"
+                            color="default"
+                            component="span"
+                            className={classes.coverButton}
+                            startIcon={<AddAPhotoIcon />}
+                        >
                         Change cover
-                    </Button>
+                        </Button>
+                    </label>
                     {/* PROFILE BUTTON */}
                     <Fab
                         color="primary"
@@ -227,7 +242,7 @@ function HomePage(props) {
                     openPopup={openPopup}
                     setOpenPopup={setOpenPopup}
                     userName={props.location.state.username}
-                    coverImg={defaultImg}
+                    coverImg={coverImg}
                 >
                 </ProfilePopup>
                 <AddWidget
