@@ -196,8 +196,13 @@ function HomePage(props) {
                 </div>
                 {/* DRAGGABLES */}
                 <div className="draggableZone">
+                    <YoutubeSubCount
+                        artist="Locklear"
+                        canBeDeleted={toggled}
+                    >
+                    </YoutubeSubCount>
                     <SpotifyArtistSongs
-                        artist="Eliott"
+                        artist="Travis Scott"
                         canBeDeleted={toggled}
                     >
                     </SpotifyArtistSongs>

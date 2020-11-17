@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#00000',
         textAlign: 'center',
         overflow: 'visible',
+        borderRight: '1vh solid cornflowerblue'
     },
     // Buttons
     destroyButton: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 // WEATHER FORECAST
 export default function WeatherForecast(props) {
     const classes = useStyles();
-    const {city, borderColor, canBeDeleted, refreshTime} = props;
+    const {city, canBeDeleted, refreshTime} = props;
 
     const destroyWidget = async () => {
         alert('vous me le bannez lui!');

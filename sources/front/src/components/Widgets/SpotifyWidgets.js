@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#00000',
         textAlign: 'center',
         overflow: 'visible',
+        borderRight: '1vh solid springgreen'
     },
     // Buttons
     destroyButton: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 // ARTIST TOP SONGS
 function SpotifyArtistSongs(props) {
     const classes = useStyles();
-    const {artist, borderColor, canBeDeleted, refreshTime} = props;
+    const {artist, canBeDeleted, refreshTime} = props;
 
     const destroyWidget = async () => {
         alert('vous me le bannez lui!');
@@ -59,7 +60,7 @@ function SpotifyArtistSongs(props) {
 // USER PLAYLISTS
 function SpotifyUserPlaylists(props) {
     const classes = useStyles();
-    const {user, borderColor, canBeDeleted, refreshTime} = props;
+    const {user, canBeDeleted, refreshTime} = props;
 
     const destroyWidget = async () => {
         alert('vous me le bannez lui!');

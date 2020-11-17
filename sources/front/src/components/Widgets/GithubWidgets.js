@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#00000',
         textAlign: 'center',
         overflow: 'visible',
+        borderRight: '1vh solid dimgrey'
     },
     // Buttons
     destroyButton: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 // USER PUBLIC REPOSITORIES
 function GithubUserRepos(props) {
     const classes = useStyles();
-    const {user, borderColor, canBeDeleted, refreshTime} = props;
+    const {user, canBeDeleted, refreshTime} = props;
 
     const destroyWidget = async () => {
         alert('vous me le bannez lui!');
@@ -59,7 +60,7 @@ function GithubUserRepos(props) {
 // REPOSITORY LAST PUSHS
 function GithubRepoPushs(props) {
     const classes = useStyles();
-    const {repo, borderColor, canBeDeleted, refreshTime} = props;
+    const {repo, canBeDeleted, refreshTime} = props;
 
     const destroyWidget = async () => {
         alert('vous me le bannez lui!');

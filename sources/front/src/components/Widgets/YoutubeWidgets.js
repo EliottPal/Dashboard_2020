@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#00000',
         textAlign: 'center',
         overflow: 'visible',
+        borderRight: '1vh solid red'
     },
     // Buttons
     destroyButton: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 // SUBSCRIBER COUNT
 function YoutubeSubCount(props) {
     const classes = useStyles();
-    const {youtuber, borderColor, canBeDeleted, refreshTime} = props;
+    const {youtuber, canBeDeleted, refreshTime} = props;
 
     const destroyWidget = async () => {
         alert('vous me le bannez lui!');
@@ -59,7 +60,7 @@ function YoutubeSubCount(props) {
 // LAST VIDEO
 function YoutubeLastVideo(props) {
     const classes = useStyles();
-    const {youtuber, borderColor, canBeDeleted, refreshTime} = props;
+    const {youtuber, canBeDeleted, refreshTime} = props;
 
     const destroyWidget = async () => {
         alert('vous me le bannez lui!');

@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#00000',
         textAlign: 'center',
         overflow: 'visible',
+        borderRight: '1vh solid gold'
     },
     // Buttons
     destroyButton: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 // MONEY COUNVERTER
 export default function MoneyConverter(props) {
     const classes = useStyles();
-    const {currency1, currency2, borderColor, canBeDeleted, refreshTime} = props;
+    const {currency1, currency2, canBeDeleted, refreshTime} = props;
 
     const destroyWidget = async () => {
         alert('vous me le bannez lui!');

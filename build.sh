@@ -1,5 +1,4 @@
 #!/usr/bin/sh
-# Laenppkh56
 
 echo -e "\e[1;32m#### Front -> installing node modules ####\e[0m"
 cd sources/front
