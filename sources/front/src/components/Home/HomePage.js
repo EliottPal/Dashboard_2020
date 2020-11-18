@@ -206,11 +206,16 @@ function HomePage(props) {
                         canBeDeleted={toggled}
                     >
                     </YoutubeLastVideo> */}
-                    {/* <SpotifyArtistSongs
+                    <SpotifyArtistSongs
                         artist="Travis Scott"
                         canBeDeleted={toggled}
                     >
-                    </SpotifyArtistSongs> */}
+                    </SpotifyArtistSongs>
+                    <SpotifyUserPlaylists
+                        user="Zoujoko"
+                        canBeDeleted={toggled}
+                    >
+                    </SpotifyUserPlaylists>
                     {/* <GithubRepoPushs
                         repo="RType"
                         canBeDeleted={toggled}

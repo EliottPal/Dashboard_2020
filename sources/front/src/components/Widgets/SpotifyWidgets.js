@@ -1,18 +1,32 @@
 import React, { useState } from 'react';
+import { Link, navigate } from '@reach/router';
 import { makeStyles } from "@material-ui/core/styles";
 import Draggable from 'react-draggable';
-import {Card, Typography, Fab, Button } from '@material-ui/core';
+import {Card, Typography, Fab, Button, Divider } from '@material-ui/core';
+import {List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import iconSpotify from './../../assets/icons/32/spotify.png'
+import tmpCover from './../../assets/albumCover.jpg'
 
 const useStyles = makeStyles((theme) => ({
+    // ROOT
+    root1: {
+        width: '100%',
+        maxWidth: '60vh',
+      },
+      root2: {
+        width: '100%',
+        maxWidth: '60vh',
+        maxHeight: '30vh',
+        overflow: 'auto'
+      },
     // Card
     card: {
         width: '30%',
-        minHeight: '30vh',
+        Height: '30vh',
         backgroundColor: '#f5f5f5',
         color: '#00000',
-        borderRight: '1vh solid springgreen',
+        borderRight: '1vh solid #00d95f',
         textAlign: 'center',
         overflow: 'visible',
     },
@@ -29,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
         position: 'absolute',
         height: '4vh',
         width: '4vh',
-        right: '94%',
-        top: '-8%',
+        right: '98%',
+        top: '-3%',
     },
     // Icons
     smallerIcon: {
@@ -42,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
         width: '4.5vh',
         marginRight: '3vh',
     },
+    // Track infos
+    albumCover: {
+        height: '5vh',
+        width: '5vh',
+    }
 }));
 
 // ARTIST TOP SONGS
@@ -49,8 +68,14 @@ function SpotifyArtistSongs(props) {
     const classes = useStyles();
     const {artist, canBeDeleted, refreshTime} = props;
 
+    // DESTORY WIDGET
     const destroyWidget = async () => {
         alert('vous me le bannez lui!');
+    };
+
+    // PLAY SONG
+    const playSong = async (url) => {
+        navigate(url);
     };
 
     return (
@@ -70,6 +95,107 @@ function SpotifyArtistSongs(props) {
                 <Typography variant="h6">Artist Top Tracks</Typography>
             </div>
         <Typography variant="h4" style={{marginTop: '1vh'}} >{artist}</Typography>
+        <List className={classes.root1}>
+            {/* TRACK 1 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="SICKO MODE"
+                    secondary={
+                        <React.Fragment>
+                        <Typography>
+                            4mn05
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+            {/* TRACK 2 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="STOP TRYING TO BE GOD ft LOGIC, J.COLE, NAV & GUNNA"
+                secondary={
+                        <React.Fragment>
+                        <Typography>
+                            4mn05
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+            {/* TRACK 3 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="YOSEMITE"
+                        secondary={
+                        <React.Fragment>
+                        <Typography>
+                            4mn05
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+            {/* TRACK 4 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="BUTTERFLY EFFECT"
+                        secondary={
+                        <React.Fragment>
+                        <Typography>
+                            4mn05
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+            {/* TRACK 5 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="STARGAZING"
+                        secondary={
+                        <React.Fragment>
+                        <Typography>
+                            4mn05
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+        </List>
         </Card>
     </Draggable>
     );
@@ -84,8 +210,13 @@ function SpotifyUserPlaylists(props) {
         alert('vous me le bannez lui!');
     };
 
+    // PLAY SONG
+    const playSong = async (url) => {
+        navigate(url);
+    };
+
     return (
-    <Draggable grid={[25, 25]} bounds="parent">
+        <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
             {!canBeDeleted? null :
                 <Fab
@@ -96,7 +227,150 @@ function SpotifyUserPlaylists(props) {
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>
             }
-        <Typography variant="h6">{user}</Typography>
+            <div className={classes.headerDiv}>
+                <img src={iconSpotify} className={classes.icon}/>
+                <Typography variant="h6">Public Playlists</Typography>
+            </div>
+        <Typography variant="h4" style={{marginTop: '1vh'}} >{user}</Typography>
+        <List className={classes.root2}>
+            {/* TRACK 1 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="Tokyo Machine le Goat"
+                    secondary={
+                        <React.Fragment>
+                        <Typography>
+                            Description de la playlist
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+            {/* TRACK 2 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="YATOU"
+                secondary={
+                        <React.Fragment>
+                        <Typography>
+                            Description de la playlist
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+            {/* TRACK 3 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="Lofi, chillhop, chill beats to relax / study to 24/24"
+                        secondary={
+                        <React.Fragment>
+                        <Typography>
+                            Description de la playlist
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+            {/* TRACK 4 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="Oldies but goodies"
+                        secondary={
+                        <React.Fragment>
+                        <Typography>
+                            Description de la playlist
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+            {/* TRACK 5 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="EDM"
+                        secondary={
+                        <React.Fragment>
+                        <Typography>
+                            Description de la playlist
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            {/* TRACK 5 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="Rap tout terrain"
+                        secondary={
+                        <React.Fragment>
+                        <Typography>
+                            Description de la playlist
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+            {/* TRACK 5 */}
+            <ListItem
+                button
+                alignItems="flex-start"
+                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+            >
+                <ListItemAvatar>
+                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                </ListItemAvatar>
+                <ListItemText primary="OST"
+                        secondary={
+                        <React.Fragment>
+                        <Typography>
+                            Description de la playlist
+                        </Typography>
+                        </React.Fragment>
+                    }
+                />
+            </ListItem>
+        </List>
         </Card>
     </Draggable>
     );
