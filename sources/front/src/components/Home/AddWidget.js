@@ -10,6 +10,13 @@ import iconSpotify from './../../assets/icons/64/spotify.png'
 import iconGithub from './../../assets/icons/64/github.png'
 import iconWeather from './../../assets/icons/64/weather.png'
 import iconMoney from './../../assets/icons/64/money.png'
+// Widgets Imports
+import {YoutubeSubCount, YoutubeLastVideo} from '../Widgets/YoutubeWidgets';
+import {SpotifyArtistSongs, SpotifyUserPlaylists} from '../Widgets/SpotifyWidgets';
+import {GithubUserRepos, GithubRepoPushs} from '../Widgets/GithubWidgets';
+import MoneyConverter from '../Widgets/MoneyWidget';
+import WeatherForecast from '../Widgets/WeatherWidget';
+
 
 const useStyles = makeStyles((theme) => ({
     // Dialog
@@ -22,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 // CHOOSE WIDGET
 function WidgetSelection(props) {
-    const {title, subtitle, widget1, widget2, icon} = props;
+    const {title, subtitle, widget1, widget2, icon, displayWidgets, setDisplayWidgets} = props;
 
     const [openConfig, setOpenConfig] = useState(false);
     const [type, setType] = useState(0);
@@ -62,7 +69,15 @@ function WidgetSelection(props) {
                 </div>
             )}
             {openConfig === true && (
-                <WidgetConfig type={type} title={title} subtitle="Configuration" icon={icon} label="Name" global={title}/>
+                <WidgetConfig
+                    type={type}
+                    title={title}
+                    subtitle="Configuration"
+                    icon={icon} label="Name"
+                    global={title}
+                    displayWidgets={displayWidgets}
+                    setDisplayWidgets={setDisplayWidgets}
+                />
             )}
         </div>
     )
@@ -70,8 +85,44 @@ function WidgetSelection(props) {
 
 // CONFIG SELECTED WIDGET
 function WidgetConfig(props) {
-    const {type, title, subtitle, icon, label, global} = props;
+    const {type, title, subtitle, icon, label, global, displayWidgets, setDisplayWidgets} = props;
     const [name, setName] = useState('');
+
+    var tmp = [...displayWidgets];
+
+    const createWidget = (type, title, name) => {
+        if (title === "YouTube") {
+            if (type === 0) {
+                tmp.push({name: "youtube-subcount", content: <YoutubeSubCount youtuber={name} canBeDeleted={false}/>})
+                setDisplayWidgets(tmp);
+            }
+            if (type === 1) {
+                tmp.push({name: "youtube-video", content: <YoutubeLastVideo youtuber={name} canBeDeleted={false}/>})
+                setDisplayWidgets(tmp);
+            }
+        }
+        if (title === "Spotify") {
+            if (type === 0) {
+                tmp.push({name: "spotify-artist", content: <SpotifyArtistSongs artist={name} canBeDeleted={false}/>})
+                setDisplayWidgets(tmp);
+            }
+            if (type === 1) {
+                tmp.push({name: "spotify-playlist", content: <SpotifyUserPlaylists user={name} canBeDeleted={false}/>})
+                setDisplayWidgets(tmp);
+            }
+        }
+        if (title === "Github") {
+            if (type === 0) {
+                tmp.push({name: "github-user", content: <GithubUserRepos user={name} canBeDeleted={false}/>})
+                setDisplayWidgets(tmp);
+            }
+            if (type === 1) {
+                tmp.push({name: "github-repo", content: <GithubRepoPushs repo={name} canBeDeleted={false}/>})
+                setDisplayWidgets(tmp);
+            }
+        }
+        console.log(displayWidgets.length);
+    }
 
     return (
         <div>
@@ -99,7 +150,7 @@ function WidgetConfig(props) {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => alert("yes")}
+                    onClick={() => createWidget(type, title, name)}
                 >
                     Create widget
                 </Button>
@@ -111,7 +162,12 @@ function WidgetConfig(props) {
 // MAIN POPUP
 export default function AddWidget(props) {
     const classes = useStyles();
-    const {openWidgetAdder, setOpenWidgetAdder} = props;
+    const {
+        openWidgetAdder,
+        setOpenWidgetAdder,
+        displayWidgets,
+        setDisplayWidgets
+    } = props;
 
     const [showYoutube, setShowYoutube] = useState(false);
     const [showSpotify, setShowSpotify] = useState(false);
@@ -238,6 +294,8 @@ export default function AddWidget(props) {
                         widget1="Subscribers count"
                         widget2="Last video"
                         icon={iconYoutube}
+                        displayWidgets={displayWidgets}
+                        setDisplayWidgets={setDisplayWidgets}
                     />
                 )}
                 {showSpotify === true && (
@@ -247,6 +305,8 @@ export default function AddWidget(props) {
                         widget1="Artist's top songs"
                         widget2="User's public playlists"
                         icon={iconSpotify}
+                        displayWidgets={displayWidgets}
+                        setDisplayWidgets={setDisplayWidgets}
                     />
                 )}
                 {showGithub === true && (
@@ -256,6 +316,8 @@ export default function AddWidget(props) {
                         widget1="User's public repositories"
                         widget2="Repository last commits"
                         icon={iconGithub}
+                        displayWidgets={displayWidgets}
+                        setDisplayWidgets={setDisplayWidgets}
                     />
                 )}
             </Dialog>

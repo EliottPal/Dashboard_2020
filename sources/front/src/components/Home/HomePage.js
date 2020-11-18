@@ -116,6 +116,7 @@ function HomePage(props) {
     const [toggled, setToggled] = React.useState(false);
     const [openPopup, setOpenPopup] = React.useState(false);
     const [openWidgetAdder, setOpenWidgetAdder] = React.useState(false);
+    const [displayWidgets, setDisplayWidgets] = React.useState([]);
 
     // CHECK IF USER IS LOGGED IN
     if (!props.location.state) {
@@ -196,42 +197,9 @@ function HomePage(props) {
                 </div>
                 {/* DRAGGABLES */}
                 <div className="draggableZone">
-                    {/* <YoutubeSubCount
-                        youtuber="Frigiel"
-                        canBeDeleted={toggled}
-                    >
-                    </YoutubeSubCount>
-                    <YoutubeLastVideo
-                        youtuber="Siphano"
-                        canBeDeleted={toggled}
-                    >
-                    </YoutubeLastVideo> */}
-                    <SpotifyArtistSongs
-                        artist="Travis Scott"
-                        canBeDeleted={toggled}
-                    >
-                    </SpotifyArtistSongs>
-                    <SpotifyUserPlaylists
-                        user="Zoujoko"
-                        canBeDeleted={toggled}
-                    >
-                    </SpotifyUserPlaylists>
-                    {/* <GithubRepoPushs
-                        repo="RType"
-                        canBeDeleted={toggled}
-                    >
-                    </GithubRepoPushs>
-                    <MoneyConverter
-                        currency1="Dollar"
-                        currency2="Euro"
-                        canBeDeleted={toggled}
-                    >
-                    </MoneyConverter>*/}
-                    {/* <WeatherForecast
-                        city="Rennes"
-                        canBeDeleted={toggled}
-                    >
-                    </WeatherForecast> */}
+                {displayWidgets.map((item, key) => (
+                        React.cloneElement(item.content, {key: key})
+                    ))}
                 </div>
                 {/* PROFILE POPUP DIALOG */}
                 <ProfilePopup
@@ -244,6 +212,8 @@ function HomePage(props) {
                 <AddWidget
                     openWidgetAdder={openWidgetAdder}
                     setOpenWidgetAdder={setOpenWidgetAdder}
+                    displayWidgets={displayWidgets}
+                    setDisplayWidgets={setDisplayWidgets}
                 ></AddWidget>
             </div>
         </StylesProvider>
