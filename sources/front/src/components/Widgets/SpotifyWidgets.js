@@ -3,17 +3,26 @@ import { makeStyles } from "@material-ui/core/styles";
 import Draggable from 'react-draggable';
 import {Card, Typography, Fab, Button } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import iconSpotify from './../../assets/icons/32/spotify.png'
 
 const useStyles = makeStyles((theme) => ({
     // Card
     card: {
-        width: '20%',
-        minHeight: '20vh',
+        width: '30%',
+        minHeight: '30vh',
         backgroundColor: '#f5f5f5',
         color: '#00000',
+        borderRight: '1vh solid springgreen',
         textAlign: 'center',
         overflow: 'visible',
-        borderRight: '1vh solid springgreen'
+    },
+    //Divs
+    headerDiv: {
+        marginTop: '0.5vh',
+        marginLeft: '-33vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     // Buttons
     destroyButton: {
@@ -27,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
     smallerIcon: {
         height: '2vh',
         width: '2vh',
+    },
+    icon: {
+        height: '4.5vh',
+        width: '4.5vh',
+        marginRight: '3vh',
     },
 }));
 
@@ -51,7 +65,11 @@ function SpotifyArtistSongs(props) {
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>
             }
-        <Typography variant="h6">{artist}</Typography>
+            <div className={classes.headerDiv}>
+                <img src={iconSpotify} className={classes.icon}/>
+                <Typography variant="h6">Artist Top Tracks</Typography>
+            </div>
+        <Typography variant="h4" style={{marginTop: '1vh'}} >{artist}</Typography>
         </Card>
     </Draggable>
     );

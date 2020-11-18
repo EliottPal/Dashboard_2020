@@ -8,9 +8,9 @@ import { List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mate
 import PersonIcon from '@material-ui/icons/Person';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
-import iconYoutube from './../../assets/icons/youtube.png'
-import iconSpotify from './../../assets/icons/spotify.png'
-import iconGithub from './../../assets/icons/github.png'
+import iconYoutube from './../../assets/icons/64/youtube.png'
+import iconSpotify from './../../assets/icons/64/spotify.png'
+import iconGithub from './../../assets/icons/64/github.png'
 
 const useStyles = makeStyles((theme) => ({
     // Dialog

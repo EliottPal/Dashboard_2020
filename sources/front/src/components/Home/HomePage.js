@@ -196,17 +196,22 @@ function HomePage(props) {
                 </div>
                 {/* DRAGGABLES */}
                 <div className="draggableZone">
-                    <YoutubeSubCount
-                        artist="Locklear"
+                    {/* <YoutubeSubCount
+                        youtuber="Frigiel"
                         canBeDeleted={toggled}
                     >
                     </YoutubeSubCount>
-                    <SpotifyArtistSongs
+                    <YoutubeLastVideo
+                        youtuber="Siphano"
+                        canBeDeleted={toggled}
+                    >
+                    </YoutubeLastVideo> */}
+                    {/* <SpotifyArtistSongs
                         artist="Travis Scott"
                         canBeDeleted={toggled}
                     >
-                    </SpotifyArtistSongs>
-                    <GithubRepoPushs
+                    </SpotifyArtistSongs> */}
+                    {/* <GithubRepoPushs
                         repo="RType"
                         canBeDeleted={toggled}
                     >
@@ -216,12 +221,12 @@ function HomePage(props) {
                         currency2="Euro"
                         canBeDeleted={toggled}
                     >
-                    </MoneyConverter>
-                    <WeatherForecast
+                    </MoneyConverter>*/}
+                    {/* <WeatherForecast
                         city="Rennes"
                         canBeDeleted={toggled}
                     >
-                    </WeatherForecast>
+                    </WeatherForecast> */}
                 </div>
                 {/* PROFILE POPUP DIALOG */}
                 <ProfilePopup

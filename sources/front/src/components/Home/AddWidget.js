@@ -5,11 +5,11 @@ import { Dialog, DialogTitle, DialogContent, Typography, CardActionArea, Button 
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import './AddWidget.css';
-import iconYoutube from './../../assets/icons/youtube.png'
-import iconSpotify from './../../assets/icons/spotify.png'
-import iconGithub from './../../assets/icons/github.png'
-import iconWeather from './../../assets/icons/weather.png'
-import iconMoney from './../../assets/icons/money.png'
+import iconYoutube from './../../assets/icons/64/youtube.png'
+import iconSpotify from './../../assets/icons/64/spotify.png'
+import iconGithub from './../../assets/icons/64/github.png'
+import iconWeather from './../../assets/icons/64/weather.png'
+import iconMoney from './../../assets/icons/64/money.png'
 
 const useStyles = makeStyles((theme) => ({
     // Dialog
