@@ -111,8 +111,7 @@ function HomePage(props) {
     // PRINT: console.log(props.location.state.username);
 
     const classes = useStyles();
-    var date = new Date();
-
+    const date = new Date();
     const [toggled, setToggled] = React.useState(false);
     const [openPopup, setOpenPopup] = React.useState(false);
     const [openWidgetAdder, setOpenWidgetAdder] = React.useState(false);
@@ -197,7 +196,7 @@ function HomePage(props) {
                 </div>
                 {/* DRAGGABLES */}
                 <div className="draggableZone">
-                {displayWidgets.map((item, key) => (
+                    {displayWidgets.map((item, key) => (
                         React.cloneElement(item.content, {key: key})
                     ))}
                 </div>

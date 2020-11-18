@@ -9,17 +9,17 @@ import iconSpotify from './../../assets/icons/32/spotify.png'
 import tmpCover from './../../assets/albumCover.jpg'
 
 const useStyles = makeStyles((theme) => ({
-    // ROOT
+    // List
     root1: {
         width: '100%',
         maxWidth: '60vh',
       },
-      root2: {
-        width: '100%',
-        maxWidth: '60vh',
-        maxHeight: '30vh',
-        overflow: 'auto'
-      },
+    root2: {
+    width: '100%',
+    maxWidth: '60vh',
+    maxHeight: '30vh',
+    overflow: 'auto'
+    },
     // Card
     card: {
         width: '30%',
@@ -94,108 +94,108 @@ function SpotifyArtistSongs(props) {
                 <img src={iconSpotify} className={classes.icon}/>
                 <Typography variant="h6">Artist Top Tracks</Typography>
             </div>
-        <Typography variant="h4" style={{marginTop: '1vh'}} >{artist}</Typography>
-        <List className={classes.root1}>
-            {/* TRACK 1 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="SICKO MODE"
+            <Typography variant="h4" style={{marginTop: '1vh'}} >{artist}</Typography>
+            <List className={classes.root1}>
+                {/* TRACK 1 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="SICKO MODE"
+                        secondary={
+                            <React.Fragment>
+                            <Typography>
+                                4mn05
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* TRACK 2 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="STOP TRYING TO BE GOD ft LOGIC, J.COLE, NAV & GUNNA"
                     secondary={
-                        <React.Fragment>
-                        <Typography>
-                            4mn05
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            {/* TRACK 2 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="STOP TRYING TO BE GOD ft LOGIC, J.COLE, NAV & GUNNA"
-                secondary={
-                        <React.Fragment>
-                        <Typography>
-                            4mn05
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            {/* TRACK 3 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="YOSEMITE"
-                        secondary={
-                        <React.Fragment>
-                        <Typography>
-                            4mn05
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            {/* TRACK 4 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="BUTTERFLY EFFECT"
-                        secondary={
-                        <React.Fragment>
-                        <Typography>
-                            4mn05
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            {/* TRACK 5 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="STARGAZING"
-                        secondary={
-                        <React.Fragment>
-                        <Typography>
-                            4mn05
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-        </List>
+                            <React.Fragment>
+                            <Typography>
+                                4mn05
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* TRACK 3 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="YOSEMITE"
+                            secondary={
+                            <React.Fragment>
+                            <Typography>
+                                4mn05
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* TRACK 4 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="BUTTERFLY EFFECT"
+                            secondary={
+                            <React.Fragment>
+                            <Typography>
+                                4mn05
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* TRACK 5 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="STARGAZING"
+                            secondary={
+                            <React.Fragment>
+                            <Typography>
+                                4mn05
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+            </List>
         </Card>
     </Draggable>
     );
