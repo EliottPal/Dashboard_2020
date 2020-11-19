@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { makeStyles } from "@material-ui/core/styles";
 import Draggable from 'react-draggable';
 import ReactPlayer from 'react-player';
 import {Card, Typography, Fab, Button, Hidden } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import iconYoutube from './../../assets/icons/32/youtube.png'
+
+const API_KEY = "AIzaSyBsMo02XRMHu2U_Ztk4givd6lhT1rvAb2U";
+var subCount = 0;
 
 const useStyles = makeStyles((theme) => ({
     // Card
@@ -83,12 +87,42 @@ const useStyles = makeStyles((theme) => ({
 function YoutubeSubCount(props) {
     const classes = useStyles();
     const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    var channelID = null;
 
     const destroyWidget = async () => {
         console.log(widgetsArray.length);
         widgetsArray.splice(index, 1);
         console.log(widgetsArray.length);
     };
+
+    // GET SUBSCRIBERS COUNT
+    const getSubscribers = async () => {
+       // Get Channel Id from username
+        const ret = await axios.get('https://www.googleapis.com/youtube/v3/channels', {
+            params: {
+                part: 'statistics',
+                key: API_KEY,
+                forUsername: youtuber,
+                part: 'id',
+            },
+            method: 'GET'
+        })
+        channelID = ret.data.items[0].id;
+
+        // Get sub count
+        const ret2 = await axios.get('https://www.googleapis.com/youtube/v3/channels', {
+            params: {
+                part: 'statistics',
+                id: channelID,
+                key: API_KEY,
+            },
+            method: 'GET'
+        })
+        subCount = ret2.data.items[0].statistics.subscriberCount;
+        subCount = subCount.toLocaleString();
+    }
+
+    getSubscribers();
 
     console.log(index);
     return (
@@ -108,7 +142,7 @@ function YoutubeSubCount(props) {
             <Typography variant="h6">Subscribers count</Typography>
         </div>
         <Typography variant="h4" style={{marginTop: '1vh'}} >{youtuber}</Typography>
-        <Typography className={classes.subNbr} >1,050,634</Typography>
+        <Typography className={classes.subNbr} >{subCount}</Typography>
         </Card>
     </Draggable>
     );
