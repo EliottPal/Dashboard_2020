@@ -86,13 +86,15 @@ const useStyles = makeStyles((theme) => ({
 export default function WeatherForecast(props) {
     const classes = useStyles();
     const {city, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const [isDeleted, setIsDeleted] = useState(false);
     const date = new Date();
     const hour1 = date.getHours();
     const hour2 = date.getHours() + 1;
     const hour3 = date.getHours() + 2;
 
     const destroyWidget = async () => {
-        widgetsArray.splice(index, 1)
+        widgetsArray.splice(index, 1);
+        setIsDeleted(true);
     };
 
     return (
@@ -103,6 +105,7 @@ export default function WeatherForecast(props) {
                     color="secondary"
                     className={classes.destroyButton}
                     onClick={() => destroyWidget()}
+                    disabled={isDeleted}
                 >
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>

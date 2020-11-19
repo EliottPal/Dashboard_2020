@@ -87,11 +87,13 @@ const useStyles = makeStyles((theme) => ({
 function YoutubeSubCount(props) {
     const classes = useStyles();
     const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const [isDeleted, setIsDeleted] = useState(false);
     var channelID = null;
 
     const destroyWidget = async () => {
         console.log(widgetsArray.length);
         widgetsArray.splice(index, 1);
+        setIsDeleted(true)
         console.log(widgetsArray.length);
     };
 
@@ -122,7 +124,7 @@ function YoutubeSubCount(props) {
         subCount = subCount.toLocaleString();
     }
 
-    getSubscribers();
+    // getSubscribers();
 
     console.log(index);
     return (
@@ -133,6 +135,7 @@ function YoutubeSubCount(props) {
                     color="secondary"
                     className={classes.destroyButton}
                     onClick={() => destroyWidget()}
+                    disabled={isDeleted}
                 >
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>
@@ -152,9 +155,11 @@ function YoutubeSubCount(props) {
 function YoutubeLastVideo(props) {
     const classes = useStyles();
     const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const [isDeleted, setIsDeleted] = useState(false);
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
+        setIsDeleted(true);
     };
 
     return (
@@ -165,6 +170,7 @@ function YoutubeLastVideo(props) {
                     color="secondary"
                     className={classes.destroyButton}
                     onClick={() => destroyWidget()}
+                    disabled={isDeleted}
                 >
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>

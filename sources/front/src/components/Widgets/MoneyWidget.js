@@ -67,9 +67,11 @@ const useStyles = makeStyles((theme) => ({
 export default function MoneyConverter(props) {
     const classes = useStyles();
     const {currency1, currency2, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const [isDeleted, setIsDeleted] = useState(false);
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
+        setIsDeleted(true);
     };
 
     return (
@@ -80,6 +82,7 @@ export default function MoneyConverter(props) {
                     color="secondary"
                     className={classes.destroyButton}
                     onClick={() => destroyWidget()}
+                    disabled={isDeleted}
                 >
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>

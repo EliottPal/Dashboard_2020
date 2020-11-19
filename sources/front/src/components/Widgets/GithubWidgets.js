@@ -34,9 +34,11 @@ const useStyles = makeStyles((theme) => ({
 function GithubUserRepos(props) {
     const classes = useStyles();
     const {user, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const [isDeleted, setIsDeleted] = useState(false);
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
+        setIsDeleted(true);
     };
 
     return (
@@ -47,6 +49,7 @@ function GithubUserRepos(props) {
                     color="secondary"
                     className={classes.destroyButton}
                     onClick={() => destroyWidget()}
+                    disabled={isDeleted}
                 >
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>
@@ -61,9 +64,11 @@ function GithubUserRepos(props) {
 function GithubRepoPushs(props) {
     const classes = useStyles();
     const {repo, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const [isDeleted, setIsDeleted] = useState(false);
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
+        setIsDeleted(true);
     };
 
     return (
@@ -74,6 +79,7 @@ function GithubRepoPushs(props) {
                     color="secondary"
                     className={classes.destroyButton}
                     onClick={() => destroyWidget()}
+                    disabled={isDeleted}
                 >
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>

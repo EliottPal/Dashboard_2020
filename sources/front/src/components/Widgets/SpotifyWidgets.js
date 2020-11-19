@@ -67,11 +67,13 @@ const useStyles = makeStyles((theme) => ({
 function SpotifyArtistSongs(props) {
     const classes = useStyles();
     const {artist, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const [isDeleted, setIsDeleted] = useState(false);
 
     // DESTORY WIDGET
     const destroyWidget = async () => {
         console.log(index);
         widgetsArray.splice(index, 1);
+        setIsDeleted(true);
     };
 
     // PLAY SONG
@@ -88,6 +90,7 @@ function SpotifyArtistSongs(props) {
                     color="secondary"
                     className={classes.destroyButton}
                     onClick={() => destroyWidget()}
+                    disabled={isDeleted}
                 >
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>
@@ -207,9 +210,11 @@ function SpotifyArtistSongs(props) {
 function SpotifyUserPlaylists(props) {
     const classes = useStyles();
     const {user, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const [isDeleted, setIsDeleted] = useState(false);
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
+        setIsDeleted(true);
     };
 
     // PLAY SONG
@@ -225,6 +230,7 @@ function SpotifyUserPlaylists(props) {
                     color="secondary"
                     className={classes.destroyButton}
                     onClick={() => destroyWidget()}
+                    disabled={isDeleted}
                 >
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>
