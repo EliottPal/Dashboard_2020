@@ -1,9 +1,12 @@
+// React imports
 import React, { useState } from 'react';
+// Material imports
 import { makeStyles } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
-import { Dialog, DialogTitle, DialogContent, Typography, CardActionArea, Button } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
+import { Dialog, DialogTitle, DialogContent, Typography, Card, CardActionArea, Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import TimerIcon from '@material-ui/icons/Timer';
+// Style & icons imports
 import './AddWidget.css';
 import iconYoutube from './../../assets/icons/64/youtube.png'
 import iconSpotify from './../../assets/icons/64/spotify.png'
@@ -25,6 +28,15 @@ const useStyles = makeStyles((theme) => ({
         top: '20%',
         width: '55vh',
     },
+    // Icons
+    iconTimer: {
+        width: '6vh',
+        height: '6vh',
+        marginRight: '5vh',
+        marginLeft: '2vh',
+        marginTop: '0.5vh',
+        marginBottom: '-0.5vh',
+    }
 }));
 
 // CHOOSE WIDGET
@@ -72,8 +84,8 @@ function WidgetSelection(props) {
                 <WidgetConfig
                     type={type}
                     title={title}
-                    subtitle="Configuration"
-                    icon={icon} label="Name"
+                    subtitle="Configure Widget"
+                    icon={icon}
                     global={title}
                     displayWidgets={displayWidgets}
                     setDisplayWidgets={setDisplayWidgets}
@@ -85,45 +97,74 @@ function WidgetSelection(props) {
 
 // CONFIG SELECTED WIDGET
 function WidgetConfig(props) {
-    const {type, title, subtitle, icon, label, global, displayWidgets, setDisplayWidgets} = props;
-    const [name, setName] = useState('');
+    const classes = useStyles();
+    const {type, title, subtitle, icon, global, displayWidgets, setDisplayWidgets} = props;
+    const [refreshTime, setTime] = useState('');
+    const [name, setName] = useState();
+    var label = null;
 
     var tmp = [...displayWidgets];
 
-    const createWidget = (type, title, name) => {
+    // SELECT INPUT LABEL
+    if (title === "YouTube")
+        label = "Youtube channel";
+    if (title === "Spotify") {
+        if (type === 0)
+            label = "Artist";
+        if (type === 1)
+            label = "Spotify user";
+    }
+    if (title === "Github") {
+        if (type === 0)
+            label = "Github user";
+        if (type === 1)
+            label = "Github Repository";
+    }
+    if (title === "Weather")
+        label = "City";
+
+    // CREATE FUNCTION
+    const createWidget = (type, title, name, refreshTime) => {
+        if (refreshTime.trim() == "")
+            return;
         if (title === "YouTube") {
             if (type === 0) {
-                tmp.push({name: "youtube-subcount", content: <YoutubeSubCount youtuber={name} canBeDeleted={false}/>})
+                label = "Youtube channel";
+                tmp.push({name: "youtube-subcount", content: <YoutubeSubCount refreshTime={refreshTime} youtuber={name} canBeDeleted={false}/>})
                 setDisplayWidgets(tmp);
             }
             if (type === 1) {
-                tmp.push({name: "youtube-video", content: <YoutubeLastVideo youtuber={name} canBeDeleted={false}/>})
+                label = "Youtube channel";
+                tmp.push({name: "youtube-video", content: <YoutubeLastVideo refreshTime={refreshTime} youtuber={name} canBeDeleted={false}/>})
                 setDisplayWidgets(tmp);
             }
         }
         if (title === "Spotify") {
             if (type === 0) {
-                tmp.push({name: "spotify-artist", content: <SpotifyArtistSongs artist={name} canBeDeleted={false}/>})
+                label = "Artist";
+                tmp.push({name: "spotify-artist", content: <SpotifyArtistSongs refreshTime={refreshTime} artist={name} canBeDeleted={false}/>})
                 setDisplayWidgets(tmp);
             }
             if (type === 1) {
-                tmp.push({name: "spotify-playlist", content: <SpotifyUserPlaylists user={name} canBeDeleted={false}/>})
+                label = "Spotify user";
+                tmp.push({name: "spotify-playlist", content: <SpotifyUserPlaylists refreshTime={refreshTime} user={name} canBeDeleted={false}/>})
                 setDisplayWidgets(tmp);
             }
         }
         if (title === "Github") {
             if (type === 0) {
-                tmp.push({name: "github-user", content: <GithubUserRepos user={name} canBeDeleted={false}/>})
+                label = "Github user";
+                tmp.push({name: "github-user", content: <GithubUserRepos refreshTime={refreshTime} user={name} canBeDeleted={false}/>})
                 setDisplayWidgets(tmp);
             }
             if (type === 1) {
-                tmp.push({name: "github-repo", content: <GithubRepoPushs repo={name} canBeDeleted={false}/>})
+                label = "Github Repository";
+                tmp.push({name: "github-repo", content: <GithubRepoPushs refreshTime={refreshTime} repo={name} canBeDeleted={false}/>})
                 setDisplayWidgets(tmp);
             }
         }
         console.log(displayWidgets.length);
     }
-
     return (
         <div>
             {/* HEADER */}
@@ -134,26 +175,41 @@ function WidgetConfig(props) {
                 </div>
             </DialogTitle>
             <DialogContent dividers>
+                {/* INPUT CONFIG */}
                 <Card className="serviceCard" variant="outlined">
                     <img src={icon} className="serviceIcon"/>
                     <TextField
                         required
-                        variant="outlined"
-                        onChange={(e) => setName(e.target.value)}
-                        fullWidth
                         id="name"
                         label={label}
-                        name="name"
                         value={name}
+                        className="configInput"
+                        onChange={(e) => setName(e.target.value)}
                     />
                 </Card>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => createWidget(type, title, name)}
-                >
-                    Create widget
-                </Button>
+                {/* REFRESH TIME CONFIG */}
+                <Card className="serviceCard" variant="outlined">
+                    <TimerIcon className={classes.iconTimer}/>
+                    <TextField
+                        required
+                        type="number"
+                        id="refreshTime"
+                        label="Refresh Time"
+                        value={refreshTime}
+                        className="configInput"
+                        onChange={(e) => setTime(e.target.value)}
+                    />
+                    {/* CREATE BUTTON */}
+                </Card>
+                <div className="createButton">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => createWidget(type, title, name, refreshTime)}
+                    >
+                        Create widget
+                    </Button>
+                </div>
             </DialogContent>
         </div>
     )
@@ -218,7 +274,6 @@ export default function AddWidget(props) {
         setMainView(false);
     }
 
-    console.log(mainView);
     return (
         <StylesProvider>
             <Dialog

@@ -49,3 +49,15 @@
     position: absolute;
     right: 80%;
 }
+
+/* CONFIGS CARD */
+.configInput {
+    width: 30vh;
+    margin-top: 0.5vh;
+}
+
+.createButton {
+    margin-top: 2vh;
+    align-items: center;
+    text-align: center;
+}
