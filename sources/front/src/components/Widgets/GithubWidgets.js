@@ -33,10 +33,10 @@ const useStyles = makeStyles((theme) => ({
 // USER PUBLIC REPOSITORIES
 function GithubUserRepos(props) {
     const classes = useStyles();
-    const {user, canBeDeleted, refreshTime} = props;
+    const {user, canBeDeleted, refreshTime, widgetsArray, index} = props;
 
     const destroyWidget = async () => {
-        alert('vous me le bannez lui!');
+        widgetsArray.splice(index, 1);
     };
 
     return (
@@ -60,10 +60,10 @@ function GithubUserRepos(props) {
 // REPOSITORY LAST PUSHS
 function GithubRepoPushs(props) {
     const classes = useStyles();
-    const {repo, canBeDeleted, refreshTime} = props;
+    const {repo, canBeDeleted, refreshTime, widgetsArray, index} = props;
 
     const destroyWidget = async () => {
-        alert('vous me le bannez lui!');
+        widgetsArray.splice(index, 1);
     };
 
     return (

@@ -66,11 +66,12 @@ const useStyles = makeStyles((theme) => ({
 // ARTIST TOP SONGS
 function SpotifyArtistSongs(props) {
     const classes = useStyles();
-    const {artist, canBeDeleted, refreshTime} = props;
+    const {artist, canBeDeleted, refreshTime, widgetsArray, index} = props;
 
     // DESTORY WIDGET
     const destroyWidget = async () => {
-        alert('vous me le bannez lui!');
+        console.log(index);
+        widgetsArray.splice(index, 1);
     };
 
     // PLAY SONG
@@ -78,6 +79,7 @@ function SpotifyArtistSongs(props) {
         navigate(url);
     };
 
+    console.log(index);
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
@@ -204,10 +206,10 @@ function SpotifyArtistSongs(props) {
 // USER PLAYLISTS
 function SpotifyUserPlaylists(props) {
     const classes = useStyles();
-    const {user, canBeDeleted, refreshTime} = props;
+    const {user, canBeDeleted, refreshTime, widgetsArray, index} = props;
 
     const destroyWidget = async () => {
-        alert('vous me le bannez lui!');
+        widgetsArray.splice(index, 1);
     };
 
     // PLAY SONG

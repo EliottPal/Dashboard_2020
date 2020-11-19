@@ -82,12 +82,15 @@ const useStyles = makeStyles((theme) => ({
 // SUBSCRIBER COUNT
 function YoutubeSubCount(props) {
     const classes = useStyles();
-    const {youtuber, canBeDeleted, refreshTime} = props;
+    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
 
     const destroyWidget = async () => {
-        alert('vous me le bannez lui!');
+        console.log(widgetsArray.length);
+        widgetsArray.splice(index, 1);
+        console.log(widgetsArray.length);
     };
 
+    console.log(index);
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
@@ -114,10 +117,10 @@ function YoutubeSubCount(props) {
 // LAST VIDEO
 function YoutubeLastVideo(props) {
     const classes = useStyles();
-    const {youtuber, canBeDeleted, refreshTime} = props;
+    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
 
     const destroyWidget = async () => {
-        alert('vous me le bannez lui!');
+        widgetsArray.splice(index, 1);
     };
 
     return (

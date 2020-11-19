@@ -197,8 +197,8 @@ function HomePage(props) {
                 </div>
                 {/* DRAGGABLES */}
                 <div className="draggableZone">
-                    {displayWidgets.map((item, key) => (
-                        React.cloneElement(item.content, {key: key})
+                    {displayWidgets.map((item, index) => (
+                        React.cloneElement(item.content, {index, canBeDeleted: toggled, widgetsArray: displayWidgets}, {key: index})
                     ))}
                 </div>
                 {/* PROFILE POPUP DIALOG */}

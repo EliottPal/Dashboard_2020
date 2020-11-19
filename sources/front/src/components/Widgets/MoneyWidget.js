@@ -66,10 +66,10 @@ const useStyles = makeStyles((theme) => ({
 // MONEY COUNVERTER
 export default function MoneyConverter(props) {
     const classes = useStyles();
-    const {currency1, currency2, canBeDeleted, refreshTime} = props;
+    const {currency1, currency2, canBeDeleted, refreshTime, widgetsArray, index} = props;
 
     const destroyWidget = async () => {
-        alert('vous me le bannez lui!');
+        widgetsArray.splice(index, 1);
     };
 
     return (
