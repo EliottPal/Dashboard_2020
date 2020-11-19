@@ -11,6 +11,8 @@ import CheckIcon from '@material-ui/icons/Check';
 import iconYoutube from './../../assets/icons/64/youtube.png'
 import iconSpotify from './../../assets/icons/64/spotify.png'
 import iconGithub from './../../assets/icons/64/github.png'
+import userRequests from '../../apiConnector';
+import { GoogleLogin } from 'react-google-login';
 
 const useStyles = makeStyles((theme) => ({
     // Dialog
@@ -97,15 +99,14 @@ const LoggedChip = ({ logged }) => {
 export default function ProfilePopup(props) {
     const classes = useStyles();
     const {openPopup, setOpenPopup, userName, coverImg} = props;
+    const [youtubeLogged, setYoutubeLogged] = useState(false);
+    const [spotifyLogged, setSpotifyLogged] = useState(false);
+    const [githubLogged, setGithubLogged] = useState(false);
+    const [accessToken, setAccessToken] = useState('');
 
     // CLOSE POPUP BY CLICKING OUTSIDE
     const handleClose = () => {
         setOpenPopup(false);
-    };
-
-    // REDIRECT TO YOUTUBE OAUTH2
-    const loginYoutube = async () => {
-        alert('Youtube');
     };
 
     // REDIRECT TO SPOTIFY OAUTH2
@@ -117,6 +118,14 @@ export default function ProfilePopup(props) {
     const loginGithub = async () => {
         alert('Github');
     };
+
+    const responseGoogle = (response) => {
+        console.log(response.accessToken);
+        setAccessToken(response.accessToken);
+        setYoutubeLogged(true);
+    }
+
+    const clientId = '77078160299-k9vf37ebaet0k2phpt6s3811vnraau1q.apps.googleusercontent.com';
 
     return (
         <StylesProvider injectFirst>
@@ -149,21 +158,36 @@ export default function ProfilePopup(props) {
                             }
                         >
                             {/* YOUTUBE SERVICE */}
-                            <ListItem
-                                variant="outlined"
-                                button onClick={() => loginYoutube()}
-                                className={classes.listItem}
-                            >
-                                <ListItemIcon>
-                                    <img src={iconYoutube} />
-                                </ListItemIcon>
-                                <ListItemText
-                                    disableTypography
-                                    className={classes.serviceName}
-                                    primary="Youtube"
-                                />
-                            </ListItem>
-                            <LoggedChip logged={false}></LoggedChip>
+                            {/* <GoogleLogin
+                                clientId={clientId}
+                                buttonText="Login"
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy={'single_host_origin'}
+                            /> */}
+                            <GoogleLogin
+                                clientId={clientId}
+                                render={renderProps => (
+                                    <ListItem
+                                    variant="outlined"
+                                    button onClick={renderProps.onClick}
+                                    className={classes.listItem}
+                                >
+                                    <ListItemIcon>
+                                        <img src={iconYoutube} />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        disableTypography
+                                        className={classes.serviceName}
+                                        primary="Youtube"
+                                    />
+                                </ListItem>
+                                )}
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy={'single_host_origin'}
+                            />
+                            <LoggedChip logged={youtubeLogged}></LoggedChip>
                             {/* SPOTIFY SERVICE */}
                             <ListItem
                                 button onClick={() => loginSpotify()}
@@ -178,8 +202,8 @@ export default function ProfilePopup(props) {
                                     primary="Spotify"
                                 />
                             </ListItem>
-                            <LoggedChip logged={true}></LoggedChip>
-                            {/* GITHUB SPOTIFY */}
+                            <LoggedChip logged={spotifyLogged}></LoggedChip>
+                            {/* GITHUB SERVICE */}
                             <ListItem
                                 button onClick={() => loginGithub()}
                                 className={classes.listItem}
@@ -193,7 +217,7 @@ export default function ProfilePopup(props) {
                                     primary="Github"
                                 />
                             </ListItem>
-                            <LoggedChip logged={false}></LoggedChip>
+                            <LoggedChip logged={githubLogged}></LoggedChip>
                         </List>
                         {/* LOGOUT BUTTON */}
                         <Button

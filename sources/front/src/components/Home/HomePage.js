@@ -139,6 +139,7 @@ function HomePage(props) {
         document.getElementById('coverImage').style.backgroundImage=`url(${coverImg})`;
     };
 
+    //
     return (
         <StylesProvider injectFirst>
             <div className="mainDiv">

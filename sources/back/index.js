@@ -42,6 +42,12 @@ var userDatas = mongooseService.Schema({
   email: String,
   password: String,
   username: String,
+  google           : {
+    id           : String,
+    token        : String,
+    email        : String,
+    name         : String
+  }
 });
 
 var User = mongooseService.model('User', userDatas);
@@ -77,6 +83,20 @@ serverRouter.route('/')
     .delete(function(req, res) {
         console.log("delete")
     });
+
+serverRouter.route('/home')
+    .get(function(req, res) {
+      console.log("GET HOME");
+    })
+    .post(function(req, res) {
+      console.log("POST HOME");
+    })
+    .put(function(req, res) {
+      console.log("PUT HOME");
+    })
+    .delete(function(req, res) {
+      console.log("DELETE HOME");
+    })
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

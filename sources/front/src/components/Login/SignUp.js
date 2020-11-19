@@ -99,18 +99,23 @@ class SignUp extends React.Component {
         this.setState({password: event.target.value})
     }
 
+    refreshPage() {
+        userRequests.addUserDatabase(this.state.email, this.state.password, this.state.username)
+        window.location.reload(true);
+    }
+
     render() {
         let signUpButton;
 
         if (this.checkSignUp()) {
             signUpButton = <Button
-                                onClick={() => userRequests.addUserDatabase(this.state.email, this.state.password, this.state.username)}
+                                onClick={() => this.refreshPage()}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 className="button-submit"
                                 value="Submit"
-                                component={Link} to={'/home'} state={{username: this.state.username}}
+                                // component={Link} to={'/'}
                             >
                                 Sign Up
                             </Button>
