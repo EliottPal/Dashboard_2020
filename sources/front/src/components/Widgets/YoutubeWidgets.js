@@ -8,8 +8,9 @@ import {Card, Typography, Fab, Button, Hidden } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import iconYoutube from './../../assets/icons/32/youtube.png'
 
-const API_KEY = "AIzaSyBsMo02XRMHu2U_Ztk4givd6lhT1rvAb2U";
+const API_KEY = "AIzaSyAnGQtu8uFSZBVFdjgvff6o5HLcytclPjM";
 var subCount = 0;
+var videoUrl = null;
 
 const useStyles = makeStyles((theme) => ({
     // Card
@@ -124,7 +125,6 @@ function YoutubeSubCount(props) {
         })
         subCount = ret2.data.items[0].statistics.subscriberCount;
     }
-
     getSubscribers();
 
     console.log(index);
@@ -159,11 +159,44 @@ function YoutubeLastVideo(props) {
     const classes = useStyles();
     const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
     const [isDeleted, setIsDeleted] = useState(false);
+    var channelID = null;
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };
+
+    // GET LAST VIDEO FROM CHANNEL
+    const getLastVideo = async () => {
+        // Get Channel Id from username
+        const ret = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+            params: {
+                part: 'snippet',
+                type: 'channel',
+                maxResults: '1',
+                q: youtuber,
+                key: API_KEY,
+            },
+            method: 'GET'
+        })
+        channelID = ret.data.items[0].id.channelId;
+
+        // Get last video
+        const ret2 = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+            params: {
+                part: 'snippet',
+                channelId: channelID,
+                maxResults: '1',
+                order: 'date',
+                type: 'video',
+                key: API_KEY,
+            },
+            method: 'GET'
+        })
+        videoUrl = `https://www.youtube.com/watch?v=${ret2.data.items[0].id.videoId}`;
+        console.log(videoUrl);
+    }
+    getLastVideo()
 
     return (
     <Draggable grid={[25, 25]} bounds="parent">
@@ -189,7 +222,7 @@ function YoutubeLastVideo(props) {
                     height='100%'
                     controls={true}
                     className={classes.player}
-                    url="https://www.youtube.com/watch?v=zbc2LUAP6G4"
+                    url={videoUrl}
                 />
             </div>
         </Card>
