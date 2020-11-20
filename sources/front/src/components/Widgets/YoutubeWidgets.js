@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import NumberFormat from 'react-number-format';
 import { makeStyles } from "@material-ui/core/styles";
 import Draggable from 'react-draggable';
 import ReactPlayer from 'react-player';
@@ -100,16 +101,17 @@ function YoutubeSubCount(props) {
     // GET SUBSCRIBERS COUNT
     const getSubscribers = async () => {
        // Get Channel Id from username
-        const ret = await axios.get('https://www.googleapis.com/youtube/v3/channels', {
+        const ret = await axios.get('https://www.googleapis.com/youtube/v3/search', {
             params: {
-                part: 'statistics',
+                part: 'snippet',
+                type: 'channel',
+                maxResults: '1',
+                q: youtuber,
                 key: API_KEY,
-                forUsername: youtuber,
-                part: 'id',
             },
             method: 'GET'
         })
-        channelID = ret.data.items[0].id;
+        channelID = ret.data.items[0].id.channelId;
 
         // Get sub count
         const ret2 = await axios.get('https://www.googleapis.com/youtube/v3/channels', {
@@ -121,10 +123,9 @@ function YoutubeSubCount(props) {
             method: 'GET'
         })
         subCount = ret2.data.items[0].statistics.subscriberCount;
-        subCount = subCount.toLocaleString();
     }
 
-    // getSubscribers();
+    getSubscribers();
 
     console.log(index);
     return (
@@ -145,7 +146,9 @@ function YoutubeSubCount(props) {
             <Typography variant="h6">Subscribers count</Typography>
         </div>
         <Typography variant="h4" style={{marginTop: '1vh'}} >{youtuber}</Typography>
-        <Typography className={classes.subNbr} >{subCount}</Typography>
+        <Typography className={classes.subNbr} >
+            <NumberFormat value={subCount} displayType={'text'} thousandSeparator={true}/>
+        </Typography>
         </Card>
     </Draggable>
     );
