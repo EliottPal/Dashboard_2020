@@ -90,6 +90,7 @@ function YoutubeSubCount(props) {
     const classes = useStyles();
     const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
     const [isDeleted, setIsDeleted] = useState(false);
+    const [count, setCount] = useState(0);
     var channelID = null;
 
     const destroyWidget = async () => {
@@ -123,7 +124,7 @@ function YoutubeSubCount(props) {
             },
             method: 'GET'
         })
-        subCount = ret2.data.items[0].statistics.subscriberCount;
+        setCount(ret2.data.items[0].statistics.subscriberCount);
     }
     getSubscribers();
 
@@ -147,7 +148,7 @@ function YoutubeSubCount(props) {
         </div>
         <Typography variant="h4" style={{marginTop: '1vh'}} >{youtuber}</Typography>
         <Typography className={classes.subNbr} >
-            <NumberFormat value={subCount} displayType={'text'} thousandSeparator={true}/>
+            <NumberFormat value={count} displayType={'text'} thousandSeparator={true}/>
         </Typography>
         </Card>
     </Draggable>

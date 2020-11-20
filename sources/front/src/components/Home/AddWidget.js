@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 // CHOOSE WIDGET
 function WidgetSelection(props) {
-    const {title, subtitle, widget1, widget2, icon, displayWidgets, setDisplayWidgets} = props;
+    const {title, subtitle, widget1, widget2, icon, displayWidgets, setDisplayWidgets, handleClose} = props;
 
     const [openConfig, setOpenConfig] = useState(false);
     const [type, setType] = useState(0);
@@ -89,6 +89,7 @@ function WidgetSelection(props) {
                     global={title}
                     displayWidgets={displayWidgets}
                     setDisplayWidgets={setDisplayWidgets}
+                    handleClose={handleClose}
                 />
             )}
         </div>
@@ -98,7 +99,7 @@ function WidgetSelection(props) {
 // CONFIG SELECTED WIDGET
 function WidgetConfig(props) {
     const classes = useStyles();
-    const {type, title, subtitle, icon, global, displayWidgets, setDisplayWidgets} = props;
+    const {type, title, subtitle, icon, global, displayWidgets, setDisplayWidgets, handleClose} = props;
     const [refreshTime, setTime] = useState('');
     const [name, setName] = useState();
     var label = null;
@@ -163,8 +164,15 @@ function WidgetConfig(props) {
                 setDisplayWidgets(tmp);
             }
         }
+        if (title === "Weather") {
+            label = "City";
+            tmp.push({name: "weather-city", content: <WeatherForecast refreshTime={refreshTime} city={name} canBeDeleted={false}/>});
+            setDisplayWidgets(tmp);
+        }
         console.log(displayWidgets.length);
+        handleClose();
     }
+
     return (
         <div>
             {/* HEADER */}
@@ -351,6 +359,7 @@ export default function AddWidget(props) {
                         icon={iconYoutube}
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
+                        handleClose={handleClose}
                     />
                 )}
                 {showSpotify === true && (
@@ -362,6 +371,7 @@ export default function AddWidget(props) {
                         icon={iconSpotify}
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
+                        handleClose={handleClose}
                     />
                 )}
                 {showGithub === true && (
@@ -373,6 +383,18 @@ export default function AddWidget(props) {
                         icon={iconGithub}
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
+                        handleClose={handleClose}
+                    />
+                )}
+                {showWeather === true && (
+                    <WidgetConfig
+                        type={0}
+                        title="Weather"
+                        subtitle="Choose a city"
+                        icon={iconWeather}
+                        displayWidgets={displayWidgets}
+                        setDisplayWidgets={setDisplayWidgets}
+                        handleClose={handleClose}
                     />
                 )}
             </Dialog>
