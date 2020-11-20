@@ -103,7 +103,6 @@ function MoneyWidgetConfig(props) {
     const [refreshTime, setTime] = useState('');
     const [first, setFirst] = useState();
     const [second, setSecond] = useState();
-    var label = "Money"
 
     var tmp = [...displayWidgets];
 
@@ -125,22 +124,22 @@ function MoneyWidgetConfig(props) {
             <DialogContent dividers>
                 {/* INPUT CONFIG */}
                 <Card className="serviceCard" variant="outlined">
-                    <img src={icon} className="serviceIcon"/>
+                    <img src={icon} className="moneyIcon"/>
                     <TextField
                         required
                         id="name"
-                        label={label}
+                        label="Currency to convert:"
                         value={first}
                         className="configInput"
                         onChange={(e) => setFirst(e.target.value)}
                     />
                 </Card>
                 <Card className="serviceCard" variant="outlined">
-                    <img src={icon} className="serviceIcon"/>
+                    <img src={icon} className="moneyIcon"/>
                     <TextField
                         required
                         id="name"
-                        label={label}
+                        label="Currency to convert to:"
                         value={second}
                         className="configInput"
                         onChange={(e) => setSecond(e.target.value)}
@@ -468,7 +467,7 @@ export default function AddWidget(props) {
                     <WidgetConfig
                         type={0}
                         title="Weather"
-                        subtitle="Choose a city"
+                        subtitle="Configure Widget"
                         icon={iconWeather}
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
@@ -478,7 +477,7 @@ export default function AddWidget(props) {
                 {showMoney === true && (
                     <MoneyWidgetConfig
                         title="Money"
-                        subtitle="Choose two currencies"
+                        subtitle="Configure Widget"
                         icon={iconMoney}
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}

@@ -26,6 +26,11 @@
     margin-left: 2vh;
 }
 
+.moneyIcon {
+    margin-right: 5vh;
+    margin-left: 2vh;
+    margin-top: 0.4vh;
+}
 .serviceText {
     font-size: larger;
 }
