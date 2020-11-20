@@ -96,6 +96,84 @@ function WidgetSelection(props) {
     )
 }
 
+// CONFIG MONEY WIDGET
+function MoneyWidgetConfig(props) {
+    const classes = useStyles();
+    const {title, subtitle, icon, displayWidgets, setDisplayWidgets, handleClose} = props;
+    const [refreshTime, setTime] = useState('');
+    const [first, setFirst] = useState();
+    const [second, setSecond] = useState();
+    var label = "Money"
+
+    var tmp = [...displayWidgets];
+
+    const createMoney = (first, second, refreshTime) => {
+        tmp.push({name: "money-converter", content: <MoneyConverter currency1={first} currency2={second} refreshTime={refreshTime}/>})
+        setDisplayWidgets(tmp);
+        handleClose();
+    };
+
+    return (
+        <div>
+            {/* HEADER */}
+            <DialogTitle>
+                <div className="header">
+                    <h1 className="title">{title}</h1>
+                    <h2 className="subTitle">{subtitle}</h2>
+                </div>
+            </DialogTitle>
+            <DialogContent dividers>
+                {/* INPUT CONFIG */}
+                <Card className="serviceCard" variant="outlined">
+                    <img src={icon} className="serviceIcon"/>
+                    <TextField
+                        required
+                        id="name"
+                        label={label}
+                        value={first}
+                        className="configInput"
+                        onChange={(e) => setFirst(e.target.value)}
+                    />
+                </Card>
+                <Card className="serviceCard" variant="outlined">
+                    <img src={icon} className="serviceIcon"/>
+                    <TextField
+                        required
+                        id="name"
+                        label={label}
+                        value={second}
+                        className="configInput"
+                        onChange={(e) => setSecond(e.target.value)}
+                    />
+                </Card>
+                {/* REFRESH TIME CONFIG */}
+                <Card className="serviceCard" variant="outlined">
+                    <TimerIcon className={classes.iconTimer}/>
+                    <TextField
+                        required
+                        type="number"
+                        id="refreshTime"
+                        label="Refresh Time"
+                        value={refreshTime}
+                        className="configInput"
+                        onChange={(e) => setTime(e.target.value)}
+                    />
+                    {/* CREATE BUTTON */}
+                </Card>
+                <div className="createButton">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => createMoney(first, second, refreshTime)}
+                    >
+                        Create widget
+                    </Button>
+                </div>
+            </DialogContent>
+        </div>
+    )
+}
+
 // CONFIG SELECTED WIDGET
 function WidgetConfig(props) {
     const classes = useStyles();
@@ -392,6 +470,16 @@ export default function AddWidget(props) {
                         title="Weather"
                         subtitle="Choose a city"
                         icon={iconWeather}
+                        displayWidgets={displayWidgets}
+                        setDisplayWidgets={setDisplayWidgets}
+                        handleClose={handleClose}
+                    />
+                )}
+                {showMoney === true && (
+                    <MoneyWidgetConfig
+                        title="Money"
+                        subtitle="Choose two currencies"
+                        icon={iconMoney}
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
                         handleClose={handleClose}
