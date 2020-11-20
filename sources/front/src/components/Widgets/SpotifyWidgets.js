@@ -15,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '60vh',
       },
     root2: {
-    width: '100%',
-    maxWidth: '60vh',
-    maxHeight: '30vh',
-    overflow: 'auto'
+        width: '100%',
+        maxWidth: '60vh',
+        maxHeight: '30vh',
+        overflow: 'auto'
     },
     // Card
     card: {
@@ -239,146 +239,146 @@ function SpotifyUserPlaylists(props) {
                 <img src={iconSpotify} className={classes.icon}/>
                 <Typography variant="h6">Public Playlists</Typography>
             </div>
-        <Typography variant="h4" style={{marginTop: '1vh'}} >{user}</Typography>
-        <List className={classes.root2}>
-            {/* TRACK 1 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="Tokyo Machine le Goat"
+            <Typography variant="h4" style={{marginTop: '1vh'}} >{user}</Typography>
+            <List className={classes.root2}>
+                {/* TRACK 1 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="Tokyo Machine le Goat"
+                        secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Description de la playlist
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* TRACK 2 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="YATOU"
                     secondary={
-                        <React.Fragment>
-                        <Typography>
-                            Description de la playlist
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            {/* TRACK 2 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="YATOU"
-                secondary={
-                        <React.Fragment>
-                        <Typography>
-                            Description de la playlist
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            {/* TRACK 3 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="Lofi, chillhop, chill beats to relax / study to 24/24"
-                        secondary={
-                        <React.Fragment>
-                        <Typography>
-                            Description de la playlist
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            {/* TRACK 4 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="Oldies but goodies"
-                        secondary={
-                        <React.Fragment>
-                        <Typography>
-                            Description de la playlist
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            {/* TRACK 5 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="EDM"
-                        secondary={
-                        <React.Fragment>
-                        <Typography>
-                            Description de la playlist
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            {/* TRACK 5 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="Rap tout terrain"
-                        secondary={
-                        <React.Fragment>
-                        <Typography>
-                            Description de la playlist
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-            {/* TRACK 5 */}
-            <ListItem
-                button
-                alignItems="flex-start"
-                onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-            >
-                <ListItemAvatar>
-                    <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                </ListItemAvatar>
-                <ListItemText primary="OST"
-                        secondary={
-                        <React.Fragment>
-                        <Typography>
-                            Description de la playlist
-                        </Typography>
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
-        </List>
+                            <React.Fragment>
+                            <Typography>
+                                Description de la playlist
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* TRACK 3 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="Lofi, chillhop, chill beats to relax / study to 24/24"
+                            secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Description de la playlist
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* TRACK 4 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="Oldies but goodies"
+                            secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Description de la playlist
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* TRACK 5 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="EDM"
+                            secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Description de la playlist
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                {/* TRACK 5 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="Rap tout terrain"
+                            secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Description de la playlist
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                {/* TRACK 5 */}
+                <ListItem
+                    button
+                    alignItems="flex-start"
+                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
+                >
+                    <ListItemAvatar>
+                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="OST"
+                            secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Description de la playlist
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+            </List>
         </Card>
     </Draggable>
     );

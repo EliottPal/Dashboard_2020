@@ -1,32 +1,63 @@
 import React, { useState } from 'react';
+import { Link, navigate } from '@reach/router';
 import { makeStyles } from "@material-ui/core/styles";
 import Draggable from 'react-draggable';
-import {Card, Typography, Fab, Button } from '@material-ui/core';
+import {Card, Typography, Fab, Button, Divider } from '@material-ui/core';
+import {List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import PublishIcon from '@material-ui/icons/Publish';
+import FolderSharedIcon from '@material-ui/icons/FolderShared';
+import iconGithub from './../../assets/icons/32/github.png'
 
 const useStyles = makeStyles((theme) => ({
+    // List
+    root: {
+        width: '100%',
+        maxWidth: '60vh',
+        maxHeight: '32vh',
+        overflow: 'auto'
+    },
     // Card
     card: {
-        width: '20%',
-        minHeight: '20vh',
+        width: '30%',
+        Height: '30vh',
         backgroundColor: '#f5f5f5',
         color: '#00000',
+        borderRight: '1vh solid #212121',
         textAlign: 'center',
         overflow: 'visible',
-        borderRight: '1vh solid dimgrey'
+    },
+    //Divs
+    headerDiv: {
+        marginTop: '0.5vh',
+        marginLeft: '-30vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     // Buttons
     destroyButton: {
         position: 'absolute',
         height: '4vh',
         width: '4vh',
-        right: '94%',
-        top: '-8%',
+        right: '97%',
+        top: '-4%',
     },
     // Icons
     smallerIcon: {
         height: '2vh',
         width: '2vh',
+    },
+    icon: {
+        height: '4.5vh',
+        width: '4.5vh',
+        marginRight: '3vh',
+    },
+    iconCommit: {
+        height: '3vh',
+        width: '3vh',
+        marginTop: '2vh',
+        marginRight: '2vh',
     },
 }));
 
@@ -41,22 +72,139 @@ function GithubUserRepos(props) {
         setIsDeleted(true);
     };
 
+    // GO TO REPOSITORY GITHUB PAGE
+    const goToRepo = async (url) => {
+        navigate(url);
+    };
+
     return (
-    <Draggable grid={[25, 25]} bounds="parent">
+        <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
-            {!canBeDeleted? null :
-                <Fab
-                    color="secondary"
-                    className={classes.destroyButton}
-                    onClick={() => destroyWidget()}
-                    disabled={isDeleted}
-                >
-                    <CloseIcon className={classes.smallerIcon}/>
-                </Fab>
-            }
-        <Typography variant="h6">{user}</Typography>
-        </Card>
-    </Draggable>
+     {!canBeDeleted? null :
+         <Fab
+             color="secondary"
+             className={classes.destroyButton}
+             onClick={() => destroyWidget()}
+             disabled={isDeleted}
+         >
+             <CloseIcon className={classes.smallerIcon}/>
+         </Fab>
+     }
+     <div className={classes.headerDiv}>
+         <img src={iconGithub} className={classes.icon}/>
+         <Typography variant="h6">Repository pushs </Typography>
+     </div>
+     <Typography variant="h4" style={{marginTop: '1vh'}} >{user}</Typography>
+     <List className={classes.root}>
+         {/* REPO 1 */}
+         <ListItem
+            alignItems="flex-start"
+            button
+            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
+        >
+             <FolderSharedIcon className={classes.iconCommit}/>
+             <ListItemText primary="Epicture"
+                 secondary={
+                     <React.Fragment>
+                     <Typography>
+                        Repo description
+                     </Typography>
+                     </React.Fragment>
+                 }
+             />
+         </ListItem>
+         <Divider variant="inset" component="li" />
+         {/* REPO 2 */}
+         <ListItem
+            alignItems="flex-start"
+            button
+            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
+        >
+             <FolderSharedIcon className={classes.iconCommit}/>
+             <ListItemText primary="Jam 2"
+                 secondary={
+                     <React.Fragment>
+                     <Typography>
+                        Repo description
+                     </Typography>
+                     </React.Fragment>
+                 }
+             />
+         </ListItem>
+         <Divider variant="inset" component="li" />
+         {/* REPO 3 */}
+         <ListItem
+            alignItems="flex-start"
+            button
+            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
+        >
+             <FolderSharedIcon className={classes.iconCommit}/>
+             <ListItemText primary="Indie Studio"
+                 secondary={
+                     <React.Fragment>
+                     <Typography>
+                        Repo description
+                     </Typography>
+                     </React.Fragment>
+                 }
+             />
+         </ListItem>
+         <Divider variant="inset" component="li" />
+         {/* REPO 4 */}
+         <ListItem
+            alignItems="flex-start"
+            button
+            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
+        >
+             <FolderSharedIcon className={classes.iconCommit}/>
+             <ListItemText primary="MyTeams"
+                 secondary={
+                     <React.Fragment>
+                     <Typography>
+                        Repo description
+                     </Typography>
+                     </React.Fragment>
+                 }
+             />
+         </ListItem>
+         <Divider variant="inset" component="li" />
+         {/* REPO 5 */}
+         <ListItem
+            alignItems="flex-start"
+            button
+            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
+        >
+             <FolderSharedIcon className={classes.iconCommit}/>
+             <ListItemText primary="310 maths"
+                 secondary={
+                     <React.Fragment>
+                     <Typography>
+                        Repo description
+                     </Typography>
+                     </React.Fragment>
+                 }
+             />
+         </ListItem>
+         {/* REPO 5 */}
+         <ListItem
+            alignItems="flex-start"
+            button
+            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
+        >
+             <FolderSharedIcon className={classes.iconCommit}/>
+             <ListItemText primary="Very very very very very very very very very long repo name"
+                 secondary={
+                     <React.Fragment>
+                         <Typography>
+                        Repo description
+                         </Typography>
+                     </React.Fragment>
+                 }
+             />
+         </ListItem>
+     </List>
+ </Card>
+</Draggable>
     );
 }
 
@@ -73,7 +221,7 @@ function GithubRepoPushs(props) {
 
     return (
     <Draggable grid={[25, 25]} bounds="parent">
-        <Card className={classes.card}>
+               <Card className={classes.card}>
             {!canBeDeleted? null :
                 <Fab
                     color="secondary"
@@ -84,7 +232,108 @@ function GithubRepoPushs(props) {
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>
             }
-        <Typography variant="h6">{repo}</Typography>
+            <div className={classes.headerDiv}>
+                <img src={iconGithub} className={classes.icon}/>
+                <Typography variant="h6">Repository pushs </Typography>
+            </div>
+            <Typography variant="h4" style={{marginTop: '1vh'}} >{repo}</Typography>
+            <List className={classes.root}>
+                {/* COMMIT 1 */}
+                <ListItem alignItems="flex-start">
+                    <PublishIcon className={classes.iconCommit}/>
+                    <ListItemText primary="[Code] -> adding comments"
+                        secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Repo description
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* COMMIT 2 */}
+                <ListItem alignItems="flex-start">
+                    <PublishIcon className={classes.iconCommit}/>
+                    <ListItemText primary="[Back] -> adding player"
+                        secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Repo description
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* COMMIT 3 */}
+                <ListItem alignItems="flex-start">
+                    <PublishIcon className={classes.iconCommit}/>
+                    <ListItemText primary="[Front] -> adding spotify"
+                        secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Repo description
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* COMMIT 4 */}
+                <ListItem alignItems="flex-start">
+                    <PublishIcon className={classes.iconCommit}/>
+                    <ListItemText primary="[Front] -> adding youtube"
+                        secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Repo description
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+                {/* COMMIT 5 */}
+                <ListItem alignItems="flex-start">
+                    <PublishIcon className={classes.iconCommit}/>
+                    <ListItemText primary="[Front] -> adding widget"
+                        secondary={
+                            <React.Fragment>
+                            <Typography>
+                                Repo description
+                            </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                {/* COMMIT 5 */}
+                <ListItem alignItems="flex-start">
+                    <PublishIcon className={classes.iconCommit}/>
+                    <ListItemText primary="Short commit"
+                        secondary={
+                            <React.Fragment>
+                                <Typography>
+                                Repo description
+                                </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                {/* COMMIT 5 */}
+                <ListItem alignItems="flex-start">
+                    <PublishIcon className={classes.iconCommit}/>
+                    <ListItemText primary="Very very very very very very very very very long commit"
+                        secondary={
+                            <React.Fragment>
+                                <Typography>
+                                Repo description
+                                </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+            </List>
         </Card>
     </Draggable>
     );

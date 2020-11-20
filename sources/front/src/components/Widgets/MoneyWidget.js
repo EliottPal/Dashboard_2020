@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         width: '20%',
         minHeight: '17vh',
         backgroundColor: '#f5f5f5',
-        borderRight: '1vh solid gold',
+        borderRight: '1vh solid #ffcc33',
         color: '#00000',
         textAlign: 'center',
         overflow: 'visible',
