@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#00000',
         textAlign: 'center',
         overflow: 'visible',
-        borderRight: '1vh solid cornflowerblue'
+        borderRight: '1vh solid #5ea5de'
     },
     //Divs
     headerDiv: {
