@@ -18,10 +18,12 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
+    "react-github-login": "^1.0.3",
     "react-google-login": "^5.1.23",
     "react-number-format": "^4.4.1",
     "react-player": "^2.7.0",
     "react-scripts": "4.0.0",
+    "react-spotify-login": "^0.9.1",
     "react-spring": "^8.0.27",
     "react-swipeable-views": "^0.13.9",
     "web-vitals": "^0.2.4"

@@ -99,33 +99,45 @@ const LoggedChip = ({ logged }) => {
 export default function ProfilePopup(props) {
     const classes = useStyles();
     const {openPopup, setOpenPopup, userName, coverImg} = props;
+    // Logged chips
     const [youtubeLogged, setYoutubeLogged] = useState(false);
     const [spotifyLogged, setSpotifyLogged] = useState(false);
     const [githubLogged, setGithubLogged] = useState(false);
-    const [accessToken, setAccessToken] = useState('');
+    // Acces tokens
+    const [youtubeAccessToken, setYoutubeAccessToken] = useState('');
+    const [githubAccessToken, setGithubAccessToken] = useState('');
+    const [spotifyAccessToken, setSpotifyAccessToken] = useState('');
+    // Client ids
+    const youtubeClientId = '77078160299-k9vf37ebaet0k2phpt6s3811vnraau1q.apps.googleusercontent.com';
+    const githubClientId = '78d2705c1c4eb1e12396';
+    const spotifyClientId = '';
 
     // CLOSE POPUP BY CLICKING OUTSIDE
     const handleClose = () => {
         setOpenPopup(false);
     };
 
-    // REDIRECT TO SPOTIFY OAUTH2
-    const loginSpotify = async () => {
-        alert('Spotify');
-    };
-
-    // REDIRECT TO GITHUB OAUTH2
-    const loginGithub = async () => {
-        alert('Github');
-    };
-
+    // GOOGLE OAUTH2 RESPONSE
     const responseGoogle = (response) => {
         console.log(response.accessToken);
-        setAccessToken(response.accessToken);
+        setYoutubeAccessToken(response.accessToken);
         setYoutubeLogged(true);
     }
 
-    const clientId = '77078160299-k9vf37ebaet0k2phpt6s3811vnraau1q.apps.googleusercontent.com';
+    // SPOTIFY OAUTH2 RESPONSE
+    // const responseSpotify = (response) => {
+    //     console.log(response.accessToken);
+    //     setSpotifyAccessToken(response.accessToken);
+    //     //TODO: set refresh token
+    //     setSpotifyLogged(true);
+    // }
+
+    // GITHUB OAUTH2 RESPONSE
+    const responseGithub = (response) => {
+        console.log(response.accessToken);
+        setGithubAccessToken(response.accessToken);
+        setGithubLogged(true);
+    }
 
     return (
         <StylesProvider injectFirst>
