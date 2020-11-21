@@ -146,15 +146,32 @@ function GithubRepoPushs(props) {
     const classes = useStyles();
     const {repo, canBeDeleted, refreshTime, widgetsArray, index} = props;
     const [isDeleted, setIsDeleted] = useState(false);
+    const [commitsArray, setCommitsArray] = useState([]);
+    const repoName = repo.substring(repo.indexOf('/') + 1);
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };
 
+    // GET REPO COMMITS
+    const getCommits = async () => {
+        const ret = await axios.get(`https://api.github.com/repos/${repo}/commits`, {
+            method: 'GET'
+        })
+        const tmp = [...ret.data];
+        setCommitsArray(tmp);
+        console.log(tmp)
+    }
+    // Call function once at start + each minute * refresh time
+    useEffect(()=>{
+        getCommits();
+        setInterval(getCommits, 60000 * refreshTime);
+    }, [])
+
     return (
     <Draggable grid={[25, 25]} bounds="parent">
-               <Card className={classes.card}>
+        <Card className={classes.card}>
             {!canBeDeleted? null :
                 <Fab
                     color="secondary"
@@ -165,107 +182,31 @@ function GithubRepoPushs(props) {
                     <CloseIcon className={classes.smallerIcon}/>
                 </Fab>
             }
+            {/* HEAD */}
             <div className={classes.headerDiv}>
                 <img src={iconGithub} className={classes.icon}/>
                 <Typography variant="h6">Repository pushs </Typography>
             </div>
-            <Typography variant="h4" style={{marginTop: '1vh'}} >{repo}</Typography>
+            <Typography variant="h4" style={{marginTop: '1vh'}} >{repoName}</Typography>
+            {/* COMMITS LIST */}
             <List className={classes.root}>
-                {/* COMMIT 1 */}
-                <ListItem alignItems="flex-start">
-                    <PublishIcon className={classes.iconCommit}/>
-                    <ListItemText primary="[Code] -> adding comments"
-                        secondary={
-                            <React.Fragment>
-                            <Typography>
-                                Repo description
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                {/* COMMIT 2 */}
-                <ListItem alignItems="flex-start">
-                    <PublishIcon className={classes.iconCommit}/>
-                    <ListItemText primary="[Back] -> adding player"
-                        secondary={
-                            <React.Fragment>
-                            <Typography>
-                                Repo description
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                {/* COMMIT 3 */}
-                <ListItem alignItems="flex-start">
-                    <PublishIcon className={classes.iconCommit}/>
-                    <ListItemText primary="[Front] -> adding spotify"
-                        secondary={
-                            <React.Fragment>
-                            <Typography>
-                                Repo description
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                {/* COMMIT 4 */}
-                <ListItem alignItems="flex-start">
-                    <PublishIcon className={classes.iconCommit}/>
-                    <ListItemText primary="[Front] -> adding youtube"
-                        secondary={
-                            <React.Fragment>
-                            <Typography>
-                                Repo description
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                {/* COMMIT 5 */}
-                <ListItem alignItems="flex-start">
-                    <PublishIcon className={classes.iconCommit}/>
-                    <ListItemText primary="[Front] -> adding widget"
-                        secondary={
-                            <React.Fragment>
-                            <Typography>
-                                Repo description
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                {/* COMMIT 5 */}
-                <ListItem alignItems="flex-start">
-                    <PublishIcon className={classes.iconCommit}/>
-                    <ListItemText primary="Short commit"
-                        secondary={
-                            <React.Fragment>
-                                <Typography>
-                                Repo description
-                                </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                {/* COMMIT 5 */}
-                <ListItem alignItems="flex-start">
-                    <PublishIcon className={classes.iconCommit}/>
-                    <ListItemText primary="Very very very very very very very very very long commit"
-                        secondary={
-                            <React.Fragment>
-                                <Typography>
-                                Repo description
-                                </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
+                {commitsArray.map((index, key) => (
+                    <div key={key}>
+                        <ListItem alignItems="flex-start">
+                            <PublishIcon className={classes.iconCommit}/>
+                            <ListItemText primary={index.commit.message}
+                                secondary={
+                                    <React.Fragment>
+                                        <Typography>
+                                            {index.commit.committer.name}
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                    </div>
+                ))}
             </List>
         </Card>
     </Draggable>
