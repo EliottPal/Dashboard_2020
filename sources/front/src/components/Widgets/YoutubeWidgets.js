@@ -9,7 +9,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import iconYoutube from './../../assets/icons/32/youtube.png'
 
 const API_KEY = "AIzaSyAnGQtu8uFSZBVFdjgvff6o5HLcytclPjM";
-var videoUrl = null;
 
 const useStyles = makeStyles((theme) => ({
     // Card
@@ -164,6 +163,7 @@ function YoutubeLastVideo(props) {
     const classes = useStyles();
     const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
     const [isDeleted, setIsDeleted] = useState(false);
+    const [videoUrl, setUrl] = useState('');
     var channelID = null;
 
     const destroyWidget = async () => {
@@ -198,8 +198,7 @@ function YoutubeLastVideo(props) {
             },
             method: 'GET'
         })
-        videoUrl = `https://www.youtube.com/watch?v=${ret2.data.items[0].id.videoId}`;
-        console.log(videoUrl);
+        setUrl(`https://www.youtube.com/watch?v=${ret2.data.items[0].id.videoId}`);
     }
     // Call function once at start + each minute * refresh time
     useEffect(()=>{
