@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Link, navigate } from '@reach/router';
 import { makeStyles } from "@material-ui/core/styles";
 import Draggable from 'react-draggable';
@@ -66,6 +67,7 @@ function GithubUserRepos(props) {
     const classes = useStyles();
     const {user, canBeDeleted, refreshTime, widgetsArray, index} = props;
     const [isDeleted, setIsDeleted] = useState(false);
+    const [reposArray, setReposArray] = useState([]);
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
@@ -77,134 +79,62 @@ function GithubUserRepos(props) {
         navigate(url);
     };
 
+    // GET USER REPOSITORIES
+    const getRepos = async () => {
+
+        const ret = await axios.get(`https://api.github.com/users/${user}/repos`, {
+            method: 'GET'
+        })
+        const tmp = [...ret.data];
+        setReposArray(tmp);
+    }
+    getRepos();
+
     return (
-        <Draggable grid={[25, 25]} bounds="parent">
+    <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
-     {!canBeDeleted? null :
-         <Fab
-             color="secondary"
-             className={classes.destroyButton}
-             onClick={() => destroyWidget()}
-             disabled={isDeleted}
-         >
-             <CloseIcon className={classes.smallerIcon}/>
-         </Fab>
-     }
-     <div className={classes.headerDiv}>
-         <img src={iconGithub} className={classes.icon}/>
-         <Typography variant="h6">Repository pushs </Typography>
-     </div>
-     <Typography variant="h4" style={{marginTop: '1vh'}} >{user}</Typography>
-     <List className={classes.root}>
-         {/* REPO 1 */}
-         <ListItem
-            alignItems="flex-start"
-            button
-            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
-        >
-             <FolderSharedIcon className={classes.iconCommit}/>
-             <ListItemText primary="Epicture"
-                 secondary={
-                     <React.Fragment>
-                     <Typography>
-                        Repo description
-                     </Typography>
-                     </React.Fragment>
-                 }
-             />
-         </ListItem>
-         <Divider variant="inset" component="li" />
-         {/* REPO 2 */}
-         <ListItem
-            alignItems="flex-start"
-            button
-            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
-        >
-             <FolderSharedIcon className={classes.iconCommit}/>
-             <ListItemText primary="Jam 2"
-                 secondary={
-                     <React.Fragment>
-                     <Typography>
-                        Repo description
-                     </Typography>
-                     </React.Fragment>
-                 }
-             />
-         </ListItem>
-         <Divider variant="inset" component="li" />
-         {/* REPO 3 */}
-         <ListItem
-            alignItems="flex-start"
-            button
-            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
-        >
-             <FolderSharedIcon className={classes.iconCommit}/>
-             <ListItemText primary="Indie Studio"
-                 secondary={
-                     <React.Fragment>
-                     <Typography>
-                        Repo description
-                     </Typography>
-                     </React.Fragment>
-                 }
-             />
-         </ListItem>
-         <Divider variant="inset" component="li" />
-         {/* REPO 4 */}
-         <ListItem
-            alignItems="flex-start"
-            button
-            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
-        >
-             <FolderSharedIcon className={classes.iconCommit}/>
-             <ListItemText primary="MyTeams"
-                 secondary={
-                     <React.Fragment>
-                     <Typography>
-                        Repo description
-                     </Typography>
-                     </React.Fragment>
-                 }
-             />
-         </ListItem>
-         <Divider variant="inset" component="li" />
-         {/* REPO 5 */}
-         <ListItem
-            alignItems="flex-start"
-            button
-            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
-        >
-             <FolderSharedIcon className={classes.iconCommit}/>
-             <ListItemText primary="310 maths"
-                 secondary={
-                     <React.Fragment>
-                     <Typography>
-                        Repo description
-                     </Typography>
-                     </React.Fragment>
-                 }
-             />
-         </ListItem>
-         {/* REPO 5 */}
-         <ListItem
-            alignItems="flex-start"
-            button
-            onClick={(url) => goToRepo("https://github.com/EliottPal/Epicture_2020")}
-        >
-             <FolderSharedIcon className={classes.iconCommit}/>
-             <ListItemText primary="Very very very very very very very very very long repo name"
-                 secondary={
-                     <React.Fragment>
-                         <Typography>
-                        Repo description
-                         </Typography>
-                     </React.Fragment>
-                 }
-             />
-         </ListItem>
-     </List>
- </Card>
-</Draggable>
+            {!canBeDeleted? null :
+                <Fab
+                    color="secondary"
+                    className={classes.destroyButton}
+                    onClick={() => destroyWidget()}
+                    disabled={isDeleted}
+                >
+                    <CloseIcon className={classes.smallerIcon}/>
+                </Fab>
+            }
+            {/* HEADER */}
+            <div className={classes.headerDiv}>
+                <img src={iconGithub} className={classes.icon}/>
+                <Typography variant="h6">Public repositories </Typography>
+            </div>
+            <Typography variant="h4" style={{marginTop: '1vh'}} >{user}</Typography>
+            {/* REPOS LIST */}
+            <List className={classes.root}>
+                {reposArray.map((index, key) => (
+                    <div key={key}>
+                        <ListItem
+                            alignItems="flex-start"
+                            button
+                            onClick={(url) => goToRepo(index.html_url)}
+                        >
+                            <FolderSharedIcon className={classes.iconCommit}/>
+                            <ListItemText primary={index.name}
+                                secondary={
+                                    <React.Fragment>
+                                        <Typography>
+                                            {index.language} | {index.description}
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                    </div>
+                ))}
+            </List>
+        </Card>
+    </Draggable>
     );
 }
 
