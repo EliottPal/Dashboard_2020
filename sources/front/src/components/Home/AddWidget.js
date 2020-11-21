@@ -152,7 +152,7 @@ function MoneyWidgetConfig(props) {
                         required
                         type="number"
                         id="refreshTime"
-                        label="Refresh Time"
+                        label="Refresh Time (in minutes)"
                         value={refreshTime}
                         className="configInput"
                         onChange={(e) => setTime(e.target.value)}
@@ -279,7 +279,7 @@ function WidgetConfig(props) {
                         required
                         type="number"
                         id="refreshTime"
-                        label="Refresh Time"
+                        label="Refresh Time (in minutes)"
                         value={refreshTime}
                         className="configInput"
                         onChange={(e) => setTime(e.target.value)}

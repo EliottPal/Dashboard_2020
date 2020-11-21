@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, navigate } from '@reach/router';
 import { makeStyles } from "@material-ui/core/styles";
@@ -81,14 +81,17 @@ function GithubUserRepos(props) {
 
     // GET USER REPOSITORIES
     const getRepos = async () => {
-
         const ret = await axios.get(`https://api.github.com/users/${user}/repos`, {
             method: 'GET'
         })
         const tmp = [...ret.data];
         setReposArray(tmp);
     }
-    getRepos();
+    // Call function once at start + each minute * refresh time
+    useEffect(()=>{
+        getRepos();
+        setInterval(getRepos, 60000 * refreshTime);
+    }, [])
 
     return (
     <Draggable grid={[25, 25]} bounds="parent">

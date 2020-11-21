@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,7 +9,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import iconYoutube from './../../assets/icons/32/youtube.png'
 
 const API_KEY = "AIzaSyAnGQtu8uFSZBVFdjgvff6o5HLcytclPjM";
-var subCount = 0;
 var videoUrl = null;
 
 const useStyles = makeStyles((theme) => ({
@@ -126,7 +125,12 @@ function YoutubeSubCount(props) {
         })
         setCount(ret2.data.items[0].statistics.subscriberCount);
     }
-    getSubscribers();
+
+    // Call function once at start + each minute * refresh time
+    useEffect(()=>{
+        getSubscribers();
+        setInterval(getSubscribers, 60000 * refreshTime);
+    }, [])
 
     console.log(index);
     return (
@@ -197,7 +201,11 @@ function YoutubeLastVideo(props) {
         videoUrl = `https://www.youtube.com/watch?v=${ret2.data.items[0].id.videoId}`;
         console.log(videoUrl);
     }
-    getLastVideo()
+    // Call function once at start + each minute * refresh time
+    useEffect(()=>{
+        getLastVideo();
+        setInterval(getLastVideo, 60000 * refreshTime);
+    }, [])
 
     return (
     <Draggable grid={[25, 25]} bounds="parent">
