@@ -12,7 +12,10 @@ import iconYoutube from './../../assets/icons/64/youtube.png'
 import iconSpotify from './../../assets/icons/64/spotify.png'
 import iconGithub from './../../assets/icons/64/github.png'
 import userRequests from '../../apiConnector';
-import { GoogleLogin } from 'react-google-login';
+import GoogleLogin from 'react-google-login';
+import SpotifyLogin from 'react-spotify-login';
+import GithubLogin from 'react-github-login';
+
 
 const useStyles = makeStyles((theme) => ({
     // Dialog
@@ -178,7 +181,7 @@ export default function ProfilePopup(props) {
                                 cookiePolicy={'single_host_origin'}
                             /> */}
                             <GoogleLogin
-                                clientId={clientId}
+                                clientId={youtubeClientId}
                                 render={renderProps => (
                                     <ListItem
                                     variant="outlined"
@@ -202,7 +205,7 @@ export default function ProfilePopup(props) {
                             <LoggedChip logged={youtubeLogged}></LoggedChip>
                             {/* SPOTIFY SERVICE */}
                             <ListItem
-                                button onClick={() => loginSpotify()}
+                                button
                                 className={classes.listItem}
                             >
                                 <ListItemIcon>
@@ -217,7 +220,7 @@ export default function ProfilePopup(props) {
                             <LoggedChip logged={spotifyLogged}></LoggedChip>
                             {/* GITHUB SERVICE */}
                             <ListItem
-                                button onClick={() => loginGithub()}
+                                button
                                 className={classes.listItem}
                             >
                                 <ListItemIcon>
