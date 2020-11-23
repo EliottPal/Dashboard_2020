@@ -13,9 +13,11 @@ import iconSpotify from './../../assets/icons/64/spotify.png'
 import iconGithub from './../../assets/icons/64/github.png'
 import userRequests from '../../apiConnector';
 import GoogleLogin from 'react-google-login';
-import SpotifyLogin from 'react-spotify-login';
-import GithubLogin from 'react-github-login';
+import GithubLogin from './GithubLogin';
+import SpotifyLogin from './SpotifyLogin';
+import axios from 'axios';
 
+var sendRequest = require('http');
 
 const useStyles = makeStyles((theme) => ({
     // Dialog
@@ -112,8 +114,8 @@ export default function ProfilePopup(props) {
     const [spotifyAccessToken, setSpotifyAccessToken] = useState('');
     // Client ids
     const youtubeClientId = '77078160299-k9vf37ebaet0k2phpt6s3811vnraau1q.apps.googleusercontent.com';
-    const githubClientId = '78d2705c1c4eb1e12396';
-    const spotifyClientId = '';
+    const githubClientId = '2abdf5bdc242d6cf071e';
+    const spotifyClientId = '7bc91382df86470ca2c58ed007c5efbf';
 
     // CLOSE POPUP BY CLICKING OUTSIDE
     const handleClose = () => {
@@ -128,18 +130,42 @@ export default function ProfilePopup(props) {
     }
 
     // SPOTIFY OAUTH2 RESPONSE
-    // const responseSpotify = (response) => {
-    //     console.log(response.accessToken);
-    //     setSpotifyAccessToken(response.accessToken);
-    //     //TODO: set refresh token
-    //     setSpotifyLogged(true);
-    // }
+    const responseSpotify = async (response) => {
+        if (spotifyLogged === true)
+            return;
+        let req = await userRequests.spotifyAuthentication(response.code);
+        console.log(`access = ${req.access}`);
+        if (req.access.length !== 0) {
+            setSpotifyAccessToken(req.access);
+            setSpotifyLogged(true);
+        }
+        // userRequests.spotifyAuthentication();
+        // console.log(response);
+        // setSpotifyAccessToken(response.accessToken);
+        //TODO: set refresh token
+        // setSpotifyLogged(true);
+    }
+
+    const errorSpotify = (error) => {
+        console.log(error);
+    }
 
     // GITHUB OAUTH2 RESPONSE
-    const responseGithub = (response) => {
-        console.log(response.accessToken);
-        setGithubAccessToken(response.accessToken);
-        setGithubLogged(true);
+    const responseGithub = async (response) => {
+        if (githubLogged === true)
+            return;
+        let req = await userRequests.githubAuthentication(response.code);
+        console.log(`access = ${req}`);
+        if (req.length !== 0) {
+            setGithubAccessToken(req);
+            setGithubLogged(true);
+        }
+        // setGithubAccessToken(response.accessToken);
+        // setGithubLogged(true);
+    }
+
+    const errorGithub = (error) => {
+        console.log(error);
     }
 
     return (
@@ -204,8 +230,8 @@ export default function ProfilePopup(props) {
                             />
                             <LoggedChip logged={youtubeLogged}></LoggedChip>
                             {/* SPOTIFY SERVICE */}
-                            <ListItem
-                                button
+                            {/* <ListItem
+                                button onClick={() => responseSpotify()}
                                 className={classes.listItem}
                             >
                                 <ListItemIcon>
@@ -216,22 +242,19 @@ export default function ProfilePopup(props) {
                                     className={classes.serviceName}
                                     primary="Spotify"
                                 />
-                            </ListItem>
+                            </ListItem> */}
+                            <SpotifyLogin
+                                clientId={spotifyClientId}
+                                onSuccess={responseSpotify}
+                                onFailure={errorSpotify}
+                            />
                             <LoggedChip logged={spotifyLogged}></LoggedChip>
                             {/* GITHUB SERVICE */}
-                            <ListItem
-                                button
-                                className={classes.listItem}
-                            >
-                                <ListItemIcon>
-                                    <img src={iconGithub} />
-                                </ListItemIcon>
-                                <ListItemText
-                                    disableTypography
-                                    className={classes.serviceName}
-                                    primary="Github"
-                                />
-                            </ListItem>
+                            <GithubLogin
+                                clientId={githubClientId}
+                                onSuccess={responseGithub}
+                                onFailure={errorGithub}
+                            />
                             <LoggedChip logged={githubLogged}></LoggedChip>
                         </List>
                         {/* LOGOUT BUTTON */}

@@ -1,8 +1,11 @@
-
 var express = require('express');
 var parser = require('body-parser');
 var mongooseService = require('mongoose');
 var cors = require('cors');
+const axios = require('axios')
+const fetch = require('node-fetch');
+const querystring = require('querystring');
+const qs = require('qs');
 
 var port = 8080
 
@@ -52,6 +55,12 @@ var userDatas = mongooseService.Schema({
 
 var User = mongooseService.model('User', userDatas);
 
+const githubClientId = '2abdf5bdc242d6cf071e';
+const githubClientSecret = '17e13cc066ccf42195afef9ad029a75f94357267'
+
+const spotifyClientId = '7bc91382df86470ca2c58ed007c5efbf';
+const spotifyClientSecret = '390a5de8bf0c4b3db264e648aa2bf4d5';
+
 serverRouter.route('/')
     .get(function(req, res) {
         console.log("GET");
@@ -84,18 +93,74 @@ serverRouter.route('/')
         console.log("delete")
     });
 
-serverRouter.route('/home')
+const encodeFormData = (data) => {
+  return Object.keys(data)
+      .map(key => encodeURIComponent(key) + encodeURIComponent(data[key]))
+      .join('&');
+}
+
+serverRouter.route('/home/github/:code')
     .get(function(req, res) {
-      console.log("GET HOME");
+      console.log("GET GH");
+      console.log(req.params.code);
+      const requestToken = req.params.code;
+      axios({
+        method: 'post',
+        url: `https://github.com/login/oauth/access_token?client_id=${githubClientId}&client_secret=${githubClientSecret}&code=${requestToken}`,
+        headers: {
+          accept: 'application/json'
+        }
+      }).then((response) => {
+        const accessToken = response.data.access_token;
+        console.log(accessToken);
+        res.json({access: accessToken});
+      })
     })
     .post(function(req, res) {
-      console.log("POST HOME");
+      console.log("POST GH");
     })
     .put(function(req, res) {
-      console.log("PUT HOME");
+      console.log("PUT GH");
     })
     .delete(function(req, res) {
-      console.log("DELETE HOME");
+      console.log("DELETE GH");
+    })
+
+serverRouter.route('/home/spotify/:code')
+    .get(function(req, res) {
+      console.log("SPOTIFY GET");
+      console.log(req.params.code);
+      let body = {
+        grant_type: "authorization_code",
+        code: req.params.code,
+        redirect_uri: 'http://localhost:3000/',
+        client_id: spotifyClientId,
+        client_secret: spotifyClientSecret
+      }
+      axios({
+        method: 'POST',
+        url: 'https://accounts.spotify.com/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'accept': 'application/json'
+        },
+        data: qs.stringify(body)
+      })
+      .then((response) => {
+        const accessToken = response.data.access_token;
+        const refreshToken = response.data.refresh_token;
+        const expiresIn = response.data.expires_in;
+        res.json({access: accessToken, refresh: refreshToken, expires: expiresIn});
+      })
+    })
+    .post(function(req, res) {
+      console.log("SPOTIFY POST");
+    })
+    .put(function(req, res) {
+      console.log("SPOTIFY PUT");
+    })
+    .delete(function(req, res) {
+      console.log("SPOTIFY DELETE");
     })
 
 app.use(function(req, res, next) {
