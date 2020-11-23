@@ -17,6 +17,7 @@
     "gapi-script": "^1.0.2",
     "money": "^0.2.0",
     "prop-types": "^15.7.2",
+    "qs": "^6.9.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",

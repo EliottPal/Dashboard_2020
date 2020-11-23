@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, navigate } from '@reach/router';
 import { makeStyles } from "@material-ui/core/styles";
 import Draggable from 'react-draggable';
@@ -7,6 +7,9 @@ import {List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-u
 import CloseIcon from '@material-ui/icons/Close';
 import iconSpotify from './../../assets/icons/32/spotify.png'
 import tmpCover from './../../assets/albumCover.jpg'
+import axios from 'axios';
+
+const qs = require('qs');
 
 const useStyles = makeStyles((theme) => ({
     // List
@@ -66,8 +69,9 @@ const useStyles = makeStyles((theme) => ({
 // ARTIST TOP SONGS
 function SpotifyArtistSongs(props) {
     const classes = useStyles();
-    const {artist, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const {artist, canBeDeleted, refreshTime, widgetsArray, index, accessToken} = props;
     const [isDeleted, setIsDeleted] = useState(false);
+    const [tracks, setTracks] = useState([]);
 
     // DESTORY WIDGET
     const destroyWidget = async () => {
@@ -81,7 +85,54 @@ function SpotifyArtistSongs(props) {
         navigate(url);
     };
 
-    console.log(index);
+    const getSongs = async () => {
+        console.log(accessToken);
+        var tracksArray = [];
+        let itemBody = {
+            q: artist,
+            type: 'artist'
+        }
+        const item = await axios.get('https://api.spotify.com/v1/search', {
+            params: {
+                q: artist,
+                type: 'artist',
+            },
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        })
+        const artistId = item.data.artists.items[0].id;
+        console.log(artistId);
+        const topTracks = await axios.get(`https://api.spotify.com/v1/artists/${artistId}/top-tracks`, {
+            params: {
+                market: 'FR'
+            },
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        })
+            .then((response) => {
+                tracksArray = response.data.tracks;
+            });
+        var tmp = [];
+        for (var i = 0; i < 5; i++) {
+            tmp.push(tracksArray[i]);
+        }
+        console.log(tmp);
+        setTracks(tmp);
+    }
+
+    const toMinutesAndSeconds = (time) => {
+        var minutes = Math.floor(time / 60000);
+        var seconds = ((time % 60000) / 1000).toFixed(0);
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
+
+    useEffect(()=>{
+        getSongs();
+        setInterval(getSongs, 60000 * refreshTime);
+    }, [])
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
@@ -101,105 +152,30 @@ function SpotifyArtistSongs(props) {
             </div>
             <Typography variant="h4" style={{marginTop: '1vh'}} >{artist}</Typography>
             <List className={classes.root1}>
-                {/* TRACK 1 */}
-                <ListItem
-                    button
-                    alignItems="flex-start"
-                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-                >
-                    <ListItemAvatar>
-                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                    </ListItemAvatar>
-                    <ListItemText primary="SICKO MODE"
-                        secondary={
-                            <React.Fragment>
-                            <Typography>
-                                4mn05
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                {/* TRACK 2 */}
-                <ListItem
-                    button
-                    alignItems="flex-start"
-                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-                >
-                    <ListItemAvatar>
-                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                    </ListItemAvatar>
-                    <ListItemText primary="STOP TRYING TO BE GOD ft LOGIC, J.COLE, NAV & GUNNA"
-                    secondary={
-                            <React.Fragment>
-                            <Typography>
-                                4mn05
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                {/* TRACK 3 */}
-                <ListItem
-                    button
-                    alignItems="flex-start"
-                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-                >
-                    <ListItemAvatar>
-                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                    </ListItemAvatar>
-                    <ListItemText primary="YOSEMITE"
-                            secondary={
-                            <React.Fragment>
-                            <Typography>
-                                4mn05
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                {/* TRACK 4 */}
-                <ListItem
-                    button
-                    alignItems="flex-start"
-                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-                >
-                    <ListItemAvatar>
-                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                    </ListItemAvatar>
-                    <ListItemText primary="BUTTERFLY EFFECT"
-                            secondary={
-                            <React.Fragment>
-                            <Typography>
-                                4mn05
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                {/* TRACK 5 */}
-                <ListItem
-                    button
-                    alignItems="flex-start"
-                    onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
-                >
-                    <ListItemAvatar>
-                        <Avatar variant="rounded" src={tmpCover} className={classes.albumCover}/>
-                    </ListItemAvatar>
-                    <ListItemText primary="STARGAZING"
-                            secondary={
-                            <React.Fragment>
-                            <Typography>
-                                4mn05
-                            </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
+                {tracks.map((index, key) => (
+                    <div key={key}>
+                        <ListItem
+                            button
+                            alignItems="flex-start"
+                            onClick={(url) => playSong(index.external_urls.spotify)}
+                        >
+                            <ListItemAvatar>
+                                <Avatar variant="rounded" src={index.album.images[1].url} className={classes.albumCover}/>
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={index.name}
+                                secondary={
+                                    <React.Fragment>
+                                        <Typography>
+                                            {toMinutesAndSeconds(index.duration_ms)}
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
+                        </ListItem>
+                        <Divider variant="inset" component="li"/>
+                    </div>
+                ))}
             </List>
         </Card>
     </Draggable>
@@ -209,8 +185,9 @@ function SpotifyArtistSongs(props) {
 // USER PLAYLISTS
 function SpotifyUserPlaylists(props) {
     const classes = useStyles();
-    const {user, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const {user, canBeDeleted, refreshTime, widgetsArray, index, accessToken} = props;
     const [isDeleted, setIsDeleted] = useState(false);
+    const [playlists, setPlaylists] = useState([])
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
@@ -222,6 +199,21 @@ function SpotifyUserPlaylists(props) {
         navigate(url);
     };
 
+    const getPlaylists = async () => {
+        const list = await axios.get(`https://api.spotify.com/v1/users/${user}/playlists`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }).then((response) => {
+            console.log(response);
+            setPlaylists(response.data.items);
+        })
+    }
+
+    useEffect(()=>{
+        getPlaylists();
+        setInterval(getPlaylists, 60000 * refreshTime);
+    }, [])
     return (
         <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
@@ -241,8 +233,31 @@ function SpotifyUserPlaylists(props) {
             </div>
             <Typography variant="h4" style={{marginTop: '1vh'}} >{user}</Typography>
             <List className={classes.root2}>
-                {/* TRACK 1 */}
-                <ListItem
+                {playlists.map((index, key) => (
+                    <div key={key}>
+                        <ListItem
+                            button
+                            align-items="flex-start"
+                            onClick={(url) => playSong(index.external_urls.spotify)}
+                        >
+                            <ListItemAvatar>
+                                <Avatar variant="rounded" src={index.images[0].url} className={classes.albumCover}/>
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={index.name}
+                                secondary={
+                                    <React.Fragment>
+                                        <Typography>
+                                            {index.description.length === 0 ? "No description" : index.description}
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                    </div>
+                ))}
+                {/* <ListItem
                     button
                     alignItems="flex-start"
                     onClick={(url) => playSong("https://open.spotify.com/artist/0Y5tJX1MQlPlqiwlOH1tJY")}
@@ -261,7 +276,6 @@ function SpotifyUserPlaylists(props) {
                     />
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                {/* TRACK 2 */}
                 <ListItem
                     button
                     alignItems="flex-start"
@@ -281,7 +295,6 @@ function SpotifyUserPlaylists(props) {
                     />
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                {/* TRACK 3 */}
                 <ListItem
                     button
                     alignItems="flex-start"
@@ -301,7 +314,6 @@ function SpotifyUserPlaylists(props) {
                     />
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                {/* TRACK 4 */}
                 <ListItem
                     button
                     alignItems="flex-start"
@@ -321,7 +333,6 @@ function SpotifyUserPlaylists(props) {
                     />
                 </ListItem>
                 <Divider variant="inset" component="li" />
-                {/* TRACK 5 */}
                 <ListItem
                     button
                     alignItems="flex-start"
@@ -340,7 +351,6 @@ function SpotifyUserPlaylists(props) {
                         }
                     />
                 </ListItem>
-                {/* TRACK 5 */}
                 <ListItem
                     button
                     alignItems="flex-start"
@@ -359,7 +369,6 @@ function SpotifyUserPlaylists(props) {
                         }
                     />
                 </ListItem>
-                {/* TRACK 5 */}
                 <ListItem
                     button
                     alignItems="flex-start"
@@ -377,7 +386,7 @@ function SpotifyUserPlaylists(props) {
                             </React.Fragment>
                         }
                     />
-                </ListItem>
+                </ListItem> */}
             </List>
         </Card>
     </Draggable>

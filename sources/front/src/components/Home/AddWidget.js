@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 // CHOOSE WIDGET
 function WidgetSelection(props) {
-    const {title, subtitle, widget1, widget2, icon, displayWidgets, setDisplayWidgets, handleClose} = props;
+    const {title, subtitle, widget1, widget2, icon, displayWidgets, setDisplayWidgets, handleClose, accessToken} = props;
 
     const [openConfig, setOpenConfig] = useState(false);
     const [type, setType] = useState(0);
@@ -99,6 +99,7 @@ function WidgetSelection(props) {
                     displayWidgets={displayWidgets}
                     setDisplayWidgets={setDisplayWidgets}
                     handleClose={handleClose}
+                    accessToken={accessToken}
                 />
             )}
         </div>
@@ -208,7 +209,7 @@ function MoneyWidgetConfig(props) {
 // CONFIG SELECTED WIDGET
 function WidgetConfig(props) {
     const classes = useStyles();
-    const {type, title, subtitle, icon, global, displayWidgets, setDisplayWidgets, handleClose} = props;
+    const {type, title, subtitle, icon, global, displayWidgets, setDisplayWidgets, handleClose, accessToken} = props;
     const [refreshTime, setTime] = useState('');
     const [name, setName] = useState();
     var label = null;
@@ -252,12 +253,12 @@ function WidgetConfig(props) {
         if (title === "Spotify") {
             if (type === 0) {
                 label = "Artist";
-                tmp.push({name: "spotify-artist", content: <SpotifyArtistSongs refreshTime={refreshTime} artist={name} canBeDeleted={false}/>})
+                tmp.push({name: "spotify-artist", content: <SpotifyArtistSongs refreshTime={refreshTime} artist={name} canBeDeleted={false} accessToken={accessToken}/>})
                 setDisplayWidgets(tmp);
             }
             if (type === 1) {
                 label = "Spotify user";
-                tmp.push({name: "spotify-playlist", content: <SpotifyUserPlaylists refreshTime={refreshTime} user={name} canBeDeleted={false}/>})
+                tmp.push({name: "spotify-playlist", content: <SpotifyUserPlaylists refreshTime={refreshTime} user={name} canBeDeleted={false} accessToken={accessToken}/>})
                 setDisplayWidgets(tmp);
             }
         }
@@ -536,6 +537,7 @@ export default function AddWidget(props) {
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
                         handleClose={handleClose}
+                        accessToken={spotify[0]}
                     />
                 )}
                 {showGithub === true && (
