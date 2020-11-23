@@ -366,18 +366,27 @@ export default function AddWidget(props) {
 
     // SELECT YOUTUBE SERVICE
     const handleYoutubeClick = () => {
+        // If pas de token
+        //setServiceError("Youtube")
+        //setOpenPopup(true);
         setShowYoutube(true);
         setMainView(false);
     }
 
     // SELECT SPOTIFY SERVICE
     const handleSpotifyClick = () => {
+        // If pas de token
+        //setServiceError("Spotify")
+        setOpenPopup(true);
         setShowSpotify(true);
         setMainView(false);
     }
 
     // SELECT GITHUB SERVICE
     const handleGithubClick = () => {
+        // If pas de token
+        //setServiceError("Github")
+        //setOpenPopup(true);
         setShowGithub(true);
         setMainView(false);
     }
