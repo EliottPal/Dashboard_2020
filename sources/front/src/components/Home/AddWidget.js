@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Material imports
 import { makeStyles } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
-import { Dialog, DialogTitle, DialogContent, Typography, Card, CardActionArea, Button } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, Typography, Card, CardActionArea, Button, DialogContentText } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import TimerIcon from '@material-ui/icons/Timer';
 // Style & icons imports
@@ -20,13 +20,19 @@ import {GithubUserRepos, GithubRepoPushs} from '../Widgets/GithubWidgets';
 import MoneyConverter from '../Widgets/MoneyWidget';
 import WeatherForecast from '../Widgets/WeatherWidget';
 
-
 const useStyles = makeStyles((theme) => ({
     // Dialog
     dialogCard: {
         position: 'absolute',
         top: '20%',
         width: '55vh',
+    },
+    errorDialog: {
+        position: 'absolute',
+        top: '20%',
+        width: '25vh',
+        justifyContent: 'center',
+        textAlign: 'center'
     },
     // Icons
     iconTimer: {
@@ -300,6 +306,34 @@ function WidgetConfig(props) {
     )
 }
 
+// ERROR POPUP
+function ErrorPopup(props) {
+    const classes = useStyles();
+    const {openPopup, setOpenPopup, service} = props;
+
+    // CLOSE POPUP BY CLICKING OUTSIDE
+    const handleClose = () => {
+        setOpenPopup(false);
+    };
+
+    return(
+    <Dialog
+        open={openPopup}
+        onClose={handleClose}
+        fullWidth={true}
+        classes={{paper: classes.errorDialog}}
+    >
+        <DialogTitle >Error</DialogTitle>
+        <DialogContent dividers>
+            <DialogContentText>
+                Seems that you are not registered to the {service} service.
+            </DialogContentText>
+        </DialogContent>
+    </Dialog>
+    );
+}
+
+
 // MAIN POPUP
 export default function AddWidget(props) {
     const classes = useStyles();
@@ -315,7 +349,8 @@ export default function AddWidget(props) {
     const [showGithub, setShowGithub] = useState(false);
     const [showWeather, setShowWeather] = useState(false);
     const [showMoney, setShowMoney] = useState(false);
-
+    const [openPopup, setOpenPopup] = useState(false);
+    const [serviceError, setServiceError]= useState('');
     const [mainView, setMainView] = useState(true);
 
     // CLOSE POPUP
@@ -331,20 +366,26 @@ export default function AddWidget(props) {
 
     // SELECT YOUTUBE SERVICE
     const handleYoutubeClick = () => {
-        setShowYoutube(true);
-        setMainView(false);
+        setServiceError("Youtube");
+       setOpenPopup(true);
+        // setShowYoutube(true);
+        // setMainView(false);
     }
 
     // SELECT SPOTIFY SERVICE
     const handleSpotifyClick = () => {
-        setShowSpotify(true);
-        setMainView(false);
+        setServiceError("Spotify");
+        setOpenPopup(true);
+        // setShowSpotify(true);
+        // setMainView(false);
     }
 
     // SELECT GITHUB SERVICE
     const handleGithubClick = () => {
-        setShowGithub(true);
-        setMainView(false);
+        setServiceError("Github");
+        setOpenPopup(true);
+        // setShowGithub(true);
+        // setMainView(false);
     }
 
     // SELECT WEATHER SERVICE
@@ -485,6 +526,11 @@ export default function AddWidget(props) {
                     />
                 )}
             </Dialog>
+            <ErrorPopup
+                service={serviceError}
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
+            />
         </StylesProvider>
     );
 }
