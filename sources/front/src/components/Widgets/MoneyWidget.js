@@ -5,6 +5,7 @@ import {Card, Typography, Fab, Button, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowIcon from '@material-ui/icons/TrendingFlat';
 import iconMoney from './../../assets/icons/32/money.png'
+import fx from 'money';
 
 const useStyles = makeStyles((theme) => ({
     // Card
@@ -66,14 +67,41 @@ const useStyles = makeStyles((theme) => ({
 // MONEY COUNVERTER
 export default function MoneyConverter(props) {
     const classes = useStyles();
-    const {currency1, currency2, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const {currency, canBeDeleted, refreshTime, widgetsArray, index} = props;
     const [isDeleted, setIsDeleted] = useState(false);
+    const [value, setValue] = useState('0');
 
     const destroyWidget = async () => {
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };
 
+    fx.base = "EUR";
+    fx.rates = {
+        "EUR": 1,
+        "GBP": 0.889838,
+        "USD": 1.18441,
+        "INR": 87.8913,
+        "AUD": 1.62632,
+        "CAD": 1.55054,
+        "SGD": 1.59221,
+        "XBT": 0.0000644350,
+        "ARS": 95.0787,
+        "CHF": 1.08049,
+        "HKD": 9.17545,
+        "AED": 4.34693,
+        "BRL": 6.44333,
+        "JPY": 123.721,
+        "KRW": 1319.98,
+        "MXN": 23.8607,
+        "NOK": 10.7120,
+        "NZD": 1.71118,
+        "QAR": 4.30976,
+        "RUB": 90.2693,
+        "THB": 35.9427,
+        "TWD": 33.7899,
+        "FRF": 6.55957
+    }
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
@@ -92,9 +120,9 @@ export default function MoneyConverter(props) {
                 <Typography variant="h6">Money Converter</Typography>
             </div>
             <div className={classes.contentDiv}>
-                <TextField variant="outlined" className={classes.moneyInput1} label={currency1}/>
+                <TextField variant="outlined" className={classes.moneyInput1} label="EUR" onChange={(e) => setValue(e.target.value)}/>
                 <ArrowIcon className={classes.arrowIcon}></ArrowIcon>
-                <TextField variant="outlined" disabled className={classes.moneyInput2} label={currency2}/>
+                <TextField variant="outlined" disabled className={classes.moneyInput2} label={currency} value={value.length === 0 ? '0' : fx.convert(value, {from: "EUR", to: currency})}/>
             </div>
         </Card>
     </Draggable>

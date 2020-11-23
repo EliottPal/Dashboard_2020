@@ -120,6 +120,9 @@ function HomePage(props) {
     const [openPopup, setOpenPopup] = React.useState(false);
     const [openWidgetAdder, setOpenWidgetAdder] = React.useState(false);
     const [displayWidgets, setDisplayWidgets] = React.useState([]);
+    const [youtube, setYoutube] = React.useState([]);
+    const [spotify, setSpotify] = React.useState([]);
+    const [github, setGithub] = React.useState([]);
 
     // CHECK IF USER IS LOGGED IN
     if (!props.location.state) {
@@ -143,6 +146,9 @@ function HomePage(props) {
         document.getElementById('coverImage').style.backgroundImage=`url(${coverImg})`;
     };
 
+    console.log(youtube);
+    console.log(spotify);
+    console.log(github);
     //
     return (
         <StylesProvider injectFirst>
@@ -214,6 +220,12 @@ function HomePage(props) {
                     setOpenPopup={setOpenPopup}
                     userName={props.location.state.username}
                     coverImg={coverImg}
+                    youtube={youtube}
+                    spotify={spotify}
+                    github={github}
+                    setYoutube={setYoutube}
+                    setSpotify={setSpotify}
+                    setGithub={setGithub}
                 >
                 </ProfilePopup>
                 <AddWidget
@@ -221,6 +233,9 @@ function HomePage(props) {
                     setOpenWidgetAdder={setOpenWidgetAdder}
                     displayWidgets={displayWidgets}
                     setDisplayWidgets={setDisplayWidgets}
+                    youtube={youtube}
+                    spotify={spotify}
+                    github={github}
                 ></AddWidget>
             </div>
         </StylesProvider>

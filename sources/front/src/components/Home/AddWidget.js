@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Material imports
 import { makeStyles } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
-import { Dialog, DialogTitle, DialogContent, Typography, Card, CardActionArea, Button, DialogContentText } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, Typography, Card, CardActionArea, Button, DialogContentText, Input } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import TimerIcon from '@material-ui/icons/Timer';
 // Style & icons imports
@@ -19,6 +19,9 @@ import {SpotifyArtistSongs, SpotifyUserPlaylists} from '../Widgets/SpotifyWidget
 import {GithubUserRepos, GithubRepoPushs} from '../Widgets/GithubWidgets';
 import MoneyConverter from '../Widgets/MoneyWidget';
 import WeatherForecast from '../Widgets/WeatherWidget';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
     // Dialog
@@ -108,12 +111,14 @@ function MoneyWidgetConfig(props) {
     const {title, subtitle, icon, displayWidgets, setDisplayWidgets, handleClose} = props;
     const [refreshTime, setTime] = useState('');
     const [first, setFirst] = useState();
-    const [second, setSecond] = useState();
+    const [second, setSecond] = useState('');
 
     var tmp = [...displayWidgets];
 
     const createMoney = (first, second, refreshTime) => {
-        tmp.push({name: "money-converter", content: <MoneyConverter currency1={first} currency2={second} refreshTime={refreshTime}/>})
+        if (second.length === 0)
+            return;
+        tmp.push({name: "money-converter", content: <MoneyConverter currency={second} refreshTime={refreshTime}/>})
         setDisplayWidgets(tmp);
         handleClose();
     };
@@ -131,25 +136,46 @@ function MoneyWidgetConfig(props) {
                 {/* INPUT CONFIG */}
                 <Card className="serviceCard" variant="outlined">
                     <img src={icon} className="moneyIcon"/>
-                    <TextField
+                    <div className="configInput">
+                        <InputLabel>Converted currency</InputLabel>
+                        <Select
+                            className="configInput"
+                            // labelId="configInput"
+                            value={second}
+                            onChange={(e) => setSecond(e.target.value)}
+                        >
+                            <MenuItem value={"GBP"}>GBP (pound)</MenuItem>
+                            <MenuItem value={"USD"}>USD (US dollar)</MenuItem>
+                            <MenuItem value={"INR"}>INR (rupee)</MenuItem>
+                            <MenuItem value={"AUD"}>AUD (AU dollar)</MenuItem>
+                            <MenuItem value={"CAD"}>CAD (CA dollar)</MenuItem>
+                            <MenuItem value={"SGD"}>SGD (SG dollar)</MenuItem>
+                            <MenuItem value={"XBT"}>XBT (bitcoin)</MenuItem>
+                            <MenuItem value={"ARS"}>ARS (peso)</MenuItem>
+                            <MenuItem value={"CHF"}>CHF (swiss franc)</MenuItem>
+                            <MenuItem value={"HKD"}>HKD (HK dollar)</MenuItem>
+                            <MenuItem value={"AED"}>AED (AE dirham)</MenuItem>
+                            <MenuItem value={"BRL"}>BRL (BR real)</MenuItem>
+                            <MenuItem value={"JPY"}>JPY (JP yen)</MenuItem>
+                            <MenuItem value={"KRW"}>KRW (KR won)</MenuItem>
+                            <MenuItem value={"MXN"}>MXN (MX peso)</MenuItem>
+                            <MenuItem value={"NOK"}>NOK (NO krone)</MenuItem>
+                            <MenuItem value={"NZD"}>NZD (NZ dollar)</MenuItem>
+                            <MenuItem value={"QAR"}>QAR (QA rial)</MenuItem>
+                            <MenuItem value={"RUB"}>RUB (RU ruble)</MenuItem>
+                            <MenuItem value={"THB"}>THB (TH baht)</MenuItem>
+                            <MenuItem value={"TWD"}>TWD (TW dollar)</MenuItem>
+                            <MenuItem value={"FRF"}>FRF (FR franc)</MenuItem>
+                        </Select>
+                    </div>
+                    {/* <TextField
                         required
                         id="name"
-                        label="Currency to convert:"
-                        value={first}
-                        className="configInput"
-                        onChange={(e) => setFirst(e.target.value)}
-                    />
-                </Card>
-                <Card className="serviceCard" variant="outlined">
-                    <img src={icon} className="moneyIcon"/>
-                    <TextField
-                        required
-                        id="name"
-                        label="Currency to convert to:"
+                        label="Convert euros to:"
                         value={second}
                         className="configInput"
                         onChange={(e) => setSecond(e.target.value)}
-                    />
+                    /> */}
                 </Card>
                 {/* REFRESH TIME CONFIG */}
                 <Card className="serviceCard" variant="outlined">
@@ -341,7 +367,10 @@ export default function AddWidget(props) {
         openWidgetAdder,
         setOpenWidgetAdder,
         displayWidgets,
-        setDisplayWidgets
+        setDisplayWidgets,
+        youtube,
+        spotify,
+        github
     } = props;
 
     const [showYoutube, setShowYoutube] = useState(false);
@@ -369,17 +398,26 @@ export default function AddWidget(props) {
         // If pas de token
         //setServiceError("Youtube")
         //setOpenPopup(true);
-        setShowYoutube(true);
-        setMainView(false);
+        if (youtube.length === 0) {
+            setServiceError("YouTube");
+            setOpenPopup(true);
+        } else {
+            setShowYoutube(true);
+            setMainView(false);
+        }
     }
 
     // SELECT SPOTIFY SERVICE
     const handleSpotifyClick = () => {
         // If pas de token
         //setServiceError("Spotify")
-        setOpenPopup(true);
-        setShowSpotify(true);
-        setMainView(false);
+        if (spotify.length === 0) {
+            setServiceError("Spotify");
+            setOpenPopup(true);
+        } else {
+            setShowSpotify(true);
+            setMainView(false);
+        }
     }
 
     // SELECT GITHUB SERVICE
@@ -387,8 +425,13 @@ export default function AddWidget(props) {
         // If pas de token
         //setServiceError("Github")
         //setOpenPopup(true);
-        setShowGithub(true);
-        setMainView(false);
+        if (github.length === 0) {
+            setServiceError("Github");
+            setOpenPopup(true);
+        } else {
+            setShowGithub(true);
+           setMainView(false);
+        }
     }
 
     // SELECT WEATHER SERVICE
@@ -521,7 +564,7 @@ export default function AddWidget(props) {
                 {showMoney === true && (
                     <MoneyWidgetConfig
                         title="Money"
-                        subtitle="Configure Widget"
+                        subtitle="Euros converter"
                         icon={iconMoney}
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}

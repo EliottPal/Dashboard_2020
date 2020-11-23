@@ -16,6 +16,7 @@ import GoogleLogin from 'react-google-login';
 import GithubLogin from './GithubLogin';
 import SpotifyLogin from './SpotifyLogin';
 import axios from 'axios';
+import Credentials from './Credentials';
 
 var sendRequest = require('http');
 
@@ -103,7 +104,7 @@ const LoggedChip = ({ logged }) => {
 
 export default function ProfilePopup(props) {
     const classes = useStyles();
-    const {openPopup, setOpenPopup, userName, coverImg} = props;
+    const {openPopup, setOpenPopup, userName, coverImg, youtube, spotify, github, setYoutube, setSpotify, setGithub} = props;
     // Logged chips
     const [youtubeLogged, setYoutubeLogged] = useState(false);
     const [spotifyLogged, setSpotifyLogged] = useState(false);
@@ -124,9 +125,14 @@ export default function ProfilePopup(props) {
 
     // GOOGLE OAUTH2 RESPONSE
     const responseGoogle = (response) => {
+        if (youtubeLogged === true)
+            return;
         console.log(response.accessToken);
         setYoutubeAccessToken(response.accessToken);
         setYoutubeLogged(true);
+        var tmp = [...youtube];
+        tmp.push(response.accessToken);
+        setYoutube(tmp);
     }
 
     // SPOTIFY OAUTH2 RESPONSE
@@ -138,6 +144,11 @@ export default function ProfilePopup(props) {
         if (req.access.length !== 0) {
             setSpotifyAccessToken(req.access);
             setSpotifyLogged(true);
+            var tmp = [...spotify];
+            tmp.push(req.access);
+            tmp.push(req.refresh);
+            tmp.push(req.expires);
+            setSpotify(tmp);
         }
         // userRequests.spotifyAuthentication();
         // console.log(response);
@@ -159,6 +170,9 @@ export default function ProfilePopup(props) {
         if (req.length !== 0) {
             setGithubAccessToken(req);
             setGithubLogged(true);
+            var tmp = [...github];
+            tmp.push(req);
+            setGithub(tmp);
         }
         // setGithubAccessToken(response.accessToken);
         // setGithubLogged(true);

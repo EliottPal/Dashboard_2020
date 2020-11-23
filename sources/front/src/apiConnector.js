@@ -64,7 +64,7 @@ async function spotifyAuthentication(code) {
         console.log(body.data.access);
         access = body.data.access;
         refresh = body.data.refresh;
-        expires = body.data.refresh;
+        expires = body.data.expires;
         const query = {
             access: access,
             refresh: refresh,
