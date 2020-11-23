@@ -366,26 +366,20 @@ export default function AddWidget(props) {
 
     // SELECT YOUTUBE SERVICE
     const handleYoutubeClick = () => {
-        setServiceError("Youtube");
-       setOpenPopup(true);
-        // setShowYoutube(true);
-        // setMainView(false);
+        setShowYoutube(true);
+        setMainView(false);
     }
 
     // SELECT SPOTIFY SERVICE
     const handleSpotifyClick = () => {
-        setServiceError("Spotify");
-        setOpenPopup(true);
-        // setShowSpotify(true);
-        // setMainView(false);
+        setShowSpotify(true);
+        setMainView(false);
     }
 
     // SELECT GITHUB SERVICE
     const handleGithubClick = () => {
-        setServiceError("Github");
-        setOpenPopup(true);
-        // setShowGithub(true);
-        // setMainView(false);
+        setShowGithub(true);
+        setMainView(false);
     }
 
     // SELECT WEATHER SERVICE

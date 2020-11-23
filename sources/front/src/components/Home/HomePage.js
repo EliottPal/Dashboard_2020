@@ -27,6 +27,10 @@ import WeatherForecast from '../Widgets/WeatherWidget';
 var coverImg = defaultImg
 
 const useStyles = makeStyles((theme) => ({
+    emptyTitle: {
+        color: 'darkgrey',
+        marginTop: '15vh',
+    },
     // Buttons
     profileButton: {
         position: 'relative',
@@ -197,6 +201,9 @@ function HomePage(props) {
                 </div>
                 {/* DRAGGABLES */}
                 <div className="draggableZone">
+                    {!displayWidgets.length && (
+                        <h1 className={classes.emptyTitle}>USE THE TOP RIGHT BUTTON TO ADD YOUR FIRST WIDGET!</h1>
+                    )}
                     {displayWidgets.map((item, index) => (
                         React.cloneElement(item.content, {index, canBeDeleted: toggled, widgetsArray: displayWidgets}, {key: index})
                     ))}
