@@ -49,6 +49,12 @@
     height: 8vh;
 }
 
+.moneyCard {
+    margin-top: 2vh;
+    box-shadow: 2px 2px 3px rgba(150, 150, 150, 1);
+    height: 8vh;
+}
+
 /* WIDGET CARDS */
 .widgetIcon {
     position: absolute;
@@ -65,4 +71,10 @@
     margin-top: 2vh;
     align-items: center;
     text-align: center;
+}
+
+.moneySelect {
+    margin-top: -7vh;
+    margin-left: 13vh;
+    width: 25vh;
 }

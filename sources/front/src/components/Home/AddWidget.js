@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 // Material imports
 import { makeStyles } from "@material-ui/core/styles";
 import { StylesProvider } from "@material-ui/styles";
-import { Dialog, DialogTitle, DialogContent, Typography, Card, CardActionArea, Button, DialogContentText, Input } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, Typography, Card, CardActionArea, Button, DialogContentText, FormControl } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import TimerIcon from '@material-ui/icons/Timer';
 // Style & icons imports
@@ -19,9 +22,7 @@ import {SpotifyArtistSongs, SpotifyUserPlaylists} from '../Widgets/SpotifyWidget
 import {GithubUserRepos, GithubRepoPushs} from '../Widgets/GithubWidgets';
 import MoneyConverter from '../Widgets/MoneyWidget';
 import WeatherForecast from '../Widgets/WeatherWidget';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+
 
 const useStyles = makeStyles((theme) => ({
     // Dialog
@@ -135,25 +136,24 @@ function MoneyWidgetConfig(props) {
             </DialogTitle>
             <DialogContent dividers>
                 {/* INPUT CONFIG */}
-                <Card className="serviceCard" variant="outlined">
+                <Card className="moneyCard" variant="outlined">
                     <img src={icon} className="moneyIcon"/>
                     <div className="configInput">
+                    <FormControl className="moneySelect">
                         <InputLabel>Converted currency</InputLabel>
                         <Select
-                            className="configInput"
-                            // labelId="configInput"
                             value={second}
                             onChange={(e) => setSecond(e.target.value)}
                         >
-                            <MenuItem value={"GBP"}>GBP (pound)</MenuItem>
+                            <MenuItem value={"GBP"}>GBP (Pound)</MenuItem>
                             <MenuItem value={"USD"}>USD (US dollar)</MenuItem>
-                            <MenuItem value={"INR"}>INR (rupee)</MenuItem>
+                            <MenuItem value={"INR"}>INR (Rupee)</MenuItem>
                             <MenuItem value={"AUD"}>AUD (AU dollar)</MenuItem>
                             <MenuItem value={"CAD"}>CAD (CA dollar)</MenuItem>
                             <MenuItem value={"SGD"}>SGD (SG dollar)</MenuItem>
-                            <MenuItem value={"XBT"}>XBT (bitcoin)</MenuItem>
-                            <MenuItem value={"ARS"}>ARS (peso)</MenuItem>
-                            <MenuItem value={"CHF"}>CHF (swiss franc)</MenuItem>
+                            <MenuItem value={"XBT"}>XBT (Bitcoin)</MenuItem>
+                            <MenuItem value={"ARS"}>ARS (Peso)</MenuItem>
+                            <MenuItem value={"CHF"}>CHF (Swiss franc)</MenuItem>
                             <MenuItem value={"HKD"}>HKD (HK dollar)</MenuItem>
                             <MenuItem value={"AED"}>AED (AE dirham)</MenuItem>
                             <MenuItem value={"BRL"}>BRL (BR real)</MenuItem>
@@ -168,15 +168,8 @@ function MoneyWidgetConfig(props) {
                             <MenuItem value={"TWD"}>TWD (TW dollar)</MenuItem>
                             <MenuItem value={"FRF"}>FRF (FR franc)</MenuItem>
                         </Select>
+                    </FormControl>
                     </div>
-                    {/* <TextField
-                        required
-                        id="name"
-                        label="Convert euros to:"
-                        value={second}
-                        className="configInput"
-                        onChange={(e) => setSecond(e.target.value)}
-                    /> */}
                 </Card>
                 {/* REFRESH TIME CONFIG */}
                 <Card className="serviceCard" variant="outlined">
@@ -360,7 +353,6 @@ function ErrorPopup(props) {
     );
 }
 
-
 // MAIN POPUP
 export default function AddWidget(props) {
     const classes = useStyles();
@@ -396,9 +388,6 @@ export default function AddWidget(props) {
 
     // SELECT YOUTUBE SERVICE
     const handleYoutubeClick = () => {
-        // If pas de token
-        //setServiceError("Youtube")
-        //setOpenPopup(true);
         if (youtube.length === 0) {
             setServiceError("YouTube");
             setOpenPopup(true);
@@ -410,8 +399,6 @@ export default function AddWidget(props) {
 
     // SELECT SPOTIFY SERVICE
     const handleSpotifyClick = () => {
-        // If pas de token
-        //setServiceError("Spotify")
         if (spotify.length === 0) {
             setServiceError("Spotify");
             setOpenPopup(true);
@@ -423,9 +410,6 @@ export default function AddWidget(props) {
 
     // SELECT GITHUB SERVICE
     const handleGithubClick = () => {
-        // If pas de token
-        //setServiceError("Github")
-        //setOpenPopup(true);
         if (github.length === 0) {
             setServiceError("Github");
             setOpenPopup(true);
@@ -566,7 +550,7 @@ export default function AddWidget(props) {
                 {showMoney === true && (
                     <MoneyWidgetConfig
                         title="Money"
-                        subtitle="Euros converter"
+                        subtitle="Euro converter"
                         icon={iconMoney}
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
