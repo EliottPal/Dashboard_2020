@@ -16,7 +16,6 @@ import GoogleLogin from 'react-google-login';
 import GithubLogin from './GithubLogin';
 import SpotifyLogin from './SpotifyLogin';
 import axios from 'axios';
-import Credentials from './Credentials';
 
 var sendRequest = require('http');
 
