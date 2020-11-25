@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     // Dialog
     dialogCard: {
         position: 'absolute',
-        top: '20%'
+        top: '20%',
+        height: '57vh',
     },
     // Icons
     userIcon: {
@@ -42,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
       },
     listHeader: {
         fontSize: '3.5vh',
-        color: 'black',
         marginBottom: '1.5vh',
     },
     serviceName: {
@@ -51,13 +51,13 @@ const useStyles = makeStyles((theme) => ({
     },
     listItem: {
         width: '45vh',
-        marginBottom: '1vh',
+        marginBottom: '2vh',
         boxShadow: '2px 2px 3px rgba(150, 150, 150, 1)',
     },
     // Buttons
     logoutButton: {
         position: 'absolute',
-        top: '90%',
+        top: '91%',
         fontSize: '1.5vh',
         fontWeight: 'bold',
         left: '42.5%',

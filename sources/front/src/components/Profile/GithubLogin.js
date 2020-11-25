@@ -28,7 +28,7 @@ function toParams(query) {
 const useStyle = makeStyles((theme) => ({
     listItem: {
         width: '45vh',
-        marginBottom: '1vh',
+        marginBottom: '2vh',
         boxShadow: '2px 2px 3px rgba(150, 150, 150, 1)',
     },
     serviceName: {

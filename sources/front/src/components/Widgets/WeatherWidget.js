@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     card: {
         width: '25%',
         minHeight: '30vh',
-        backgroundColor: '#f5f5f5',
         color: '#00000',
         textAlign: 'center',
         overflow: 'visible',

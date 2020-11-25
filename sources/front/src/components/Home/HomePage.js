@@ -6,14 +6,16 @@ import './HomePage.css';
 import defaultImg from './../../assets/bg.jpg'
 // Material imports
 import { makeStyles } from "@material-ui/core/styles";
-import { StylesProvider } from "@material-ui/styles";
-import {Card, Typography, Fab, Button } from '@material-ui/core';
+import { StylesProvider, ThemeProvider } from "@material-ui/styles";
+import { createMuiTheme } from '@material-ui/core/styles';
+import {Card, Typography, Fab, Button, Paper, Switch } from '@material-ui/core';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import AddIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person'
 import DeleteIcon from '@material-ui/icons/Delete';
 import WarningIcon from '@material-ui/icons/Warning';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
 // Popup imports
 import ProfilePopup from '../Profile/ProfilePopup';
 import AddWidget from './AddWidget';
@@ -31,6 +33,24 @@ const useStyles = makeStyles((theme) => ({
     emptyTitle: {
         color: 'darkgrey',
         marginTop: '15vh',
+    },
+    // Dark mode
+    cardDarkMode: {
+        position: 'absolute',
+        marginLeft: '2vh',
+        width: '10vh',
+        backgroundColor: '#e0e0e0',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    darkModeIcon: {
+        color: 'black',
+        position: 'absolute',
+        marginTop: '0.7vh',
+        marginLeft: '0.5vh',
+    },
+    darkModeSwitch: {
+        marginLeft: '4vh',
     },
     // Buttons
     profileButton: {
@@ -60,7 +80,6 @@ const useStyles = makeStyles((theme) => ({
     errorCard: {
         width: '20%',
         minHeight: '30vh',
-        backgroundColor: '#f5f5f5',
         marginTop: '20vh',
         color: '#00000',
         display: 'flex',
@@ -111,9 +130,6 @@ const ErrorPage = ({ text, selected }) => {
 
 // HOME PAGE
 function HomePage(props) {
-    // HOW TO GET USERNAME
-    // STOCK : props.location.state.username
-    // PRINT: console.log(props.location.state.username);
 
     React.useEffect(() => {
         async function getUserData() {
@@ -203,6 +219,14 @@ function HomePage(props) {
     const [spotify, setSpotify] = React.useState([]);
     const [github, setGithub] = React.useState([]);
     const [backgroundURL, setBackgroundURL] = React.useState('');
+    const [darkMode, setDarkMode] = React.useState(false);
+
+    // MANAGE DARK MODE
+    const theme = createMuiTheme({
+        palette: {
+            type: darkMode ? "dark" : "light",
+        },
+    });
 
     // CHECK IF USER IS LOGGED IN
     if (!props.location.state) {
@@ -229,95 +253,103 @@ function HomePage(props) {
 
     //
     return (
-        <StylesProvider injectFirst>
-            <div className="mainDiv">
-                {/* Image configurable par l'user par la suite */}
-                <div id="coverImage" className="imgCover" style={{ background: `center url(${defaultImg})`}}>
-                    {/* CHANGE COVER BUTTON */}
-                    <input
-                        type="file"
-                        accept="image/jpeg, image/png"
-                        name="image"
-                        id="contained-button-file"
-                        style={{ display: 'none' }}
-                        onChange={changeCover}
-                    />
-                    <label htmlFor="contained-button-file">
-                        <Button
-                            variant="contained"
-                            color="default"
-                            component="span"
-                            className={classes.coverButton}
-                            startIcon={<AddAPhotoIcon />}
+        <ThemeProvider theme={theme}>
+            <StylesProvider injectFirst>
+                <Paper>
+                    <div className="mainDiv">
+                        <div id="coverImage" className="imgCover" style={{ background: `center url(${defaultImg})`}}>
+                            {/* CHANGE COVER BUTTON */}
+                            <input
+                                type="file"
+                                accept="image/jpeg, image/png"
+                                name="image"
+                                id="contained-button-file"
+                                style={{ display: 'none' }}
+                                onChange={changeCover}
+                            />
+                            <label htmlFor="contained-button-file">
+                                <Button
+                                    variant="contained"
+                                    color="default"
+                                    component="span"
+                                    className={classes.coverButton}
+                                    startIcon={<AddAPhotoIcon />}
+                                >
+                                Change cover
+                                </Button>
+                            </label>
+                            {/* DARK MODE TOGGLE */}
+                            <Card className={classes.cardDarkMode}>
+                                <Brightness4Icon className={classes.darkModeIcon}/>
+                                <Switch className={classes.darkModeSwitch} checked={darkMode} onChange={() => setDarkMode(!darkMode)}/>
+                            </Card>
+                            {/* PROFILE BUTTON */}
+                            <Fab
+                                color="primary"
+                                className={classes.profileButton}
+                                onClick={() =>setOpenPopup(true)}
+                            >
+                                <PersonIcon className={classes.largerIcon}/>
+                            </Fab>
+                            <h1 className="mainTitle">{date.toDateString()}</h1>
+                        </div>
+                        <div className="widgetManageButtons">
+                            {/* TOGGLE DELETE MODE BUTTON */}
+                            <ToggleButton
+                                value="check"
+                                selected={toggled}
+                                onChange={() => {setToggled(!toggled);}}
+                                onClick={(event) => toggleDeleteMode(event)}
+                                className="toggleBtn"
+                            >
+                                <DeleteIcon className={classes.whiteIcon}/>
+                            </ToggleButton>
+                            {/* ADD WIDGET BUTTON */}
+                            <Fab
+                                color="primary"
+                                className={classes.addButton}
+                                onClick={(event) => createWidget(event)}
+                            >
+                                <AddIcon />
+                            </Fab>
+                        </div>
+                        {/* DRAGGABLES */}
+                        <div className="draggableZone">
+                            {!displayWidgets.length && (
+                                <h1 className={classes.emptyTitle}>USE THE TOP RIGHT BUTTON TO ADD YOUR FIRST WIDGET!</h1>
+                            )}
+                            {displayWidgets.map((item, index) => (
+                                React.cloneElement(item.content, {index, canBeDeleted: toggled, widgetsArray: displayWidgets}, {key: index})
+                            ))}
+                        </div>
+                        {/* PROFILE POPUP DIALOG */}
+                        <ProfilePopup
+                            openPopup={openPopup}
+                            setOpenPopup={setOpenPopup}
+                            userName={props.location.state.username}
+                            coverImg={coverImg}
+                            youtube={youtube}
+                            spotify={spotify}
+                            github={github}
+                            setYoutube={setYoutube}
+                            setSpotify={setSpotify}
+                            setGithub={setGithub}
                         >
-                        Change cover
-                        </Button>
-                    </label>
-                    {/* PROFILE BUTTON */}
-                    <Fab
-                        color="primary"
-                        className={classes.profileButton}
-                        onClick={() =>setOpenPopup(true)}
-                    >
-                        <PersonIcon className={classes.largerIcon}/>
-                    </Fab>
-                    <h1 className="mainTitle">{date.toDateString()}</h1>
-                </div>
-                <div className="widgetManageButtons">
-                    {/* TOGGLE DELETE MODE BUTTON */}
-                    <ToggleButton
-                        value="check"
-                        selected={toggled}
-                        onChange={() => {setToggled(!toggled);}}
-                        onClick={(event) => toggleDeleteMode(event)}
-                        className="toggleBtn"
-                    >
-                        <DeleteIcon className={classes.whiteIcon}/>
-                    </ToggleButton>
-                    {/* ADD WIDGET BUTTON */}
-                    <Fab
-                        color="primary"
-                        className={classes.addButton}
-                        onClick={(event) => createWidget(event)}
-                    >
-                        <AddIcon />
-                    </Fab>
-                </div>
-                {/* DRAGGABLES */}
-                <div className="draggableZone">
-                    {!displayWidgets.length && (
-                        <h1 className={classes.emptyTitle}>USE THE TOP RIGHT BUTTON TO ADD YOUR FIRST WIDGET!</h1>
-                    )}
-                    {displayWidgets.map((item, index) => (
-                        React.cloneElement(item.content, {index, canBeDeleted: toggled, widgetsArray: displayWidgets}, {key: index})
-                    ))}
-                </div>
-                {/* PROFILE POPUP DIALOG */}
-                <ProfilePopup
-                    openPopup={openPopup}
-                    setOpenPopup={setOpenPopup}
-                    userName={props.location.state.username}
-                    coverImg={coverImg}
-                    youtube={youtube}
-                    spotify={spotify}
-                    github={github}
-                    setYoutube={setYoutube}
-                    setSpotify={setSpotify}
-                    setGithub={setGithub}
-                >
-                </ProfilePopup>
-                <AddWidget
-                    openWidgetAdder={openWidgetAdder}
-                    setOpenWidgetAdder={setOpenWidgetAdder}
-                    displayWidgets={displayWidgets}
-                    setDisplayWidgets={setDisplayWidgets}
-                    youtube={youtube}
-                    spotify={spotify}
-                    github={github}
-                    username={props.location.state.username}
-                ></AddWidget>
-            </div>
-        </StylesProvider>
+                        </ProfilePopup>
+                        <AddWidget
+                            openWidgetAdder={openWidgetAdder}
+                            setOpenWidgetAdder={setOpenWidgetAdder}
+                            displayWidgets={displayWidgets}
+                            setDisplayWidgets={setDisplayWidgets}
+                            youtube={youtube}
+                            spotify={spotify}
+                            github={github}
+                            username={props.location.state.username}
+                        ></AddWidget>
+                    </div>
+                </Paper>
+            </StylesProvider>
+        </ThemeProvider>
     );
 };
 

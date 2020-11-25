@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     card: {
         width: '25%',
         minHeight: '22vh',
-        backgroundColor: '#f5f5f5',
         borderRight: '1vh solid #ff0000',
         color: '#00000',
         textAlign: 'center',
@@ -24,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
     lastVideoCard: {
         width: '25%',
         minHeight: '39.5vh',
-        backgroundColor: '#f5f5f5',
         borderRight: '1vh solid #ff0000',
         color: '#00000',
         textAlign: 'center',
