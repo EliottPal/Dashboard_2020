@@ -31,7 +31,12 @@ Widgets with "no service" specified do not need an authentication.
 - Weather (No service):
   - Current weather for a city
 - Money (No service):
-  - Change rate between € and an other currency
+  - Change rate between € and an other currency  
+  
+## Example:
+  
+![Screenshot from 2020-11-25 15-00-28](https://user-images.githubusercontent.com/44638280/100238005-fb3d5080-2f2f-11eb-985f-5ea532be5cb0.png)
+
  
 
 ### Made by [Rodolphe Dupuis](https://github.com/rodolphedps) & [Eliott Palueau](https://github.com/EliottPal)
