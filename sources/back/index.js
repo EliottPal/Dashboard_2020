@@ -40,17 +40,24 @@ app.use(cors());
 
 var serverRouter = express.Router();
 
-
 var userDatas = mongooseService.Schema({
   email: String,
   password: String,
   username: String,
-  google           : {
-    id           : String,
-    token        : String,
-    email        : String,
-    name         : String
-  }
+  data: [{
+    google: {
+      accessToken: String
+    },
+    spotify: {
+      accessToken: String,
+      refreshToken: String,
+      expires: Number
+    },
+    github: {
+      accessToken: String
+    },
+    widgets: Array
+  }]
 });
 
 var User = mongooseService.model('User', userDatas);
@@ -72,14 +79,27 @@ serverRouter.route('/')
         });
     })
     .post(function(req, res) {
-        console.log("PUT");
+        console.log("POST");
         let user = new User();
 
         console.log(req.body);
         user.username = req.body.username;
         user.email = req.body.email;
         user.password = req.body.password;
-        user.dashboards = req.body.dashboards;
+        user.data = [{
+          google: {
+            accessToken: ''
+          },
+          spotify: {
+            accessToken: '',
+            refreshToken: '',
+            expires: 0
+          },
+          github: {
+            accessToken: ''
+          },
+          widgets: []
+        }]
         user.save(function (err) {
             if (err)
                 res.send(err);
@@ -88,6 +108,28 @@ serverRouter.route('/')
     })
     .put(function(req, res) {
         console.log("put")
+        /**
+         * Request body informations :
+         * username
+         * widget --> widget to add
+         * type --> type of request (add or remove)
+         * index --> index of the widget to REMOVE (-1 if adding widget)
+         */
+        User.findOne({username: req.body.username}, function (err, user) {
+          if (err)
+            res.send(err);
+          console.log(user);
+          if (user && req.body.widget && req.body.type == "add")
+            user.data[0].widgets.push(req.body.widget);
+          if (user && req.body.type === "remove" && req.body.index !== -1) {
+            user.data[0].widgets.splice(index, 1);
+          }
+          user.save(function (err) {
+            if (err)
+              res.send(err);
+            res.send({success: true, message: 'Widgets successfully modified'})
+          })
+        })
     })
     .delete(function(req, res) {
         console.log("delete")
@@ -161,6 +203,35 @@ serverRouter.route('/home/spotify/:code')
     })
     .delete(function(req, res) {
       console.log("SPOTIFY DELETE");
+    })
+
+serverRouter.route('/home')
+    .get(function (req, res) {
+      console.log("get home")
+    })
+    .post(function (req, res) {
+      console.log("post home")
+    })
+    .put(function (req, res) {
+      console.log(req.body);
+      User.findOne({username: req.body.username}, function (err, user) {
+        if (err)
+          res.send(err);
+        if (req.body.type === "youtube")
+          user.data[0].google.accessToken = req.body.accessToken;
+        if (req.body.type === "spotify") {
+          user.data[0].spotify.accessToken = req.body.accessToken.access;
+          user.data[0].spotify.refreshToken = req.body.accessToken.refresh;
+          user.data[0].spotify.expires = req.body.accessToken.expires;
+        }
+        if (req.body.type === "github")
+          user.data[0].github.accessToken = req.body.accessToken
+        user.save(function (err) {
+          if (err)
+            res.send(err);
+          res.send({success: true, message: 'Widgets successfully modified'})
+        })
+      })
     })
 
 app.use(function(req, res, next) {

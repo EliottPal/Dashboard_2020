@@ -210,10 +210,12 @@ function SpotifyUserPlaylists(props) {
         })
     }
 
+    console.log(accessToken);
+
     useEffect(()=>{
         getPlaylists();
         setInterval(getPlaylists, 60000 * refreshTime);
-    }, [])
+    }, []);
     return (
         <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>

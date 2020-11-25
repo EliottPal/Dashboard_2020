@@ -17,6 +17,7 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 // Popup imports
 import ProfilePopup from '../Profile/ProfilePopup';
 import AddWidget from './AddWidget';
+import userRequests from '../../apiConnector';
 // Widgets Imports
 import {YoutubeSubCount, YoutubeLastVideo} from '../Widgets/YoutubeWidgets';
 import {SpotifyArtistSongs, SpotifyUserPlaylists} from '../Widgets/SpotifyWidgets';
@@ -114,6 +115,84 @@ function HomePage(props) {
     // STOCK : props.location.state.username
     // PRINT: console.log(props.location.state.username);
 
+    React.useEffect(() => {
+        async function getUserData() {
+            const getTokens = await userRequests.loadUserData(props.location.state.username);
+            console.log(getTokens);
+            console.log(`widgets list length = ${getTokens.widgets.length}`)
+            if (getTokens.google.accessToken.length !== 0) {
+                var tmp = [];
+                tmp.push(getTokens.google.accessToken);
+                console.log(`youtube : ${tmp}`);
+                setYoutube(tmp);
+            }
+            if (getTokens.spotify.accessToken.length !== 0) {
+                var tmp = [];
+                tmp.push(getTokens.spotify.accessToken);
+                tmp.push(getTokens.spotify.refreshToken);
+                tmp.push(getTokens.spotify.expires);
+                console.log(tmp)
+                setSpotify(tmp);
+            }
+            if (getTokens.github.accessToken.length !== 0) {
+                var tmp = [];
+                tmp.push(getTokens.github.accessToken);
+                setGithub(tmp);
+            }
+            if (getTokens.widgets.length !== 0) {
+                console.log("widgets list");
+                var tmp = [];
+                for (var i = 0; i != getTokens.widgets.length; i++) {
+                    tmp.push({
+                        name: getTokens.widgets[i].name,
+                        content: getTokens.widgets[i].content
+                    })
+                }
+                console.log(tmp);
+                reproduceWidget(tmp);
+            }
+        }
+        getUserData();
+    }, [])
+
+    const reproduceWidget = (widgets) => {
+        var tmp = [];
+        for (var i = 0; i != widgets.length; i++) {
+            if (widgets[i].name === "youtube-subcount") {
+                tmp.push({name: widgets[i].name, content: <YoutubeSubCount refreshTime={widgets[i].content.props.refreshTime} youtuber={widgets[i].content.props.youtuber} canBeDeleted={false}/>})
+                console.log(widgets[i].content);
+            }
+            if (widgets[i].name === "youtube-video") {
+                tmp.push({name: widgets[i].name, content: <YoutubeLastVideo refreshTime={widgets[i].content.props.refreshTime} youtuber={widgets[i].content.props.youtuber} canBeDeleted={false}/>})
+                console.log(widgets[i].content);
+            }
+            if (widgets[i].name === "spotify-artist") {
+                tmp.push({name: widgets[i].name, content: <SpotifyArtistSongs refreshTime={widgets[i].content.props.refreshTime} artist={widgets[i].content.props.artist} canBeDeleted={false} accessToken={spotify[0]}/>})
+                console.log(widgets[i].content);
+            }
+            if (widgets[i].name === "spotify-playlist") {
+                tmp.push({name: widgets[i].name, content: <SpotifyUserPlaylists refreshTime={widgets[i].content.props.refreshTime} user={widgets[i].content.props.user} canBeDeleted={false} accessToken={spotify[0]}/>})
+                console.log(widgets[i].content);
+            }
+            if (widgets[i].name === "github-user") {
+                tmp.push({name: widgets[i].name, content: <GithubUserRepos refreshTime={widgets[i].content.props.refreshTime} user={widgets[i].content.props.user} canBeDeleted={false}/>})
+                console.log(widgets[i].content);
+            }
+            if (widgets[i].name === "github-repo") {
+                tmp.push({name: widgets[i].name, content: <GithubRepoPushs refreshTime={widgets[i].content.props.refreshTime} repo={widgets[i].content.props.repo} canBeDeleted={false}/>})
+                console.log(widgets[i].content);
+            }
+            if (widgets[i].name === "weather-city") {
+                tmp.push({name: widgets[i].name, content: <WeatherForecast refreshTime={widgets[i].content.props.refreshTime} city={widgets[i].content.props.city} canBeDeleted={false}/>})
+                console.log(widgets[i].content);
+            }
+            if (widgets[i].name === "money-converter") {
+                tmp.push({name: "money-converter", content: <MoneyConverter currency={widgets[i].content.props.second} refreshTime={widgets[i].content.props.refreshTime} canBeDeleted={false}/>})
+            }
+        }
+        setDisplayWidgets(tmp);
+    }
+
     const classes = useStyles();
     const date = new Date();
     const [toggled, setToggled] = React.useState(false);
@@ -123,6 +202,7 @@ function HomePage(props) {
     const [youtube, setYoutube] = React.useState([]);
     const [spotify, setSpotify] = React.useState([]);
     const [github, setGithub] = React.useState([]);
+    const [backgroundURL, setBackgroundURL] = React.useState('');
 
     // CHECK IF USER IS LOGGED IN
     if (!props.location.state) {
@@ -144,11 +224,9 @@ function HomePage(props) {
         // coverImg= event.target.files[0];
         coverImg = URL.createObjectURL(event.target.files[0])
         document.getElementById('coverImage').style.backgroundImage=`url(${coverImg})`;
+        setBackgroundURL(coverImg);
     };
 
-    console.log(youtube);
-    console.log(spotify);
-    console.log(github);
     //
     return (
         <StylesProvider injectFirst>
@@ -236,6 +314,7 @@ function HomePage(props) {
                     youtube={youtube}
                     spotify={spotify}
                     github={github}
+                    username={props.location.state.username}
                 ></AddWidget>
             </div>
         </StylesProvider>

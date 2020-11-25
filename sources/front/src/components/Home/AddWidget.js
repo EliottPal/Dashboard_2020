@@ -22,6 +22,7 @@ import {SpotifyArtistSongs, SpotifyUserPlaylists} from '../Widgets/SpotifyWidget
 import {GithubUserRepos, GithubRepoPushs} from '../Widgets/GithubWidgets';
 import MoneyConverter from '../Widgets/MoneyWidget';
 import WeatherForecast from '../Widgets/WeatherWidget';
+import userRequests from '../../apiConnector';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 // CHOOSE WIDGET
 function WidgetSelection(props) {
-    const {title, subtitle, widget1, widget2, icon, displayWidgets, setDisplayWidgets, handleClose, accessToken} = props;
+    const {title, subtitle, widget1, widget2, icon, displayWidgets, setDisplayWidgets, handleClose, accessToken, username} = props;
 
     const [openConfig, setOpenConfig] = useState(false);
     const [type, setType] = useState(0);
@@ -101,6 +102,7 @@ function WidgetSelection(props) {
                     setDisplayWidgets={setDisplayWidgets}
                     handleClose={handleClose}
                     accessToken={accessToken}
+                    username={username}
                 />
             )}
         </div>
@@ -110,7 +112,7 @@ function WidgetSelection(props) {
 // CONFIG MONEY WIDGET
 function MoneyWidgetConfig(props) {
     const classes = useStyles();
-    const {title, subtitle, icon, displayWidgets, setDisplayWidgets, handleClose} = props;
+    const {title, subtitle, icon, displayWidgets, setDisplayWidgets, handleClose, username} = props;
     const [refreshTime, setTime] = useState('');
     const [first, setFirst] = useState();
     const [second, setSecond] = useState('');
@@ -120,7 +122,9 @@ function MoneyWidgetConfig(props) {
     const createMoney = (first, second, refreshTime) => {
         if (second.length === 0)
             return;
-        tmp.push({name: "money-converter", content: <MoneyConverter currency={second} refreshTime={refreshTime}/>})
+        const widget = {name: "money-converter", content: <MoneyConverter currency={second} refreshTime={refreshTime} canBeDeleted={false}/>}
+        tmp.push(widget);
+        userRequests.affectWidgetsDatabase(username, widget, "add", -1);
         setDisplayWidgets(tmp);
         handleClose();
     };
@@ -202,7 +206,7 @@ function MoneyWidgetConfig(props) {
 // CONFIG SELECTED WIDGET
 function WidgetConfig(props) {
     const classes = useStyles();
-    const {type, title, subtitle, icon, global, displayWidgets, setDisplayWidgets, handleClose, accessToken} = props;
+    const {type, title, subtitle, icon, global, displayWidgets, setDisplayWidgets, handleClose, accessToken, username} = props;
     const [refreshTime, setTime] = useState('');
     const [name, setName] = useState();
     var label = null;
@@ -234,42 +238,58 @@ function WidgetConfig(props) {
         if (title === "YouTube") {
             if (type === 0) {
                 label = "Youtube channel";
-                tmp.push({name: "youtube-subcount", content: <YoutubeSubCount refreshTime={refreshTime} youtuber={name} canBeDeleted={false}/>})
+                const widget = {name: "youtube-subcount", content: <YoutubeSubCount refreshTime={refreshTime} youtuber={name} canBeDeleted={false}/>};
+                tmp.push(widget)
+                console.log(`way before ${username}`);
+                userRequests.affectWidgetsDatabase(username, widget, "add", -1);
+                console.log(tmp);
                 setDisplayWidgets(tmp);
             }
             if (type === 1) {
                 label = "Youtube channel";
-                tmp.push({name: "youtube-video", content: <YoutubeLastVideo refreshTime={refreshTime} youtuber={name} canBeDeleted={false}/>})
+                const widget = {name: "youtube-video", content: <YoutubeLastVideo refreshTime={refreshTime} youtuber={name} canBeDeleted={false}/>};
+                tmp.push(widget);
+                userRequests.affectWidgetsDatabase(username, widget, "add", -1);
                 setDisplayWidgets(tmp);
             }
         }
         if (title === "Spotify") {
             if (type === 0) {
                 label = "Artist";
-                tmp.push({name: "spotify-artist", content: <SpotifyArtistSongs refreshTime={refreshTime} artist={name} canBeDeleted={false} accessToken={accessToken}/>})
+                const widget = {name: "spotify-artist", content: <SpotifyArtistSongs refreshTime={refreshTime} artist={name} canBeDeleted={false} accessToken={accessToken}/>};
+                tmp.push(widget);
+                userRequests.affectWidgetsDatabase(username, widget, "add", -1);
                 setDisplayWidgets(tmp);
             }
             if (type === 1) {
                 label = "Spotify user";
-                tmp.push({name: "spotify-playlist", content: <SpotifyUserPlaylists refreshTime={refreshTime} user={name} canBeDeleted={false} accessToken={accessToken}/>})
+                const widget = {name: "spotify-playlist", content: <SpotifyUserPlaylists refreshTime={refreshTime} user={name} canBeDeleted={false} accessToken={accessToken}/>};
+                tmp.push(widget);
+                userRequests.affectWidgetsDatabase(username, widget, "add", -1);
                 setDisplayWidgets(tmp);
             }
         }
         if (title === "Github") {
             if (type === 0) {
                 label = "Github user";
-                tmp.push({name: "github-user", content: <GithubUserRepos refreshTime={refreshTime} user={name} canBeDeleted={false}/>})
+                const widget = {name: "github-user", content: <GithubUserRepos refreshTime={refreshTime} user={name} canBeDeleted={false}/>};
+                tmp.push(widget);
+                userRequests.affectWidgetsDatabase(username, widget, "add", -1);
                 setDisplayWidgets(tmp);
             }
             if (type === 1) {
                 label = "Github Repository";
-                tmp.push({name: "github-repo", content: <GithubRepoPushs refreshTime={refreshTime} repo={name} canBeDeleted={false}/>})
+                const widget = {name: "github-repo", content: <GithubRepoPushs refreshTime={refreshTime} repo={name} canBeDeleted={false}/>};
+                tmp.push(widget);
+                userRequests.affectWidgetsDatabase(username, widget, "add", -1);
                 setDisplayWidgets(tmp);
             }
         }
         if (title === "Weather") {
             label = "City";
-            tmp.push({name: "weather-city", content: <WeatherForecast refreshTime={refreshTime} city={name} canBeDeleted={false}/>});
+            const widget = {name: "weather-city", content: <WeatherForecast refreshTime={refreshTime} city={name} canBeDeleted={false}/>}
+            tmp.push(widget);
+            userRequests.affectWidgetsDatabase(username, widget, "add", -1);
             setDisplayWidgets(tmp);
         }
         console.log(displayWidgets.length);
@@ -363,7 +383,8 @@ export default function AddWidget(props) {
         setDisplayWidgets,
         youtube,
         spotify,
-        github
+        github,
+        username
     } = props;
 
     const [showYoutube, setShowYoutube] = useState(false);
@@ -509,6 +530,7 @@ export default function AddWidget(props) {
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
                         handleClose={handleClose}
+                        username={username}
                     />
                 )}
                 {showSpotify === true && (
@@ -522,6 +544,7 @@ export default function AddWidget(props) {
                         setDisplayWidgets={setDisplayWidgets}
                         handleClose={handleClose}
                         accessToken={spotify[0]}
+                        username={username}
                     />
                 )}
                 {showGithub === true && (
@@ -534,6 +557,7 @@ export default function AddWidget(props) {
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
                         handleClose={handleClose}
+                        username={username}
                     />
                 )}
                 {showWeather === true && (
@@ -545,6 +569,7 @@ export default function AddWidget(props) {
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
                         handleClose={handleClose}
+                        username={username}
                     />
                 )}
                 {showMoney === true && (
@@ -555,6 +580,7 @@ export default function AddWidget(props) {
                         displayWidgets={displayWidgets}
                         setDisplayWidgets={setDisplayWidgets}
                         handleClose={handleClose}
+                        username={username}
                     />
                 )}
             </Dialog>

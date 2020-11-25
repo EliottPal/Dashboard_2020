@@ -16,6 +16,7 @@ import GoogleLogin from 'react-google-login';
 import GithubLogin from './GithubLogin';
 import SpotifyLogin from './SpotifyLogin';
 import axios from 'axios';
+import userRequets from '../../apiConnector';
 
 var sendRequest = require('http');
 
@@ -131,6 +132,7 @@ export default function ProfilePopup(props) {
         setYoutubeLogged(true);
         var tmp = [...youtube];
         tmp.push(response.accessToken);
+        userRequests.addUserCredentials("youtube", response.accessToken, userName);
         setYoutube(tmp);
     }
 
@@ -147,6 +149,7 @@ export default function ProfilePopup(props) {
             tmp.push(req.access);
             tmp.push(req.refresh);
             tmp.push(req.expires);
+            userRequests.addUserCredentials("spotify", {access: req.access, refresh: req.refresh, expires: req.expires}, userName);
             setSpotify(tmp);
         }
         // userRequests.spotifyAuthentication();
@@ -163,7 +166,7 @@ export default function ProfilePopup(props) {
     // GITHUB OAUTH2 RESPONSE
     const responseGithub = async (response) => {
         if (githubLogged === true)
-            return;
+        return;
         let req = await userRequests.githubAuthentication(response.code);
         console.log(`access = ${req}`);
         if (req.length !== 0) {
@@ -171,6 +174,7 @@ export default function ProfilePopup(props) {
             setGithubLogged(true);
             var tmp = [...github];
             tmp.push(req);
+            userRequests.addUserCredentials("github", req, userName);
             setGithub(tmp);
         }
         // setGithubAccessToken(response.accessToken);
@@ -179,6 +183,21 @@ export default function ProfilePopup(props) {
 
     const errorGithub = (error) => {
         console.log(error);
+    }
+
+    if (!youtubeLogged) {
+        if (youtube[0] && youtube[0].length !== 0)
+            setYoutubeLogged(true);
+    }
+
+    if (!spotifyLogged) {
+        if (spotify[0] && spotify[0].length !== 0)
+            setSpotifyLogged(true);
+    }
+
+    if (!githubLogged) {
+        if (github[0] && github[0].length !== 0)
+            setGithubLogged(true);
     }
 
     return (
