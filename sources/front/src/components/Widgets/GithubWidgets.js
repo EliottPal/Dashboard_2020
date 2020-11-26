@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
         maxHeight: '32vh',
         overflow: 'auto'
     },
+    link: {
+        color: 'inherit',
+        textDecoration: 'inherit',
+    },
     // Card
     card: {
         width: '30%',
@@ -75,11 +79,6 @@ function GithubUserRepos(props) {
         setIsDeleted(true);
     };
 
-    // GO TO REPOSITORY GITHUB PAGE
-    const goToRepo = async (url) => {
-        navigate(url);
-    };
-
     // GET USER REPOSITORIES
     const getRepos = async () => {
         const ret = await axios.get(`https://api.github.com/users/${user}/repos`, {
@@ -117,22 +116,23 @@ function GithubUserRepos(props) {
             <List className={classes.root}>
                 {reposArray.map((index, key) => (
                     <div key={key}>
-                        <ListItem
-                            alignItems="flex-start"
-                            button
-                            onClick={(url) => goToRepo(index.html_url)}
-                        >
-                            <FolderSharedIcon className={classes.iconCommit}/>
-                            <ListItemText primary={index.name}
-                                secondary={
-                                    <React.Fragment>
-                                        <Typography>
-                                            {index.language} | {index.description}
-                                        </Typography>
-                                    </React.Fragment>
-                                }
-                            />
-                        </ListItem>
+                        <a className={classes.link} target='_blank' href={index.html_url}>
+                            <ListItem
+                                alignItems="flex-start"
+                                button
+                            >
+                                <FolderSharedIcon className={classes.iconCommit}/>
+                                <ListItemText primary={index.name}
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography>
+                                                {index.language} | {index.description}
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItem>
+                        </a>
                         <Divider variant="inset" component="li" />
                     </div>
                 ))}

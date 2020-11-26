@@ -63,7 +63,11 @@ const useStyles = makeStyles((theme) => ({
     albumCover: {
         height: '5vh',
         width: '5vh',
-    }
+    },
+    link: {
+        color: 'inherit',
+        textDecoration: 'inherit',
+    },
 }));
 
 // ARTIST TOP SONGS
@@ -79,11 +83,6 @@ function SpotifyArtistSongs(props) {
         userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
-    };
-
-    // PLAY SONG
-    const playSong = async (url) => {
-        navigate(url);
     };
 
     const getSongs = async () => {
@@ -155,25 +154,26 @@ function SpotifyArtistSongs(props) {
             <List className={classes.root1}>
                 {tracks.map((index, key) => (
                     <div key={key}>
-                        <ListItem
-                            button
-                            alignItems="flex-start"
-                            onClick={(url) => playSong(index.external_urls.spotify)}
-                        >
-                            <ListItemAvatar>
-                                <Avatar variant="rounded" src={index.album.images[1].url} className={classes.albumCover}/>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={index.name}
-                                secondary={
-                                    <React.Fragment>
-                                        <Typography>
-                                            {toMinutesAndSeconds(index.duration_ms)}
-                                        </Typography>
-                                    </React.Fragment>
-                                }
-                            />
-                        </ListItem>
+                        <a className={classes.link} target='_blank' href={index.external_urls.spotify}>
+                            <ListItem
+                                button
+                                alignItems="flex-start"
+                            >
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" src={index.album.images[1].url} className={classes.albumCover}/>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={index.name}
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography>
+                                                {toMinutesAndSeconds(index.duration_ms)}
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItem>
+                        </a>
                         <Divider variant="inset" component="li"/>
                     </div>
                 ))}
@@ -194,11 +194,6 @@ function SpotifyUserPlaylists(props) {
         userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
-    };
-
-    // PLAY SONG
-    const playSong = async (url) => {
-        navigate(url);
     };
 
     const getPlaylists = async () => {
@@ -239,25 +234,26 @@ function SpotifyUserPlaylists(props) {
             <List className={classes.root2}>
                 {playlists.map((index, key) => (
                     <div key={key}>
-                        <ListItem
-                            button
-                            align-items="flex-start"
-                            onClick={(url) => playSong(index.external_urls.spotify)}
-                        >
-                            <ListItemAvatar>
-                                <Avatar variant="rounded" src={index.images[0].url} className={classes.albumCover}/>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={index.name}
-                                secondary={
-                                    <React.Fragment>
-                                        <Typography>
-                                            {index.description.length === 0 ? "No description" : index.description}
-                                        </Typography>
-                                    </React.Fragment>
-                                }
-                            />
-                        </ListItem>
+                        <a className={classes.link} target='_blank' href={index.external_urls.spotify}>
+                            <ListItem
+                                button
+                                align-items="flex-start"
+                            >
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" src={index.images[0].url} className={classes.albumCover}/>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={index.name}
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography>
+                                                {index.description.length === 0 ? "No description" : index.description}
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItem>
+                            </a>
                         <Divider variant="inset" component="li" />
                     </div>
                 ))}
