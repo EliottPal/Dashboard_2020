@@ -86,7 +86,7 @@ function SpotifyArtistSongs(props) {
     };
 
     const getSongs = async () => {
-        console.log(accessToken);
+        console.log('yes artist' + accessToken);
         var tracksArray = [];
         let itemBody = {
             q: artist,
@@ -197,6 +197,8 @@ function SpotifyUserPlaylists(props) {
     };
 
     const getPlaylists = async () => {
+        console.log("yes playlists");
+        console.log(accessToken);
         const list = await axios.get(`https://api.spotify.com/v1/users/${user}/playlists`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`

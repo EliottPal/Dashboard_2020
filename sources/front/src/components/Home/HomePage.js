@@ -137,6 +137,9 @@ function HomePage(props) {
             const getTokens = await userRequests.loadUserData(props.location.state.username);
             console.log(getTokens);
             console.log(`widgets list length = ${getTokens.widgets.length}`)
+            if (getTokens.cover) {
+                coverImg = getTokens.cover;
+            }
             if (getTokens.google.accessToken.length !== 0) {
                 var tmp = [];
                 tmp.push(getTokens.google.accessToken);
@@ -188,8 +191,8 @@ function HomePage(props) {
                 console.log(widgets[i].content);
             }
             if (widgets[i].name === "spotify-playlist") {
-                tmp.push({name: widgets[i].name, content: <SpotifyUserPlaylists refreshTime={widgets[i].content.props.refreshTime} user={widgets[i].content.props.user} canBeDeleted={false} accessToken={spotify[0]}/>})
                 console.log(widgets[i].content);
+                tmp.push({name: widgets[i].name, content: <SpotifyUserPlaylists refreshTime={widgets[i].content.props.refreshTime} user={widgets[i].content.props.user} canBeDeleted={false} accessToken={widgets[i].content.props.accessToken}/>})
             }
             if (widgets[i].name === "github-user") {
                 tmp.push({name: widgets[i].name, content: <GithubUserRepos refreshTime={widgets[i].content.props.refreshTime} user={widgets[i].content.props.user} canBeDeleted={false}/>})
@@ -247,6 +250,7 @@ function HomePage(props) {
     const changeCover = async (event) => {
         console.log(event.target.files[0])
         // coverImg= event.target.files[0];
+        // userRequests.putUserCover(props.location.state.username, event.target.files[0]);
         coverImg = URL.createObjectURL(event.target.files[0])
         document.getElementById('coverImage').style.backgroundImage=`url(${coverImg})`;
         setBackgroundURL(coverImg);

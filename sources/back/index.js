@@ -6,6 +6,7 @@ const axios = require('axios')
 const fetch = require('node-fetch');
 const querystring = require('querystring');
 const qs = require('qs');
+var fs = require('fs');
 
 var port = 8080
 
@@ -44,6 +45,7 @@ var userDatas = mongooseService.Schema({
   email: String,
   password: String,
   username: String,
+  cover: {type: String, data: Buffer},
   data: [{
     google: {
       accessToken: String
@@ -83,6 +85,7 @@ serverRouter.route('/')
         let user = new User();
 
         console.log(req.body);
+        user.cover =  null;
         user.username = req.body.username;
         user.email = req.body.email;
         user.password = req.body.password;
@@ -231,6 +234,28 @@ serverRouter.route('/home')
           if (err)
             res.send(err);
           res.send({success: true, message: 'Widgets successfully modified'})
+        })
+      })
+    })
+
+serverRouter.route('/cover')
+    .get(function (req, res) {
+      console.log("get cover");
+    })
+    .post(function (req, res) {
+      console.log("post cover");
+    })
+    .put(function (req, res) {
+      console.log("put cover");
+      console.log(req.body.cover);
+      User.findOne({username: req.body.username}, function (err, user) {
+        if (err)
+          res.send(err);
+        user.cover.data = fs.readFileSync(req.body.cover);
+        user.save(function (err) {
+          if (err)
+            res.send(err);
+          res.send({success: true, message: 'New cover added in database'});
         })
       })
     })

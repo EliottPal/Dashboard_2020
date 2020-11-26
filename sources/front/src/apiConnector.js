@@ -168,15 +168,46 @@ async function loadUserData(username) {
             for (; body.data[ite]; ite++) {
                 if (body.data[ite].username === username) {
                     console.log(body.data[ite]);
+                    const cover = body.data[ite].cover;
                     const google = body.data[ite].data[0].google;
                     const spotify = body.data[ite].data[0].spotify;
                     const github = body.data[ite].data[0].github;
                     const widgets = body.data[ite].data[0].widgets;
-                    return ({google, spotify, github, widgets});
+                    return ({cover, google, spotify, github, widgets});
                 }
             }
         }).catch(error => console.log(error));
     return answer;
+}
+
+async function putUserCover(username, cover) {
+    console.log(cover)
+    const userDatas = JSON.stringify({
+        username: username,
+        cover: cover,
+    });
+
+    const headers = {
+        hostname: 'localhost',
+        port: '8080',
+        path: '/cover',
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': userDatas.length
+        }
+    }
+
+    // Send request
+    let makeRequest = sendRequest.request(headers, (body) => {
+        console.log(`return value : ${body}`);
+    });
+
+    // Write user datas in databse
+    makeRequest.write(userDatas);
+
+    // End Request
+    makeRequest.end();
 }
 
 const userRequests = {
@@ -186,7 +217,8 @@ const userRequests = {
     spotifyAuthentication,
     loadUserData,
     affectWidgetsDatabase,
-    addUserCredentials
+    addUserCredentials,
+    putUserCover
 };
 
 export default userRequests;
