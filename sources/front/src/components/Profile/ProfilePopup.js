@@ -231,13 +231,6 @@ export default function ProfilePopup(props) {
                             }
                         >
                             {/* YOUTUBE SERVICE */}
-                            {/* <GoogleLogin
-                                clientId={clientId}
-                                buttonText="Login"
-                                onSuccess={responseGoogle}
-                                onFailure={responseGoogle}
-                                cookiePolicy={'single_host_origin'}
-                            /> */}
                             <GoogleLogin
                                 clientId={youtubeClientId}
                                 render={renderProps => (
@@ -262,19 +255,6 @@ export default function ProfilePopup(props) {
                             />
                             <LoggedChip logged={youtubeLogged}></LoggedChip>
                             {/* SPOTIFY SERVICE */}
-                            {/* <ListItem
-                                button onClick={() => responseSpotify()}
-                                className={classes.listItem}
-                            >
-                                <ListItemIcon>
-                                    <img src={iconSpotify} />
-                                </ListItemIcon>
-                                <ListItemText
-                                    disableTypography
-                                    className={classes.serviceName}
-                                    primary="Spotify"
-                                />
-                            </ListItem> */}
                             <SpotifyLogin
                                 clientId={spotifyClientId}
                                 onSuccess={responseSpotify}
