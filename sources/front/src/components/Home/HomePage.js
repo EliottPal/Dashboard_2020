@@ -26,6 +26,7 @@ import {SpotifyArtistSongs, SpotifyUserPlaylists} from '../Widgets/SpotifyWidget
 import {GithubUserRepos, GithubRepoPushs} from '../Widgets/GithubWidgets';
 import MoneyConverter from '../Widgets/MoneyWidget';
 import WeatherForecast from '../Widgets/WeatherWidget';
+import fx from 'money';
 
 var coverImg = defaultImg
 
@@ -203,7 +204,7 @@ function HomePage(props) {
                 console.log(widgets[i].content);
             }
             if (widgets[i].name === "money-converter") {
-                tmp.push({name: "money-converter", content: <MoneyConverter currency={widgets[i].content.props.second} refreshTime={widgets[i].content.props.refreshTime} canBeDeleted={false}/>})
+                tmp.push({name: "money-converter", content: <MoneyConverter currency={widgets[i].content.props.currency} refreshTime={widgets[i].content.props.refreshTime} canBeDeleted={false}/>})
             }
         }
         setDisplayWidgets(tmp);
