@@ -8,7 +8,8 @@ import {List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-u
 import CloseIcon from '@material-ui/icons/Close';
 import PublishIcon from '@material-ui/icons/Publish';
 import FolderSharedIcon from '@material-ui/icons/FolderShared';
-import iconGithub from './../../assets/icons/32/github.png'
+import iconGithub from './../../assets/icons/32/github.png';
+import userRequests from '../../apiConnector';
 
 const useStyles = makeStyles((theme) => ({
     // List
@@ -64,11 +65,12 @@ const useStyles = makeStyles((theme) => ({
 // USER PUBLIC REPOSITORIES
 function GithubUserRepos(props) {
     const classes = useStyles();
-    const {user, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const {user, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [reposArray, setReposArray] = useState([]);
 
     const destroyWidget = async () => {
+        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };
@@ -143,12 +145,13 @@ function GithubUserRepos(props) {
 // REPOSITORY LAST PUSHS
 function GithubRepoPushs(props) {
     const classes = useStyles();
-    const {repo, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const {repo, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [commitsArray, setCommitsArray] = useState([]);
     const repoName = repo.substring(repo.indexOf('/') + 1);
 
     const destroyWidget = async () => {
+        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };

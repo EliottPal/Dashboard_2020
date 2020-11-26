@@ -12,6 +12,7 @@ import iconRain from './../../assets/icons/weather/rain.png'
 import iconThunder from './../../assets/icons/weather/thunder.png'
 import iconSnow from './../../assets/icons/weather/snow.png'
 import iconMist from './../../assets/icons/weather/mist.png'
+import userRequests from '../../apiConnector'
 
 
 const API_KEY = "4a2cdbd6fa8bc32d50c64a41257ea373"
@@ -105,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
 // CITY WEATHER
 export default function WeatherForecast(props) {
     const classes = useStyles();
-    const {city, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const {city, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [temp, setTemp] = useState(0);
     const [description, setDescription] = useState('');
@@ -115,6 +116,7 @@ export default function WeatherForecast(props) {
     const hour = date.getHours();
 
     const destroyWidget = async () => {
+        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };

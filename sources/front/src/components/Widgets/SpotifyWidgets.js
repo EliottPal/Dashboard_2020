@@ -8,6 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import iconSpotify from './../../assets/icons/32/spotify.png'
 import tmpCover from './../../assets/albumCover.jpg'
 import axios from 'axios';
+import userRequests from '../../apiConnector';
 
 const qs = require('qs');
 
@@ -68,13 +69,14 @@ const useStyles = makeStyles((theme) => ({
 // ARTIST TOP SONGS
 function SpotifyArtistSongs(props) {
     const classes = useStyles();
-    const {artist, canBeDeleted, refreshTime, widgetsArray, index, accessToken} = props;
+    const {artist, canBeDeleted, refreshTime, widgetsArray, index, accessToken, username} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [tracks, setTracks] = useState([]);
 
     // DESTORY WIDGET
     const destroyWidget = async () => {
-        console.log(index);
+        console.log(widgetsArray[index]);
+        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };
@@ -184,11 +186,12 @@ function SpotifyArtistSongs(props) {
 // USER PLAYLISTS
 function SpotifyUserPlaylists(props) {
     const classes = useStyles();
-    const {user, canBeDeleted, refreshTime, widgetsArray, index, accessToken} = props;
+    const {user, canBeDeleted, refreshTime, widgetsArray, index, accessToken, username} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [playlists, setPlaylists] = useState([])
 
     const destroyWidget = async () => {
+        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };

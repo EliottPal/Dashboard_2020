@@ -122,7 +122,8 @@ serverRouter.route('/')
           if (user && req.body.widget && req.body.type == "add")
             user.data[0].widgets.push(req.body.widget);
           if (user && req.body.type === "remove" && req.body.index !== -1) {
-            user.data[0].widgets.splice(index, 1);
+            // console.log(user.data[0].widgets[index]);
+            user.data[0].widgets.splice(req.body.index, 1);
           }
           user.save(function (err) {
             if (err)

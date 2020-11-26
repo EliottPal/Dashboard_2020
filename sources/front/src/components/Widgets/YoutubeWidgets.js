@@ -7,6 +7,7 @@ import ReactPlayer from 'react-player';
 import {Card, Typography, Fab, Button, Hidden } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import iconYoutube from './../../assets/icons/32/youtube.png'
+import userRequests from '../../apiConnector'
 
 const API_KEY = "AIzaSyAnGQtu8uFSZBVFdjgvff6o5HLcytclPjM";
 
@@ -84,13 +85,14 @@ const useStyles = makeStyles((theme) => ({
 // SUBSCRIBER COUNT
 function YoutubeSubCount(props) {
     const classes = useStyles();
-    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [count, setCount] = useState(0);
     var channelID = null;
 
     const destroyWidget = async () => {
         console.log(widgetsArray.length);
+        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true)
         console.log(widgetsArray.length);
@@ -159,12 +161,13 @@ function YoutubeSubCount(props) {
 // LAST VIDEO
 function YoutubeLastVideo(props) {
     const classes = useStyles();
-    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [videoUrl, setUrl] = useState('');
     var channelID = null;
 
     const destroyWidget = async () => {
+        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };

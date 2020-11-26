@@ -6,6 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ArrowIcon from '@material-ui/icons/TrendingFlat';
 import iconMoney from './../../assets/icons/32/money.png'
 import fx from 'money';
+import userRequests from '../../apiConnector';
 
 const useStyles = makeStyles((theme) => ({
     // Card
@@ -66,11 +67,12 @@ const useStyles = makeStyles((theme) => ({
 // MONEY COUNVERTER
 export default function MoneyConverter(props) {
     const classes = useStyles();
-    const {currency, canBeDeleted, refreshTime, widgetsArray, index} = props;
+    const {currency, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [value, setValue] = useState('0');
 
     const destroyWidget = async () => {
+        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
         widgetsArray.splice(index, 1);
         setIsDeleted(true);
     };

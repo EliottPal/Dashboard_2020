@@ -320,7 +320,7 @@ function HomePage(props) {
                                 <h1 className={classes.emptyTitle}>USE THE TOP RIGHT BUTTON TO ADD YOUR FIRST WIDGET!</h1>
                             )}
                             {displayWidgets.map((item, index) => (
-                                React.cloneElement(item.content, {index, canBeDeleted: toggled, widgetsArray: displayWidgets}, {key: index})
+                                React.cloneElement(item.content, {index, canBeDeleted: toggled, widgetsArray: displayWidgets, username: props.location.state.username}, {key: index})
                             ))}
                         </div>
                         {/* PROFILE POPUP DIALOG */}
