@@ -260,6 +260,98 @@ serverRouter.route('/cover')
       })
     })
 
+serverRouter.route('/about.json')
+  .get(function (req, res) {
+    var time = (new Date).getTime();
+    res.json({
+      "client": {
+        "host": '172.18.0.4:3000'
+      },
+      "server": {
+        "current_time": time,
+        "services": [{
+          "name": "Youtube",
+          "widgets": [{
+            "name": "youtube_last_video",
+            "description": "Display youtube channel's last video.",
+            "params": [{
+              "name": "channel",
+              "type": "string"
+            }]
+          },
+          {
+            "name": "youtube_subscribers_count",
+            "description": "Display youtube channel number of subscribers.",
+            "params": [{
+              "name": "channel",
+              "type": "string"
+            }]
+          }]
+        },
+        {
+          "name": "Spotify",
+          "widgets": [{
+            "name": "spotify_artist_top_songs",
+            "description": "Display musical artist top songs.",
+            "params": [{
+              "name": "artist",
+              "type": "string"
+            }]
+          },
+          {
+            "name": "spotify_user_playlists",
+            "description": "Display Spotify user public playlists.",
+            "params": [{
+              "name": "user",
+              "type": "string"
+            }]
+          }]
+        },
+        {
+          "name": "Gihtub",
+          "widgets": [{
+            "name": "guthub_repo_last_commits",
+            "description": "Display Github repository last 30 commits.",
+            "params": [{
+              "name": "repo",
+              "type": "string"
+            }]
+          },
+          {
+            "name": "github_user_public_repos",
+            "description": "Display Github user public repositories.",
+            "params": [{
+              "name": "user",
+              "type": "string"
+            }]
+          }]
+        },
+        {
+          "name": "Weather",
+          "widgets": [{
+            "name": "city_temperature",
+            "description": "Display temperature and weather information for a city.",
+            "params": [{
+              "name": "city",
+              "type": "string"
+            }]
+          }]
+        },
+        {
+          "name": "Money",
+          "widgets": [{
+            "name": "money_converter",
+            "description": "Converts Euros to selected currency.",
+            "params": [{
+              "name": "currency",
+              "type": "string"
+            }]
+          }]
+        }]
+      }
+    })
+  })
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
