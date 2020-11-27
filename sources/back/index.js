@@ -277,6 +277,10 @@ serverRouter.route('/about.json')
             "params": [{
               "name": "channel",
               "type": "string"
+            },
+            {
+              "name": "refresh_time",
+              "type": "integer"
             }]
           },
           {
@@ -285,6 +289,10 @@ serverRouter.route('/about.json')
             "params": [{
               "name": "channel",
               "type": "string"
+            },
+            {
+              "name": "refresh_time",
+              "type": "integer"
             }]
           }]
         },
@@ -296,6 +304,10 @@ serverRouter.route('/about.json')
             "params": [{
               "name": "artist",
               "type": "string"
+            },
+            {
+              "name": "refresh_time",
+              "type": "integer"
             }]
           },
           {
@@ -304,6 +316,10 @@ serverRouter.route('/about.json')
             "params": [{
               "name": "user",
               "type": "string"
+            },
+            {
+              "name": "refresh_time",
+              "type": "integer"
             }]
           }]
         },
@@ -315,6 +331,10 @@ serverRouter.route('/about.json')
             "params": [{
               "name": "repo",
               "type": "string"
+            },
+            {
+              "name": "refresh_time",
+              "type": "integer"
             }]
           },
           {
@@ -323,6 +343,10 @@ serverRouter.route('/about.json')
             "params": [{
               "name": "user",
               "type": "string"
+            },
+            {
+              "name": "refresh_time",
+              "type": "integer"
             }]
           }]
         },
@@ -334,6 +358,10 @@ serverRouter.route('/about.json')
             "params": [{
               "name": "city",
               "type": "string"
+            },
+            {
+              "name": "refresh_time",
+              "type": "integer"
             }]
           }]
         },
@@ -345,6 +373,10 @@ serverRouter.route('/about.json')
             "params": [{
               "name": "currency",
               "type": "string"
+            },
+            {
+              "name": "refresh_time",
+              "type": "integer"
             }]
           }]
         }]
