@@ -26,7 +26,7 @@ import {SpotifyArtistSongs, SpotifyUserPlaylists} from '../Widgets/SpotifyWidget
 import {GithubUserRepos, GithubRepoPushs} from '../Widgets/GithubWidgets';
 import MoneyConverter from '../Widgets/MoneyWidget';
 import WeatherForecast from '../Widgets/WeatherWidget';
-import fx from 'money';
+import Cookies from 'js-cookie';
 
 var coverImg = defaultImg
 
@@ -133,6 +133,20 @@ const ErrorPage = ({ text, selected }) => {
 function HomePage(props) {
 
     React.useEffect(() => {
+        var refresh = Cookies.get('refresh');
+        console.log(`refresh = ${refresh}`);
+        if (refresh === 'true') {
+            console.log("changing cookie value...");
+            Cookies.set('refresh', false);
+            console.log(`new refresh value = ${Cookies.get('refresh')}`);
+            window.location.reload(true);
+        }
+        // if (Cookies.get('refresh')) {
+        //     console.log("bah ouais pd");
+        //     Cookies.remove('refresh');
+        //     Cookies.set('refresh', false);
+        //     window.location.reload(true);
+        // }
         async function getUserData() {
             const getTokens = await userRequests.loadUserData(props.location.state.username);
             console.log(getTokens);
@@ -224,6 +238,7 @@ function HomePage(props) {
     const [github, setGithub] = React.useState([]);
     const [backgroundURL, setBackgroundURL] = React.useState('');
     const [darkMode, setDarkMode] = React.useState(false);
+    const [reloadable, setReloadable] = React.useState(1);
 
     // MANAGE DARK MODE
     const theme = createMuiTheme({
@@ -252,6 +267,7 @@ function HomePage(props) {
         // coverImg= event.target.files[0];
         // userRequests.putUserCover(props.location.state.username, event.target.files[0]);
         coverImg = URL.createObjectURL(event.target.files[0])
+        console.log(coverImg);
         document.getElementById('coverImage').style.backgroundImage=`url(${coverImg})`;
         setBackgroundURL(coverImg);
     };

@@ -10,6 +10,7 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import userRequests from '../../apiConnector';
+import Cookies from 'js-cookie';
 
 const root = {
         marginTop: '5vh',
@@ -101,6 +102,7 @@ class SignIn extends React.Component {
         } else if (request === 1) {
             this.setState({errorPasswordOnSubmit: true, password: ""});
         } else {
+            Cookies.set('refresh', true);
             navigate(`/home`, {state: {username: this.state.username}});
         }
     }
