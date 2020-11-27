@@ -67,14 +67,16 @@ const useStyles = makeStyles((theme) => ({
 // MONEY COUNVERTER
 export default function MoneyConverter(props) {
     const classes = useStyles();
-    const {currency, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
+    const {currency, canBeDeleted, refreshTime, widgetsArray, index, username, deleteWidget} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [value, setValue] = useState('0');
 
     const destroyWidget = async () => {
-        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
-        widgetsArray.splice(index, 1);
-        setIsDeleted(true);
+        deleteWidget(index);
+        // userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
+        // widgetsArray.splice(index, 1);
+        // setIsDeleted(true);
+        // canBeDeleted = false;
     };
 
     fx.base = "EUR";
@@ -103,6 +105,7 @@ export default function MoneyConverter(props) {
         "TWD": 33.7899,
         "FRF": 6.55957
     }
+    console.log(`money ${index}`);
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>

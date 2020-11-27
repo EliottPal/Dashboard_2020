@@ -85,17 +85,18 @@ const useStyles = makeStyles((theme) => ({
 // SUBSCRIBER COUNT
 function YoutubeSubCount(props) {
     const classes = useStyles();
-    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
+    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index, username, deleteWidget} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [count, setCount] = useState(0);
     var channelID = null;
 
     const destroyWidget = async () => {
-        console.log(widgetsArray.length);
-        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
-        widgetsArray.splice(index, 1);
-        setIsDeleted(true)
-        console.log(widgetsArray.length);
+        deleteWidget(index);
+        // console.log(widgetsArray.length);
+        // userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
+        // widgetsArray.splice(index, 1);
+        // setIsDeleted(true)
+        // console.log(widgetsArray.length);
     };
 
     // GET SUBSCRIBERS COUNT
@@ -131,7 +132,7 @@ function YoutubeSubCount(props) {
         setInterval(getSubscribers, 60000 * refreshTime);
     }, [])
 
-    console.log(index);
+    console.log(`subscribers ${index}`);
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
@@ -161,15 +162,16 @@ function YoutubeSubCount(props) {
 // LAST VIDEO
 function YoutubeLastVideo(props) {
     const classes = useStyles();
-    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
+    const {youtuber, canBeDeleted, refreshTime, widgetsArray, index, username, deleteWidget} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [videoUrl, setUrl] = useState('');
     var channelID = null;
 
     const destroyWidget = async () => {
-        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
-        widgetsArray.splice(index, 1);
-        setIsDeleted(true);
+        deleteWidget(index);
+        // userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
+        // widgetsArray.splice(index, 1);
+        // setIsDeleted(true);
     };
 
     // GET LAST VIDEO FROM CHANNEL
@@ -207,6 +209,7 @@ function YoutubeLastVideo(props) {
         setInterval(getLastVideo, 60000 * refreshTime);
     }, [])
 
+    console.log(`video ${index}`);
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.lastVideoCard}>

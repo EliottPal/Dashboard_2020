@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
 // CITY WEATHER
 export default function WeatherForecast(props) {
     const classes = useStyles();
-    const {city, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
+    const {city, canBeDeleted, refreshTime, widgetsArray, index, username, deleteWidget} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [temp, setTemp] = useState(0);
     const [description, setDescription] = useState('');
@@ -116,9 +116,10 @@ export default function WeatherForecast(props) {
     const hour = date.getHours();
 
     const destroyWidget = async () => {
-        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
-        widgetsArray.splice(index, 1);
-        setIsDeleted(true);
+        deleteWidget(index);
+        // userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
+        // widgetsArray.splice(index, 1);
+        // setIsDeleted(true);
     };
 
     // GET CITY WEATHER
@@ -144,6 +145,7 @@ export default function WeatherForecast(props) {
         setInterval(getWeather, 60000 * refreshTime);
     }, [])
 
+    console.log(`weather ${index}`);
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>

@@ -73,16 +73,19 @@ const useStyles = makeStyles((theme) => ({
 // ARTIST TOP SONGS
 function SpotifyArtistSongs(props) {
     const classes = useStyles();
-    const {artist, canBeDeleted, refreshTime, widgetsArray, index, accessToken, username} = props;
+    const {artist, canBeDeleted, refreshTime, widgetsArray, index, accessToken, username, setDisplayWidgets, deleteWidget} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [tracks, setTracks] = useState([]);
 
     // DESTORY WIDGET
     const destroyWidget = async () => {
-        console.log(widgetsArray[index]);
-        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
-        widgetsArray.splice(index, 1);
-        setIsDeleted(true);
+        // console.log(widgetsArray[index]);
+        // var tmp = [...widgetsArray];
+        deleteWidget(index);
+        // userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
+        // tmp.splice(index, 1);
+        // setIsDeleted(true);
+        // setDisplayWidgets(tmp);
     };
 
     const getSongs = async () => {
@@ -133,6 +136,8 @@ function SpotifyArtistSongs(props) {
         getSongs();
         setInterval(getSongs, 60000 * refreshTime);
     }, [])
+
+    console.log(`artist ${index}`);
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
@@ -186,14 +191,15 @@ function SpotifyArtistSongs(props) {
 // USER PLAYLISTS
 function SpotifyUserPlaylists(props) {
     const classes = useStyles();
-    const {user, canBeDeleted, refreshTime, widgetsArray, index, accessToken, username} = props;
+    const {user, canBeDeleted, refreshTime, widgetsArray, index, accessToken, username, deleteWidget} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [playlists, setPlaylists] = useState([])
 
     const destroyWidget = async () => {
-        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
-        widgetsArray.splice(index, 1);
-        setIsDeleted(true);
+        deleteWidget(index);
+        // userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
+        // widgetsArray.splice(index, 1);
+        // setIsDeleted(true);
     };
 
     const getPlaylists = async () => {
@@ -209,12 +215,12 @@ function SpotifyUserPlaylists(props) {
         })
     }
 
-    console.log(accessToken);
-
     useEffect(()=>{
         getPlaylists();
         setInterval(getPlaylists, 60000 * refreshTime);
     }, []);
+
+    console.log(`playlist ${index}`);
     return (
         <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>

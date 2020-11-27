@@ -256,7 +256,15 @@ function HomePage(props) {
         setBackgroundURL(coverImg);
     };
 
+    const deleteWidget = async (index) => {
+        var tmp = [...displayWidgets];
+        userRequests.affectWidgetsDatabase(props.location.state.username, tmp[index], "remove", index);
+        tmp.splice(index, 1);
+        setDisplayWidgets(tmp);
+    }
+
     //
+    console.log(displayWidgets);
     return (
         <ThemeProvider theme={theme}>
             <StylesProvider injectFirst>
@@ -324,7 +332,7 @@ function HomePage(props) {
                                 <h1 className={classes.emptyTitle}>USE THE TOP RIGHT BUTTON TO ADD YOUR FIRST WIDGET!</h1>
                             )}
                             {displayWidgets.map((item, index) => (
-                                React.cloneElement(item.content, {index, canBeDeleted: toggled, widgetsArray: displayWidgets, username: props.location.state.username}, {key: index})
+                                React.cloneElement(item.content, {index, canBeDeleted: toggled, widgetsArray: displayWidgets, setDisplayWidgets: setDisplayWidgets, username: props.location.state.username, deleteWidget: deleteWidget}, {key: index})
                             ))}
                         </div>
                         {/* PROFILE POPUP DIALOG */}

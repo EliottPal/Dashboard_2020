@@ -69,14 +69,15 @@ const useStyles = makeStyles((theme) => ({
 // USER PUBLIC REPOSITORIES
 function GithubUserRepos(props) {
     const classes = useStyles();
-    const {user, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
+    const {user, canBeDeleted, refreshTime, widgetsArray, index, username, deleteWidget} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [reposArray, setReposArray] = useState([]);
 
     const destroyWidget = async () => {
-        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
-        widgetsArray.splice(index, 1);
-        setIsDeleted(true);
+        deleteWidget(index);
+        // userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
+        // widgetsArray.splice(index, 1);
+        // setIsDeleted(true);
     };
 
     // GET USER REPOSITORIES
@@ -93,6 +94,7 @@ function GithubUserRepos(props) {
         setInterval(getRepos, 60000 * refreshTime);
     }, [])
 
+    console.log(`user ${index}`);
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
@@ -145,15 +147,16 @@ function GithubUserRepos(props) {
 // REPOSITORY LAST PUSHS
 function GithubRepoPushs(props) {
     const classes = useStyles();
-    const {repo, canBeDeleted, refreshTime, widgetsArray, index, username} = props;
+    const {repo, canBeDeleted, refreshTime, widgetsArray, index, username, deleteWidget} = props;
     const [isDeleted, setIsDeleted] = useState(false);
     const [commitsArray, setCommitsArray] = useState([]);
     const repoName = repo.substring(repo.indexOf('/') + 1);
 
     const destroyWidget = async () => {
-        userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
-        widgetsArray.splice(index, 1);
-        setIsDeleted(true);
+        deleteWidget(index);
+        // userRequests.affectWidgetsDatabase(username, widgetsArray[index], "remove", index);
+        // widgetsArray.splice(index, 1);
+        // setIsDeleted(true);
     };
 
     // GET REPO COMMITS
@@ -171,6 +174,7 @@ function GithubRepoPushs(props) {
         setInterval(getCommits, 60000 * refreshTime);
     }, [])
 
+    console.log(`repo ${index}`);
     return (
     <Draggable grid={[25, 25]} bounds="parent">
         <Card className={classes.card}>
