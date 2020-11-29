@@ -1,6 +1,6 @@
 // React imports
 import { Link, navigate } from '@reach/router';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 // Style imports
 import './HomePage.css';
 import defaultImg from './../../assets/bg.jpg'

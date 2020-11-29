@@ -6,7 +6,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import ArrowIcon from '@material-ui/icons/TrendingFlat';
 import iconMoney from './../../assets/icons/32/money.png'
 import fx from 'money';
-import userRequests from '../../apiConnector';
 
 const useStyles = makeStyles((theme) => ({
     // Card

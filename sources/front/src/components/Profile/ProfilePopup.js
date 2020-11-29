@@ -9,14 +9,10 @@ import PersonIcon from '@material-ui/icons/Person';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import iconYoutube from './../../assets/icons/64/youtube.png'
-import iconSpotify from './../../assets/icons/64/spotify.png'
-import iconGithub from './../../assets/icons/64/github.png'
 import userRequests from '../../apiConnector';
 import GoogleLogin from 'react-google-login';
 import GithubLogin from './GithubLogin';
 import SpotifyLogin from './SpotifyLogin';
-import axios from 'axios';
-import userRequets from '../../apiConnector';
 
 var sendRequest = require('http');
 
@@ -169,7 +165,7 @@ export default function ProfilePopup(props) {
         return;
         let req = await userRequests.githubAuthentication(response.code);
         console.log(`access = ${req}`);
-        if (req.length !== 0) {
+        if (req && req.length !== 0) {
             setGithubAccessToken(req);
             setGithubLogged(true);
             var tmp = [...github];

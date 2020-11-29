@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { gapi } from 'gapi-script'
 const bcrypt = require('bcryptjs');
 var sendRequest = require('http');
 

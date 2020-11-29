@@ -9,7 +9,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import PublishIcon from '@material-ui/icons/Publish';
 import FolderSharedIcon from '@material-ui/icons/FolderShared';
 import iconGithub from './../../assets/icons/32/github.png';
-import userRequests from '../../apiConnector';
 
 const useStyles = makeStyles((theme) => ({
     // List

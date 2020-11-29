@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, navigate } from '@reach/router';
 import { makeStyles } from "@material-ui/core/styles";
 import Draggable from 'react-draggable';
 import {Card, Typography, Fab, Button, Divider } from '@material-ui/core';
 import {List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import iconSpotify from './../../assets/icons/32/spotify.png'
-import tmpCover from './../../assets/albumCover.jpg'
 import axios from 'axios';
-import userRequests from '../../apiConnector';
 
 const qs = require('qs');
 

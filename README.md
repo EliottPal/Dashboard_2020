@@ -28,6 +28,7 @@ Widgets with "no service" specified do not need an authentication.
 - Github Service:
   - Repository last 30 pushs
   - User public repositories
+  (Note that for this service, if you can't sign in, just try again or try to sign out from actual github session and test again few seconds after)
 - Weather (No service):
   - Current weather for a city
 - Money (No service):
