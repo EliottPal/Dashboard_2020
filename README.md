@@ -34,11 +34,11 @@ Widgets with "no service" specified do not need an authentication.
 - Money (No service):
   - Change rate between € and an other currency  
   
-## Examples:
-  
+## Achievement:  
 ![image](https://user-images.githubusercontent.com/44638280/100334886-a0aa0000-2fd4-11eb-8d6f-e501d9ccd7f9.png)
-
 ![image](https://user-images.githubusercontent.com/44638280/100334953-b3243980-2fd4-11eb-8aca-c9d3fb543d0a.png)
  
+**Mark:** **20/30**  
+**Grade:** **A**  
 
 ### Made by [Rodolphe Dupuis](https://github.com/rodolphedps) & [Eliott Palueau](https://github.com/EliottPal)
